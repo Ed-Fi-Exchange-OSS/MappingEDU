@@ -1,0 +1,45 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<br />
+<div class="underline-header">
+
+    <span>Organizations</span>
+
+    <div class="pull-right">
+        <a class="btn btn-edit" ui-sref="app.manage.organizations.create">
+            <i class="fa"></i>Add Organization
+        </a>
+    </div>
+
+</div>
+
+<table class="table table-hover" datatable="ng">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Domains</th>
+            <th style="width: 50px">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="organization in manageOrganizationsViewModel.organizations">
+            <td><a href="{{manageOrganizationsViewModel.organizationHref(organization)}}" ng-bind="organization.Name"></a></td>
+            <td>
+                <span ng-repeat="domain in organization.Domains">
+                    {{domain}}<span ng-if="!$last">, </span>
+                </span>
+            </td>
+            <td class="text-center">
+                <button type="button" class="btn btn-delete"
+                        ma-confirm-action="manageOrganizationsViewModel.delete(organization, $index)">
+                    <i class="fa"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

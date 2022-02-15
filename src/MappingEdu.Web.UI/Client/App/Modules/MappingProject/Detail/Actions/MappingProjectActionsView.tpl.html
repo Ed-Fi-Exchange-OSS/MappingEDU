@@ -1,0 +1,212 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<br/>
+<div class="underline-header">Mapping Project Actions</div>
+<span>This tab provides access to functions that affect this entire project.</span>
+<div ng-show="mappingProjectDetailViewModel.mappingProject.IsActive">
+    <div class="row">
+        <div class="col-md-6" ma-project-access project-id="mappingProjectDetailViewModel.mappingProject.MappingProjectId" access="Edit">
+            <br/>
+            <div class="underline-header" style="font-size: 1.4em">Approve</div>
+            <p>
+                Click to approve all mappings. This action changes the status of every mapping currently
+                 marked "Ready for Review" to "Approved". Mappings in other statuses will not be affected.
+            </p>
+            <div class="alert alert-success" ng-show="mappingProjectActionsViewModel.showApproveMsg">
+                <button type="button" class="close" ng-click="mappingProjectActionsViewModel.showApproveMsg = false">
+                    <span>&times;</span>
+                </button>
+                {{ mappingProjectActionsViewModel.approveAllMsg }}
+            </div>
+            <div class="pull-right">
+                <button type="button"
+                        class="btn btn-approve"
+                        ma-confirm-action="mappingProjectActionsViewModel
+                    .approveReadyForReview(mappingProjectDetailViewModel.mappingProject)"
+                        title="Approve all Mappings?"
+                        modal="true"
+                        ng-show="!mappingProjectActionsViewModel.showApproveMsg">
+                        <i class="fa"></i>
+                    Approve all Mappings Ready for Review
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-6" ng-show="mappingProjectDetailViewModel.mappingProject.ProjectStatusTypeName === 'Active'"
+             ma-project-access project-id="mappingProjectDetailViewModel.mappingProject.MappingProjectId" access="Edit">
+            <br/>
+            <div class="underline-header" style="font-size: 1.4em">Close</div>
+            <p>
+                Click to close this Mapping Project. Typically, projects are closed once all mappings
+                are complete with a status of "Approved," but you can use this button to close the
+                project any time.
+            </p>
+            <div class="alert alert-success" ng-show="mappingProjectActionsViewModel.showOpenedMsg">
+                <button type="button" class="close" ng-click="mappingProjectActionsViewModel.showOpenedMsg = false">
+                    <span>&times;</span>
+                </button>
+                {{ mappingProjectActionsViewModel.openedMsg }}
+            </div>
+            <div class="pull-right">
+                <button type="button"
+                        class="btn btn-close"
+                        ma-confirm-action="mappingProjectActionsViewModel.closeProject(mappingProjectDetailViewModel.mappingProject)"
+                        title="Close Project?"
+                        modal="true"
+                        ng-show="!mappingProjectActionsViewModel.showOpenedMsg">
+                    <i class="fa"></i>
+                    Close this Project
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-6" ng-show="mappingProjectDetailViewModel.mappingProject.ProjectStatusTypeName === 'Closed'">
+            <br/>
+            <div class="underline-header" style="font-size: 1.4em">Open</div>
+            <p>
+                Click the button below to re-open this project.
+            </p>
+            <div class="alert alert-success" ng-show="mappingProjectActionsViewModel.showClosedMsg">
+                <button type="button" class="close" ng-click="mappingProjectActionsViewModel.showClosedMsg = false">
+                    <span>&times;</span>
+                </button>
+                {{ mappingProjectActionsViewModel.closedMsg }}
+            </div>
+            <div class="pull-right">
+                <button type="button"
+                        class="btn btn-open"
+                        ma-confirm-action="mappingProjectActionsViewModel.reopenProject(mappingProjectDetailViewModel.mappingProject)"
+                        title="Re-open Project?"
+                        modal="true"
+                        ng-show="!mappingProjectActionsViewModel.showClosedMsg">
+                    <i class="fa"></i>
+                    Re-open this Project
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6" ma-project-access project-id="mappingProjectDetailViewModel.mappingProject.MappingProjectId" access="Edit">
+            <div>
+                <br />
+                <div class="underline-header" style="font-size: 1.4em">Bulk Update</div>
+                <p>
+                    Click to here to bulk update mappings in the entire mapping project or
+                    specific element groups / entites. Change existing mappings workflow
+                    statuses or change the mapping method and status of unmapped elements.
+                </p>
+
+                <div class="alert alert-success" ng-show="mappingProjectActionsViewModel.showBulkResultsMsg">
+                    <button type="button" class="close" ng-click="mappingProjectActionsViewModel.showBulkResultsMsg = false">
+                        <span>&times;</span>
+                    </button>
+                    Updated {{ mappingProjectActionsViewModel.bulkResultsCount }} Mappings
+                </div>
+
+                <div class="pull-right" ng-show="!mappingProjectActionsViewModel.showBulkResultsMsg">
+                    <button type="button" class="btn btn-bulk-update" ng-click="mappingProjectActionsViewModel.bulkUpdate(mappingProjectDetailViewModel.mappingProject)">
+                        <i class="fa"></i>
+                      Bulk Update
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6" ma-project-access project-id="mappingProjectDetailViewModel.mappingProject.MappingProjectId" access="Edit">
+            <div>
+                <br/>
+                <div class="underline-header" style="font-size: 1.4em">Mapping Helper</div>
+                <p>
+                    Click to run the Mapping Helper on this Mapping Project. The Mapping Helper scans other
+                    Projects and creates mappings for your Project based on what it finds.
+                    This process does not override existing mappings.
+                </p>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-map" ng-click="mappingProjectActionsViewModel.runAutoMapper(mappingProjectDetailViewModel.mappingProject)">
+                    <i class="fa"></i>
+                        Run Mapping Helper
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-6">
+            <br/>
+            <div class="underline-header" style="font-size: 1.4em">Clone</div>
+            <p>
+                Click to clone this entire Mapping Project. Cloning essentially creates a duplicate
+                of this project with the same source and target Data Standards and also copies the
+                mapping business logic.
+            </p>
+            <div class="alert alert-success" ng-show="mappingProjectActionsViewModel.showCloneMessage">
+                <button type="button" class="close" ng-click="mappingProjectActionsViewModel.showCloneMessage = false">
+                    <span>&times;</span>
+                </button>
+                {{ mappingProjectActionsViewModel.cloneProjectMessage }}
+            </div>
+            <div class="pull-right">
+                <button type="button" class="btn btn-clone" ng-show="!mappingProjectActionsViewModel.showCloneMessage"
+                        data-toggle="modal" data-target="#cloneProjectModal" data-backdrop="static" data-keyboard="false">
+                    <i class="fa"></i>
+                    Clone Project
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-6" ma-project-access project-id="mappingProjectDetailViewModel.mappingProject.MappingProjectId" access="Owner">
+
+            <br/>
+            <div class="underline-header" style="font-size: 1.4em">Delete</div>
+            <p>
+                Click to permanently delete this entire Mapping Project. This does not
+                delete the Data Standards, just the Project.
+            </p>
+            <br class="visible-lg visible-md"/>
+            <br class="visible-md" />
+            <div ma-project-role
+                 project="mappingProjectDetailViewModel.mappingProject"
+                 class="pull-right">
+                <button type="button"
+                        class="btn btn-delete"
+                        ma-confirm-action="mappingProjectActionsViewModel.deleteMappingProject(mappingProjectDetailViewModel.mappingProject)"
+                        modal="true">
+                    <i class="fa"></i>
+                    Delete Mapping Project
+                </button>
+            </div>
+
+            <div ma-handle-errors error-data="mappingProjectActionsViewModel.errorData">
+            </div>
+        </div>
+
+    </div>
+</div>
+<div ng-show="!mappingProjectDetailViewModel.mappingProject.IsActive">
+    <p>
+        <h2 class="text-danger" ng-show="!mappingProjectActionsViewModel.deleteSuccessful">Project {{mappingProjectDetailViewModel.mappingProject.ProjectName}} has been deleted.</h2>
+    </p>
+    <a ui-sref="home">Go to Home Page</a>
+</div>
+
+
+<div id="cloneProjectModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="page-title">Clone Mapping Project</span>
+            </div>
+            <div class="modal-body">
+                <ma-clone-mapping-project modal="true"
+                                          mapping-project="mappingProjectDetailViewModel.mappingProject"
+                                          clone-callback="mappingProjectActionsViewModel.cloneCallback" />
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row">
+    <div ma-handle-errors errorData="mappingProjectAdminViewModel.errorData">
+    </div>
+    <form name="mappingProjectForm"
+          ng-submit="mappingProjectAdminViewModel.save(mappingProject)"
+          novalidate>
+        <input type="hidden" ng-model="mappingProject.MappingProjectId" />
+        <div class="col-md-12 form-group" ma-show-errors>
+            <label class="control-label">Project Name</label>
+            <input class="form-control"
+                   type="text"
+                   ng-model="mappingProject.ProjectName"
+                   name="projectName"
+                   required
+                   ng-maxlength="50"
+                   set-focus />
+            <div ng-messages="mappingProjectForm.projectName.$error" class="help-block">
+                <div ng-message="required">Project Name is required.</div>
+                <div ng-message="maxlength">Project Name is too long.</div>
+            </div>
+        </div>
+
+        <div class="col-md-12 form-group" ma-show-errors>
+            <label class="control-label">Description</label>
+            <textarea class="form-control"
+                      type="text"
+                      ng-model="mappingProject.Description"
+                      name="description"
+                      required
+                      ng-maxlength="1000"></textarea>
+            <div ng-messages="mappingProjectForm.description.$error" class="help-block">
+                <div ng-message="required">Description is required.</div>
+                <div ng-message="maxlength">Description is too long.</div>
+            </div>
+        </div>
+
+        <div class="col-md-6 form-group" ma-show-errors ng-show="{{mappingProjectAdminViewModel.canChangeDataStandards}}">
+            <label class="control-label">Source Data Standard</label>
+            <select class="form-control"
+                    name="sourceDataStd"
+                    ng-model="mappingProject.SourceDataStandardId"
+                    ng-options="item.DataStandardId as item.SystemName + ' ' + item.SystemVersion for item in
+                                    mappingProjectAdminViewModel.srcDataStandards" required>
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="col-md-6 form-group" ma-show-errors ng-show="{{mappingProjectAdminViewModel.canChangeDataStandards}}">
+            <label class="control-label">Target Data Standard</label>
+            <select class="form-control"
+                    name="targetDataStd"
+                    ng-model="mappingProject.TargetDataStandardId"
+                    ng-options="item.DataStandardId as item.SystemName + ' ' + item.SystemVersion for item in
+                                    mappingProjectAdminViewModel.targetDataStandards" required>
+                <option value=""></option>
+            </select>
+        </div>
+
+        <div class="col-md-12 btn-toolbar row">
+            <button type="button"
+                    class="btn btn-redirect pull-left" ng-class="{'btn-lg': !modal}"
+                    ng-click="mappingProjectAdminViewModel.goToCreateNewDataStandard()"
+                    ng-show="{{ mappingProjectAdminViewModel.isNew}}">
+                <i class="fa"></i>
+                Create New Data Standard
+            </button>
+            <div class="pull-right">
+                <button type="button" class="btn btn-cancel" ng-class="{'btn-lg': !modal}"
+                        ng-click="mappingProjectAdminViewModel.cancel(mappingProject)">
+                    <i class="fa"></i>
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-happy" ng-class="{'btn-lg': !modal}">
+                    <i class="fa"></i>
+                    Save
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

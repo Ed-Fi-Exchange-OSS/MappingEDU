@@ -1,0 +1,112 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div ma-handle-errors error-data="elementGroupDetailInfoViewModel.errorData">
+</div>
+
+<br/>
+<div class="underline-header">Entities</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover" datatable="ng" dt-column-defs="elementGroupDetailInfoViewModel.dtColumnDefs" dt-options="elementGroupDetailInfoViewModel.dtOptions">
+            <thead>
+            <tr>
+                <th style="width: 30%">Name</th>
+                <th style="width: 40%">Definition</th>
+                <th style="width: 25%" ng-if="elementGroupDetailInfoViewModel.mappingProjectId">Mapping Status</th>
+                <th style="width: 5%" ng-if="elementGroupDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="elementGroupDetailInfoViewModel.dataStandardId" access="Edit">Edit</th>
+                <th style="width: 5%" ng-if="elementGroupDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="elementGroupDetailInfoViewModel.dataStandardId" access="Edit">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="entity in elementGroupDetailInfoViewModel.entities">
+                <td>
+                    <a ng-href="{{ entity.Href }}" ng-style="{'color': (entity.IsExtended) ? 'rgb(97, 188, 171)' : ''} ">
+                        <i class="fa fa-extended" ng-show="entity.IsExtended"></i>
+                        {{ entity.ItemName }}
+                    </a><br/>
+                </td>
+                <td>{{ entity.Definition }}</td>
+                <td ng-if="elementGroupDetailInfoViewModel.mappingProjectId">
+                    <div ng-if="entity.Summary.Unmapped">{{entity.Summary.Unmapped}} Unmapped</div>
+                    <div ng-if="entity.Summary.Incomplete">{{entity.Summary.Incomplete}} Incomplete</div>
+                    <div ng-if="entity.Summary.Completed">{{entity.Summary.Completed}} Completed</div>
+                    <div ng-if="entity.Summary.Reviewed">{{entity.Summary.Reviewed}} Reviewed</div>
+                    <div ng-if="entity.Summary.Approved">{{entity.Summary.Approved}} Approved</div>
+                </td>
+                <td ng-if="elementGroupDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="elementGroupDetailInfoViewModel.dataStandardId" access="Edit">
+                    <a class="btn btn-edit" ng-click="elementGroupDetailInfoViewModel.edit(entity, 2)">
+                        <i class="fa"></i>
+                    </a>
+                </td>
+                <td ng-if="elementGroupDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="elementGroupDetailInfoViewModel.dataStandardId" access="Edit">
+                    <a class="btn btn-delete" ma-confirm-action="elementGroupDetailInfoViewModel.delete(entity, $index)">
+                        <i class="fa"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="pull-right" ng-if="elementGroupDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="elementGroupDetailInfoViewModel.dataStandardId" access="Edit">
+            <a class="btn btn-edit" ng-click="elementGroupDetailInfoViewModel.add(2)">
+                <i class="fa"></i>Add Entity
+            </a>
+        </div>
+    </div>
+</div>
+
+<br/>
+<div class="underline-header">Enumerations</div>
+<div class="row">
+    <div class="col-md-12">
+        <table id="enumerationsTable" class="table table-hover" datatable="ng" dt-column-defs="elementGroupDetailInfoViewModel.dtColumnDefs" 
+               dt-options="elementGroupDetailInfoViewModel.dtOptions" dt-instance="elementGroupDetailInfoViewModel.enumerationsTableCallback">
+            <thead>
+                <tr>
+                    <th style="width: 30%">Name</th>
+                    <th style="width: 40%">Definition</th>
+                    <th style="width: 25%" ng-if="elementGroupDetailInfoViewModel.mappingProjectId">Mapping Status</th>
+                    <th style="width: 5%" ng-if="elementGroupDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="elementGroupDetailInfoViewModel.dataStandardId" access="Edit">Edit</th>
+                    <th style="width: 5%" ng-if="elementGroupDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="elementGroupDetailInfoViewModel.dataStandardId" access="Edit">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="enumeration in elementGroupDetailInfoViewModel.enumerations">
+                    <td>
+                        <a ng-href="{{ enumeration.Href }}" ng-style="{'color': (enumeration.IsExtended) ? 'rgb(97, 188, 171)' : ''} ">
+                            <i class="fa fa-extended" ng-show="enumeration.IsExtended"></i>
+                            {{ enumeration.ItemName }}
+                        </a><br />
+                    </td>
+                    <td>{{ enumeration.Definition }}</td>
+                    <td ng-if="elementGroupDetailInfoViewModel.mappingProjectId">
+                        <div ng-if="enumeration.Summary.Unmapped">Unmapped</div>
+                        <div ng-if="enumeration.Summary.Incomplete">Incomplete</div>
+                        <div ng-if="enumeration.Summary.Completed">Completed</div>
+                        <div ng-if="enumeration.Summary.Reviewed">Reviewed</div>
+                        <div ng-if="enumeration.Summary.Approved">Approved</div>
+                    </td>
+                    <td ng-if="elementGroupDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="elementGroupDetailInfoViewModel.dataStandardId" access="Edit">
+                        <a class="btn btn-edit" ng-click="elementGroupDetailInfoViewModel.edit(enumeration, 5)">
+                            <i class="fa"></i>
+                        </a>
+                    </td>
+                    <td ng-if="elementGroupDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="elementGroupDetailInfoViewModel.dataStandardId" access="Edit">
+                        <a class="btn btn-delete" ma-confirm-action="elementGroupDetailInfoViewModel.delete(enumeration, $index)">
+                            <i class="fa"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="pull-right" ng-if="elementGroupDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="elementGroupDetailInfoViewModel.dataStandardId" access="Edit">
+            <a class="btn btn-edit" ng-click="elementGroupDetailInfoViewModel.add(5)">
+                <i class="fa"></i>Add Enumeration
+            </a>
+        </div>
+    </div>
+</div>

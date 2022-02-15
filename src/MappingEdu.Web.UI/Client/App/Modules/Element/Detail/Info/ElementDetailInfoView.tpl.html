@@ -1,0 +1,308 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<ma-loading view-model="elementDetailInfoViewModel"></ma-loading>
+<div ma-handle-errors error-data="elementDetailInfoViewModel.errorData">
+</div>
+<br />
+
+<div class="underline-header">Details</div>
+<div class="row">
+    <div class="col-sm-3 col-md-3 col-lg-2">
+        <div class="bodyText">
+            <label>Item Name:</label>
+        </div>
+    </div>
+    <div class="col-sm-7 col-lg-8">
+        <div class="bodyText">
+            <span ng-bind="elementDetailInfoViewModel.element.ItemName"></span>
+        </div>
+    </div>
+    <div class="col-sm-2" ng-if="elementDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="elementDetailInfoViewModel.dataStandardId" access="Edit">
+        <a role="button" class="btn btn-edit" style="padding: 0px" ng-click="elementDetailInfoViewModel.edit()">
+            <i class="fa"></i>
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3 col-md-3 col-lg-2">
+        <div class="bodyText">
+            <label>Is Extended:</label>
+        </div>
+    </div>
+    <div class="col-sm-7 col-lg-8">
+        <div class="bodyText">
+            <span>{{elementDetailInfoViewModel.element.IsExtended ? 'True' : 'False'}}</span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3 col-md-3 col-lg-2">
+        <div class="bodyText">
+            <label>Technical Name:</label>
+        </div>
+    </div>
+    <div class="col-sm-7 col-lg-8">
+        <div class="bodyText">
+            <span ng-bind="elementDetailInfoViewModel.element.TechnicalName"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3 col-md-3 col-lg-2">
+        <div class="bodyText">
+            <label style="white-space: nowrap">Normalized Data Type:</label>
+        </div>
+    </div>
+    <div class="col-sm-3 col-md-7 col-lg-8">
+        <div class="bodyText">
+            <span ng-bind="elementDetailInfoViewModel.element.ItemDataType.Name"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3 col-md-3 col-lg-2">
+        <div class="bodyText">
+            <label>Field Length:</label>
+        </div>
+    </div>
+    <div class="col-sm-7 col-lg-8">
+        <div class="bodyText">
+            <span ng-bind="elementDetailInfoViewModel.element.FieldLength"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3 col-md-3 col-lg-2">
+        <div class="bodyText">
+            <label>Source Data Type:</label>
+        </div>
+    </div>
+    <div class="col-sm-7 col-lg-8">
+        <div class="bodyText">
+            <span ng-bind="elementDetailInfoViewModel.element.DataTypeSource"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3 col-md-3 col-lg-2" ng-if="elementDetailInfoViewModel.element.ItemDataTypeId == 17">
+        <div class="bodyText">
+            <label>System Enumeration: </label>
+        </div>
+    </div>
+    <div class="col-sm-7 col-lg-8" ng-if="elementDetailInfoViewModel.element.ItemDataTypeId == 17">
+        <div class="bodyText">
+            <span ng-bind="elementDetailInfoViewModel.element && elementDetailInfoViewModel.element.EnumerationSystemItem ?
+                      elementDetailInfoViewModel.element.EnumerationSystemItem.ItemName +
+                      (elementDetailInfoViewModel.element.EnumerationSystemItem.Definition ?
+                      ' - ' + elementDetailInfoViewModel.element.EnumerationSystemItem.Definition : '') : '' | limitTo: 100"
+                  title="{{elementDetailInfoViewModel.element.EnumerationSystemItemDefinition}}"></span><span ng-if="elementDetailInfoViewModel.element.EnumerationSystemItemName.length + elementDetailInfoViewModel.element.EnumerationSystemItem.Definition.length > 100">...</span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3 col-md-3 col-lg-2">
+        <div class="bodyText">
+            <label>URL:</label>
+        </div>
+    </div>
+    <div class="col-sm-7 col-lg-8">
+        <div class="bodyText">
+            <a target="_blank" href="{{elementDetailInfoViewModel.element.ItemUrl}}">{{elementDetailInfoViewModel.element.ItemUrl}}</a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3 col-lg-2">
+        <div class="bodyText">
+            <label>Definition:</label>
+        </div>
+    </div>
+    <div class="col-sm-7 col-lg-8">
+        <div class="bodyText">
+            <span ng-bind="elementDetailInfoViewModel.element.Definition" style="overflow-wrap: break-word;"></span>
+        </div>
+    </div>
+</div>
+<br />
+
+<div ng-if="elementDetailInfoViewModel.element.SystemItemCustomDetails.length > 0">
+    <div class="underline-header">Standard Specific Details</div>
+    <div class="row">
+        <div class="col-md-5"
+             ng-repeat="systemDetails in elementDetailInfoViewModel.element.SystemItemCustomDetails | limitTo:2">
+            <div class="bodyText">
+                <label ng-bind="systemDetails.CustomDetailMetadata.DisplayName + ':'"></label>
+                <span ng-bind="systemDetails.Value" ng-if="!systemDetails.CustomDetailMetadata.IsBoolean"></span>
+                <i class="fa fa-square-o" ng-if="systemDetails.CustomDetailMetadata.IsBoolean && !systemDetails.Value"></i>
+                <i class="fa fa-check-square-o" ng-if="systemDetails.CustomDetailMetadata.IsBoolean && systemDetails.Value && systemDetails.Value == 1"></i>
+            </div>
+        </div>
+        <div class="col-md-2" ng-if="elementDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="elementDetailInfoViewModel.dataStandardId" access="Edit">
+            <a role="button" class="btn btn-edit" ng-click="elementDetailInfoViewModel.editDetails()">
+                <i class="fa"></i>
+            </a>
+        </div>
+        <div class="col-md-5"
+             ng-repeat="systemDetails in elementDetailInfoViewModel.element.SystemItemCustomDetails" ng-if="$index > 1">
+            <div class="bodyText">
+                <label ng-bind="systemDetails.CustomDetailMetadata.DisplayName + ':'"></label>
+                <span ng-bind="systemDetails.Value" ng-if="!systemDetails.CustomDetailMetadata.IsBoolean"></span>
+                <i class="fa fa-square-o" ng-if="systemDetails.CustomDetailMetadata.IsBoolean &&  systemDetails.Value && systemDetails.Value == 0"></i>
+                <i class="fa fa-check-square-o" ng-if="systemDetails.CustomDetailMetadata.IsBoolean && systemDetails.Value && systemDetails.Value == 1"></i>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>
+
+<div ng-if="elementDetailInfoViewModel.dataStandard.PreviousDataStandard">
+    <div class="underline-header">Previous Versions</div>
+    <div class="row">
+        <div class="col-md-5" ng-repeat-start="previousVersion in elementDetailInfoViewModel.element.PreviousVersions">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="">
+                        <div class="pull-right" ma-standard-access standard-id="elementDetailInfoViewModel.dataStandardId" access="Edit">
+                            <a role="button" class="btn btn-edit" ng-click="elementDetailInfoViewModel.versionModal(previousVersion, true)">
+                                <i class="fa"></i>
+                            </a>
+                            <a role="button" class="btn btn-delete" ma-confirm-action="elementDetailInfoViewModel.deletePreviousVersion(previousVersion, index)">
+                                <i class="fa"></i>
+                            </a>
+                        </div>
+                        <span class="h4">{{ previousVersion.ItemChangeType.Name }}</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <label>Previous Version</label>
+                    <p>
+                        <span ng-repeat="item in previousVersion.OldSystemItemPathSegments">
+                            <span class="standard-a" ng-bind="item.ItemName"></span>
+                            <i class="fa fa-caret-right" ng-if="!$last"></i>
+                        </span>
+                    </p>
+                    <label>Description</label>
+                    <p>{{ previousVersion.Description }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix" ng-if="$index%2==1"></div>
+        <div ng-repeat-end=""></div>
+    </div>
+    <div class="row" ma-standard-access standard-id="elementDetailInfoViewModel.dataStandardId" access="Edit">
+        <div class="col-md-12">
+            <a class="btn btn-add" ng-click="elementDetailInfoViewModel.versionModal(null, true)">
+                <i class="fa"></i>Add
+            </a>
+        </div>
+    </div>
+    <br/>
+</div>
+
+<div ng-if="elementDetailInfoViewModel.dataStandard.NextDataStandard">
+    <div class="underline-header">Next Versions</div>
+    <div class="row">
+        <div class="col-md-5" ng-repeat-start="nextVersion in elementDetailInfoViewModel.element.NextVersions">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="">
+                        <div class="pull-right" ma-standard-access standard-id="elementDetailInfoViewModel.dataStandardId" access="Edit">
+                            <a role="button" class="btn btn-edit" ng-click="elementDetailInfoViewModel.versionModal(nextVersion, false)">
+                                <i class="fa"></i>
+                            </a>
+                            <a role="button" class="btn btn-delete" ma-confirm-action="elementDetailInfoViewModel.deleteNextVersion(nextVersion, index)">
+                                <i class="fa"></i>
+                            </a>
+                        </div>
+                        <span class="h4">{{ nextVersion.ItemChangeType.Name }}</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <label>Next Version</label>
+                    <p>
+                        <span ng-repeat="item in nextVersion.NewSystemItemPathSegments">
+                            <span class="standard-a" ng-bind="item.ItemName"></span>
+                            <i class="fa fa-caret-right" ng-if="!$last"></i>
+                        </span>
+                    </p>
+                    <label>Description</label>
+                    <p>{{ nextVersion.Description }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix" ng-if="$index%2==1"></div>
+        <div ng-repeat-end=""></div>
+    </div>
+    <div class="row" ma-standard-access standard-id="elementDetailInfoViewModel.dataStandardId" access="Edit">
+        <div class="col-md-12">
+            <a class="btn btn-add" ng-click="elementDetailInfoViewModel.versionModal()">
+                <i class="fa"></i>Add
+            </a>
+        </div>
+    </div>
+    <br/>
+</div>
+
+<div ng-if="elementDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="elementDetailInfoViewModel.dataStandardId" access="View">
+    <div class="underline-header">Notes</div>
+    <div class="row">
+        <div class="col-md-7">
+            <ma-system-item-notes notes="elementDetailInfoViewModel.element.Notes"
+                                  system-item-id="elementDetailInfoViewModel.element.SystemItemId"
+                                  standard-id="elementDetailInfoViewModel.dataStandardId"></ma-system-item-notes>
+        </div>
+    </div>
+</div>
+
+<div id="editElementSystemDetailModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="page-title">Edit Element System Details</span>
+            </div>
+            <div class="modal-body">
+                <div ma-handle-errors error-data="elementDetailInfoViewModel.errorData">
+                </div>
+                <div class="row">
+                    <form name="systemDetailsForm"
+                          ng-submit="elementDetailInfoViewModel.saveSystemDetails()"
+                          novalidate>
+                        <div class="col-md-6 form-group" ma-show-errors
+                             ng-repeat="systemDetails in elementDetailInfoViewModel.element.SystemItemCustomDetailsContainer.SystemItemCustomDetails">
+                            <label class="control-label">{{systemDetails.CustomDetailMetadata.DisplayName}}</label>
+                            <input class="form-control"
+                                   type="text"
+                                   ng-model="systemDetails.Value"
+                                   ng-if="!systemDetails.CustomDetailMetadata.IsBoolean"
+                                   set-focus />
+                            <input class="form-control checkbox-inline"
+                                   type="checkbox"
+                                   ng-model="systemDetails.boolValue"
+                                   ng-if="systemDetails.CustomDetailMetadata.IsBoolean"
+                                   ng-init="systemDetails.boolValue = systemDetails.Value == '1'"
+                                   set-focus />
+                        </div>
+                        <div class="col-md-12 btn-group">
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-cancel"
+                                        ng-click="elementDetailInfoViewModel.cancelSystemDetails()">
+                                    <i class="fa"></i>
+                                    Cancel
+                                </button>
+                                <button type="submit" class="btn btn-save">
+                                    <i class="fa"></i>
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

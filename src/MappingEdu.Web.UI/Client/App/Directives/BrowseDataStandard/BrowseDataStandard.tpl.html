@@ -1,0 +1,208 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div style="height: 630px;" dw-loading="element_{{browseModel.browseId}}" dw-loading-options="{text: 'Loading Element...'}" ng-show="elementLoading || domainsLoading">
+    <div class="col-md-9" style="height: 100%; padding-right: 20px; border-right: 1px solid #ccc;">
+    </div>
+    <div class="col-md-3" style="margin-left: -1px; border-left: 1px solid #ccc;">
+    </div>
+</div>
+<div class="row" style="height: 100%;" ng-show="!elementLoading && !domainsLoading">
+    <div class="col-md-9" style="height: 100%; padding-right: 20px; border-right: 1px solid #ccc;">
+        <div id="path-scroller_{{browseModel.browseId}}" style="position: relative; width: 100%; overflow-x: hidden; white-space: nowrap; height: inherit">
+            <span id="pathSegment{{$index - 1}}_{{browseModel.browseId}}" ng-repeat="item in browseModel.lists" ng-if="!$first">
+                <a href="" ng-click="item.Collapsed=false;browseModel.setCollapsed(item, item.index, $index - 1)" ng-class="{'path-segment': !item.IsExtended, 'path-segment-c': item.IsExtended}" style="font-size: 13px">
+                    <span ng-if="item.IsExtended"> <i class="fa fa-extended"></i> </span>{{item.ItemName}}
+                </a>
+                <i ng-if="!$last || ($last && selectedItem.ItemType.Id >= 4)" class="fa fa-caret-right separator"></i>
+                <span ng-if="$last && selectedItem.ItemType.Id >= 4" ng-class="{'standard-a': !selectedItem.IsExtended, 'standard-c': selectedItem.IsExtended}" style="font-size: 13px">
+                    <span ng-if="selectedItem.IsExtended"> <i class="fa fa-extended"></i> </span>{{selectedItem.ItemName}}
+                </span>
+            </span>
+            <br/>
+            <br/>
+        </div>
+        <div id="side-scroller_{{browseModel.browseId}}" style="position: relative; width: 100%; overflow-x: hidden; white-space: nowrap; height: inherit">
+            <div style="width: 400px; display: inline-block; vertical-align: top; height: inherit" ng-repeat="list in browseModel.lists track by list.SystemItemId">
+                <ul class="list-group" style="padding-bottom: 0px;">
+                    <li class="list-group-item" style="padding: 0px; margin: 0px">
+                        <div class="form-group" style="margin: 0px">
+                            <div class="input-group" style="padding: 0px; margin: 0px; border: 0px;" ng-if="list.ChildrenTypes.length > 1">
+                                <input type="text" ng-model="browseModel.filters[$index].search" class="form-control" ng-change="browseModel.scrollUp($index)" ng-focus="browseModel.showSearchBar($index)"/>
+                                <div class="input-group-btn" uib-dropdown auto-close="outsideClick">
+                                    <button type="button" class="btn dropdown-toggle" ng-class="{'btn-primary': !browseModel.filters[$index].allItemTypes}" uib-dropdown-toggle>Filter <span class="caret"></span></button>
+                                    <ul class="dropdown-menu dropdown-menu-right dropdiv" style="z-index: 10">
+                                        <li>
+                                            <label>
+                                                <input type="checkbox" ng-model="browseModel.filters[$index].allItemTypes"
+                                                       ng-click="browseModel.filters[$index].itemTypes = {}; browseModel.filters[$index].allItemTypes=true"/>
+                                                All Item Types
+                                            </label>
+                                        </li>
+                                        <li ng-repeat="type in list.ChildrenTypes">
+                                            <label>
+                                                <input type="checkbox" ng-model="browseModel.filters[$parent.$index].itemTypes[type.Id]"
+                                                       ng-change="browseModel.applyItemTypes(browseModel.filters[$parent.$index], $parent.$index)"/>
+                                                {{type.DisplayText}}
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="input-group" style="padding: 0px; margin: 0px; border: 0px;" ng-if="!list.ChildrenTypes || list.ChildrenTypes.length <= 1">
+                                <input type="text" ng-model="browseModel.filters[$index].search" class="form-control" ng-focus="browseModel.showSearchBar($index)"/>
+                                <div class="input-group-addon" style="border: 0px">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </div>
+                            <div>
+
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="list-group" style="padding-bottom: 1px; overflow-y: hidden; position: relative; min-height: 500px; max-height: 500px" id="list{{$index}}_{{browseModel.browseId}}" dw-loading="loading-list{{$index}}_{{browseModel.browseId}}" dw-loading-options="{text: 'Loading...'}">
+                    <li class="list-group-item" ng-repeat="item in list.Children | filter:{ItemName: browseModel.filters[$index].search}"
+                        ng-click="browseModel.setCollapsed(item, $index, $parent.$index)"
+                        ng-class="{'active': (item.Collapsed && !item.IsExtended), 'active-extended': (item.Collapsed && item.IsExtended), 'element-background': (!item.IsExtended && item.ItemTypeId == 4 && !item.Collapsed), 'element-background-extended': (item.IsExtended && item.ItemTypeId == 4 && !item.Collapsed)}"
+                        ng-show="browseModel.filters[$parent.$index].allItemTypes || browseModel.filters[$parent.$index].itemTypes[item.ItemTypeId]">
+
+                        <span style="vertical-align: middle; padding-right: 5px">
+                            <span ng-show="!item.IsExtended">
+                                <i ng-show="item.ItemTypeId == 1" class="fa fa-sitemap"></i>
+                                <i ng-show="item.ItemTypeId == 2 || item.ItemTypeId == 3" class="fa fa-clone"></i>
+                                <i ng-show="item.ItemTypeId == 4" style="padding-right: 20px"></i>
+                                <i ng-show="item.ItemTypeId == 5" class="fa fa-list-alt"></i>
+                            </span>
+                            <i ng-show="item.IsExtended" class="fa fa-extended"></i>
+                        </span>
+
+                        <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 325px; vertical-align: middle; display: inline-block">
+                            <span>{{item.ItemName}}</span><br/>
+                            <small>{{item.Definition}}</small>
+                        </div>
+
+                        <span class="" style="vertical-align: middle" ng-if="item.ItemTypeId < 4">
+                            <i class="fa fa-chevron-right"></i>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3" ng-if="selectedItem" style="margin-left: -1px; border-left: 1px solid #ccc;">
+        <h3 style="overflow-wrap:break-word"><i ng-show="selectedItem.IsExtended" class="fa fa-extended"></i> {{selectedItem.ItemName}}</h3>
+        <div class="row" ng-if="selectedItem.ItemTypeId == 5">
+            <div class="col-md-12">
+                <ul class="nav nav-tabs">
+                    <li ng-class="{active: !browseModel.showEnumerations}"><a href="" ng-click="browseModel.showEnumerations = false">Details</a></li>
+                    <li ng-class="{active: browseModel.showEnumerations}"><a href="" ng-click="browseModel.showEnumerations = true">Enumerations</a></li>
+                </ul>
+                <br/>
+            </div>
+        </div>
+        <div ng-if="!browseModel.showEnumerations || selectedItem.ItemTypeId != 5">
+            <div class="row">
+                <div class="col-md-12">
+                    <label style="width: 100%; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px;">Details</label>
+                </div>
+                <div class="col-md-12">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td style="width: 95px"><small><b>Item Type:</b></small></td>
+                            <td><small>{{selectedItem.ItemType.DisplayText}}</small></td>
+                        </tr>
+                        <tr>
+                            <td><small><b>Tech Name:</b></small></td>
+                            <td><small>{{selectedItem.TechnicalName}}</small></td>
+                        </tr>
+                        <tr>
+                            <td><small><b>Data Type:</b></small></td>
+                            <td><small>{{selectedItem.ItemDataType.DisplayText}}</small></td>
+                        </tr>
+                        <tr>
+                            <td><small><b>Field Length:</b></small></td>
+                            <td><small>{{selectedItem.FieldLength}}</small></td>
+                        </tr>
+                        <tr>
+                        <td><small><b>Source Type:</b></small></td>
+                        <td><small>{{selectedItem.DataTypeSource}}</small></td>
+                        <tr>
+                            <td><small><b>Enumeration:</b></small></td>
+                            <td><small>{{selectedItem.EnumerationSystemItemName}}</small></td>
+                        </tr>
+                        <tr>
+                            <td><small><b>Item Url:</b></small></td>
+                            <td><small>{{selectedItem.ItemUrl}}</small></td>
+                        </tr>
+                        <tr>
+                            <td><small><b>Is Extension:</b></small></td>
+                            <td><small>{{selectedItem.IsExtended ? 'True' : 'False'}}</small></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div><small><b>Definition:</b></small></div>
+                    <div><small>{{selectedItem.Definition}}</small></div>
+                </div>
+            </div>
+            <div ng-if="selectedItem.ItemType.Id >= 4">
+                <br/>
+                <div ng-if="selectedItem.CustomDetails.length > 0" class="row">
+                    <div class="col-md-12">
+                        <label style="width: 100%; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px;">Standard Specific Details</label>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row" ng-repeat="detail in selectedItem.CustomDetails">
+                            <div class="col-md-6 col-lg-5">
+                                <small><b>{{detail.CustomDetailMetadata.DisplayName}}:</b></small>
+                            </div>
+                            <div class="col-md-6 col-lg-7">
+                                <small>
+                                    <span ng-if="!detail.CustomDetailMetadata.IsBoolean">{{detail.Value}}</span>
+                                    <span ng-if="detail.CustomDetailMetadata.IsBoolean">
+                                        <i class="fa fa-square-o" ng-if="!detail.Value || detail.Value == 0"></i>
+                                        <i class="fa fa-check-square-o" ng-if="detail.Value && detail.Value == 1"></i>
+                                    </span>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="selectedItem.ItemTypeId == 5 && browseModel.showEnumerations">
+            <div class="row">
+                <div class="col-md-12">
+                    <label style="width: 100%; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px;">Enumerations</label>
+                </div>
+                <div class="col-md-12" ng-show="selectedItem.EnumerationItems.length == 0">
+                    <p>No Enumeration Values</p>
+                </div>
+            </div>
+            <ul class="list-group" style="padding-bottom: 0px;" ng-show="selectedItem.EnumerationItems.length > 0">
+                <li class="list-group-item" style="padding: 0px; margin: 0px">
+                    <div class="form-group" style="margin: 0px">
+                        <div class="input-group" style="padding: 0px; margin: 0px; border: 0px;">
+                            <input type="text" ng-model="browseModel.enumerationFilter" class="form-control" ng-change="browseModel.scrollUpEnumerations()"/>
+                            <div class="input-group-addon" style="border: 0px">
+                                <i class="fa fa-search"></i>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="list-group" style="padding-bottom: 1px; overflow-y: hidden; position: relative; max-height: 425px; min-height: 425px" id="enumerations-scroller_{{browseModel.browseId}}"
+                dw-loading="loading-enumerations" dw-loading-options="{text: 'Loading...'}">
+                <li class="list-group-item" ng-repeat="enum in selectedItem.EnumerationItems | orderBy:'CodeValue' | filter: browseModel.enumerationFilter ">
+                    {{enum.CodeValue}}
+                    <small ng-if="enum.Description || enum.ShortDescription"><br/>{{enum.Description || enum.ShortDescription}}</small>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

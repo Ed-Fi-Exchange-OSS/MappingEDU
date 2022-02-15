@@ -1,0 +1,65 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="col-md-6">
+    <div class="row">
+        <br/>
+        <div class="underline-header">Source Mapping Projects</div>
+        <table class="table-condensed" ng-show="dataStandardProjectsViewModel.dataStandardSourceDisplay.length > 0">
+            <tbody>
+            <tr ng-repeat="project in dataStandardProjectsViewModel.dataStandardSourceDisplay">
+                <td>
+                    <a ui-sref="{{project.projectSref}}">{{project.ProjectName}}</a>
+                    <br/>
+                    {{ project.Description }}
+                </td>
+                <td>
+                    <a ui-sref="{{project.listSref}}" class="btn btn-happy btn-xs btn-list" role="button">
+                        <i class="fa"></i>List
+                    </a>
+                </td>
+                <td ma-role="user,admin">
+                    <a ui-sref="{{project.mapSummarySref}}"
+                       class="btn btn-happy btn-xs btn-table" role="button">
+                        <i class="fa"></i>MappingSummary
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <span ng-show="dataStandardProjectsViewModel.dataStandardSourceDisplay.length == 0">This Data Standard is not the source of any Mapping Projects.</span>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="row">
+        <br/>
+        <div class="underline-header">Target Mapping Projects</div>
+        <table class="table-condensed" ng-show="dataStandardProjectsViewModel.dataStandardTargetDisplay.length > 0">
+            <tbody>
+            <tr ng-repeat="project in dataStandardProjectsViewModel.dataStandardTargetDisplay">
+                <td>
+                    <a ui-sref="{{project.projectSref}}">{{project.ProjectName}}</a>
+                    <br/>
+                    {{ project.Description }}
+                </td>
+                <td>
+                    <a ui-sref="{{project.listSref}}" class="btn btn-happy btn-xs btn-list" role="button">
+                        <i class="fa"></i>List
+                    </a>
+                </td>
+                <td ma-role="user,admin">
+                    <a ui-sref="{{project.mapSummarySref}}"
+                       class="btn btn-happy btn-xs btn-table" role="button">
+                        <i class="fa"></i>MappingSummary
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <span ng-show="dataStandardProjectsViewModel.dataStandardTargetDisplay.length == 0">This Data Standard is not the target of any Mapping Projects.</span>
+    </div>
+</div>

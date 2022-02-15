@@ -1,0 +1,94 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<br />
+<div class="underline-header">
+    Logs
+    <div class="pull-right">
+        <button class="btn btn-download" ng-click="manageLogsViewModel.exportLogs()">
+            <i class="fa"></i> Export Logs
+        </button>
+        <button class="btn btn-delete" ng-click="manageLogsViewModel.clearLogs()">
+            <i class="fa"></i> Clear Logs
+        </button>
+    </div>
+</div>
+<table class="table table-hover" id="logsTable" style="cursor: pointer">
+    <thead>
+    <tr>
+        <th colspan="4" style="padding-right: 0px">
+            <div class="pull-left" style="vertical-align: middle">
+                <span style="vertical-align: middle">Levels</span>
+                <button data-toggle="collapse" data-target="#filterElementGroups" ng-init="showLevelFilter = false"
+                        ng-click="showLevelFilter = !showLevelFilter" style="margin-top: 6px">
+                    <i class="fa fa-filter" ng-class="{'filtered' : !manageLogsViewModel.allLevels}"></i>
+                </button>
+                <div id="filterElementGroups" class="collapse dropdiv">
+                    <label>
+                        <input type="checkbox" ng-model="manageLogsViewModel.allLevels"
+                               ng-change="manageLogsViewModel.clearLevels();"
+                               value=""/>
+                        All Levels
+                    </label>
+                    <div ng-repeat="level in manageLogsViewModel.levels">
+                        <label>
+                            <input ng-model="manageLogsViewModel.selectedLevels[level]" ng-change="manageLogsViewModel.redraw()"
+                                   type="checkbox"/>
+                            {{level}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="pull-right form-inline">
+                <span style="vertical-align: middle"> Filtered By: </span>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text"
+                               class="form-control"
+                               uib-datepicker-popup="MMM dd, yyyy"
+                               ng-model="manageLogsViewModel.startDate"
+                               is-open="startOpen"
+                               max-date="(manageLogsViewModel.endDate) ? manageLogsViewModel.endDate : manageLogsViewModel.today"
+                               close-text="Close"
+                               ng-change="manageLogsViewModel.redraw()"
+                               required/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="startOpen = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+                <span> - </span>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text"
+                               class="form-control"
+                               uib-datepicker-popup="MMM dd, yyyy"
+                               ng-model="manageLogsViewModel.endDate"
+                               min-date="manageLogsViewModel.startDate"
+                               max-date="manageLogsViewModel.today"
+                               is-open="endOpen"
+                               close-text="Close"
+                               ng-change="manageLogsViewModel.redraw()"
+                               required />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="endOpen = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </th> 
+    </tr>
+    <tr>
+        <th style="width: 13%" id="levelColumn">
+            Level
+        </th>
+        <th style="width: 20%">User</th>
+        <th style="max-width: 600px">Message</th>
+        <th style="width: 20%">Date</th>
+    </tr>
+    </thead>
+</table>

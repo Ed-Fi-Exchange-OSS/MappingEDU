@@ -1,0 +1,81 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<form name="matchmakerSearchForm"
+      ng-submit="searchViewModel.search(elementDetailMappingViewModel.searchText)" novalidate>
+    <div class="row">
+        <div class="col-md-12 form-group">
+            <div class="bodyText">
+                <label class="control-label">Source Data Standard Path:</label>
+                <span class="standard-a" ng-bind="searchViewModel.element.ElementDetails.FullItemPath"></span>
+            </div>
+        </div>
+    </div>
+</form>
+<ma-loading view-model="searchViewModel"></ma-loading>
+<div class="table-responsive matchmakerSearch">
+    <table id="matchmakerSearchTable" class="table table-striped small">
+        <thead>
+            <tr>
+                <th style="display: none;"></th>
+                <th class="small bold" colspan="4">
+                    Click anywhere in the row to select an element. Click again to deselect.
+                </th>
+            </tr>
+            <tr>
+                <th style="display: none;"></th>
+                <th>
+                    Element Groups
+                    <button data-toggle="collapse" data-target="#filterElementGroups" ng-init="showElementGroupFilter = false"
+                            ng-click="showElementGroupFilter = !showElementGroupFilter">
+                        <i class="fa fa-filter" ng-class="{'filtered' : !searchViewModel.allElementGroups}"></i>
+                    </button>
+                    <div id="filterElementGroups" class="collapse dropdiv">
+                        <label>
+                            <input type="checkbox" ng-model="searchViewModel.allElementGroups"
+                                   ng-change="searchViewModel.clearElementGroups();searchViewModel.applyFilter()"
+                                   value="" />
+                            All Element Groups
+                        </label>
+                        <div ng-repeat="elementGroup in searchViewModel.elementGroups | filter: '!Unknown'">
+                            <label>
+                                <input ng-model="elementGroups[elementGroup.Id]" ng-change="searchViewModel.applyFilter()"
+                                       type="checkbox" value="{{elementGroup.Id}}" />
+                                {{elementGroup.DisplayText}}
+                            </label>
+                        </div>
+                    </div>
+                </th>
+                <th colspan="3"></th>
+            </tr>
+            <tr>
+                <th style="display: none;"></th>
+                <th>Matching Target Elements</th>
+                <th>Type</th>
+                <th>Data Type</th>
+                <th>Length</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div class="bodyText pull-right">
+            <button class="btn btn-cancel" ng-click="searchViewModel.close()">
+                <i class="fa"></i>
+                Cancel
+            </button>
+            <button class="btn btn-happy" ng-click="searchViewModel.select()"
+                    ng-disabled="!searchViewModel.isTargetSelected">
+                <i class="fa"></i>
+                Select
+            </button>
+        </div>
+    </div>
+</div>
+<div ma-close-dropdown></div>

@@ -1,0 +1,53 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row">
+    <div class="col-md-12">
+        <br />
+        <div class="underline-header">
+            Queue Filters
+        </div>
+        <div>
+            <p>
+                Filters are use in the Review Queue for Mapping Projects. These allow for saving commonly used
+                filters for easy access.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <tbody>
+            <tr ng-repeat="filter in mappingProjectQueueFiltersViewModel.filters">
+                <!-- DETAILS -->
+                <td>
+                    <a ui-sref="app.mapping-project.detail.review-queue({id: '{{mappingProjectQueueFiltersViewModel.mappingProjectId}}', filterId: '{{filter.MappingProjectQueueFilterId}}'})">{{filter.Name}} </a> <i class="fa fa-dashboard" ng-if="filter.ShowInDashboard"></i>
+                </td>
+
+                <!-- EDIT MODAL -->
+                <td style="width: 50px">
+                    <button type="button" class="btn btn-edit" ng-click="mappingProjectQueueFiltersViewModel.edit(filter)">
+                        <i class="fa"></i>Edit
+                    </button>
+                </td>
+                <td style="width: 50px">
+                    <button type="button" class="btn btn-delete" ma-confirm-action="mappingProjectQueueFiltersViewModel.delete(filter, $index)">
+                        <i class="fa"></i>Delete
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    Use the <a ui-sref="app.mapping-project.detail.review-queue({id: '{{mappingProjectQueueFiltersViewModel.mappingProjectId}}' })">Queue</a> to create filters.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

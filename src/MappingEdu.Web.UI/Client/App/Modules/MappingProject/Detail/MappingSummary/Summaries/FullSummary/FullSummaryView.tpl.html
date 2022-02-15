@@ -1,0 +1,258 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<style>
+    .full-header > th {
+        width: 60px;
+    }
+
+    .full-header > th > a {
+        font-size: 13px;
+    }
+</style>
+
+<table class="table table-condensed smaller-table-headers mapping-summary-table">
+<thead>
+<tr>
+    <th colspan="13">
+        <button type="button" class="btn btn-sm btn-blue" ng-click="vm.expandAll()">
+            <i class="fa fa-caret-down"></i> Expand All</button>
+        <button type="button" class="btn btn-sm btn-blue" ng-click="vm.collapseAll()">
+            <i class="fa fa-caret-right"></i> Collapse All
+        </button>
+    </th>
+</tr>
+<tr>
+    <th rowspan="2" class="summary-border-right">
+        <a>Element Group</a>
+    </th>
+
+    <th rowspan="2" class="summary-border-right" style="width: 70px"
+        ng-mouseover="vm.hover = 'total'" ng-mouseleave="vm.hover = null"
+        ng-class="{'active-summary': vm.hover === 'total'}">
+        <a href="{{headerHrefs['total']}}">Total</a>
+    </th>
+
+    <th colspan="5" class="summary-border-right"
+        ng-mouseover="vm.hover = 'statuses'" ng-mouseleave="vm.hover = null"
+        ng-class="{'active-summary': vm.hover === 'statuses' || (vm.hover != null && vm.hover < 5)}">
+        <a href="{{headerHrefs['total']}}">Mapping Stauses</a>
+    </th>
+
+    <th colspan="4" class="summary-border-right"
+        ng-mouseover="vm.hover = 'methods'" ng-mouseleave="vm.hover = null"
+        ng-class="{'active-summary': vm.hover === 'methods' || vm.hover > 4}">
+        <a href="{{headerHrefs['total']}}">Mapping Methods</a>
+    </th>
+
+    <th rowspan="2" class="summary-border-right" style="width: 100px"
+        ng-mouseover="vm.hover = 'percent'" ng-mouseleave="vm.hover = null"
+        ng-class="{'active-summary': vm.hover === 'percent'}">
+        <a href="{{headerHrefs['Status_4']}}">% Approved</a>
+    </th>
+
+    <th rowspan="2" style="width: 25px"></th>
+</tr>
+<tr class="full-header">
+    <th ng-mouseover="vm.hover = 0" ng-mouseleave="vm.hover = null"
+        ng-class="{'active-summary': vm.hover === 0 || vm.hover === 'statuses'}">
+        <a href="{{headerHrefs['Status_0']}}">Unmapped</a>
+    </th>
+
+    <th ng-mouseover="vm.hover = 1" ng-mouseleave="vm.hover = null"
+        ng-class="{'active-summary': vm.hover === 1 || vm.hover === 'statuses'}">
+        <a href="{{headerHrefs['Status_1']}}">Incomplete</a>
+    </th>
+
+    <th ng-mouseover="vm.hover = 2" ng-mouseleave="vm.hover = null"
+        ng-class="{'active-summary': vm.hover === 2 || vm.hover === 'statuses'}">
+        <a href="{{headerHrefs['Status_2']}}">Completed</a>
+    </th>
+
+    <th ng-mouseover="vm.hover = 3" ng-mouseleave="vm.hover = null"
+        ng-class="{'active-summary': vm.hover === 3 || vm.hover === 'statuses'}">
+        <a href="{{headerHrefs['Status_3']}}">Reviewed</a>
+    </th>
+
+    <th ng-mouseover="vm.hover = 4" ng-mouseleave="vm.hover = null"
+        ng-class="{'active-summary': vm.hover === 4 || vm.hover === 'statuses'}" class="summary-border-right">
+        <a href="{{headerHrefs['Status_4']}}">Approved</a>
+    </th>
+
+    <th ng-mouseover="vm.hover = 5" ng-mouseleave="vm.hover = null"
+        ng-class="{'active-summary': vm.hover === 5 || vm.hover === 'methods'}">
+        <a href="{{headerHrefs['Status_0']}}">Unmapped</a>
+    </th>
+
+    <th ng-mouseover="vm.hover = 6" ng-mouseleave="vm.hover = null"
+        ng-class="{'active-summary': vm.hover === 6 || vm.hover === 'methods'}">
+        <a href="{{headerHrefs['Method_1']}}">Mapped</a>
+    </th>
+
+    <th ng-mouseover="vm.hover = 7" ng-mouseleave="vm.hover = null"
+        ng-class="{'active-summary': vm.hover === 7 || vm.hover === 'methods'}">
+        <a href="{{headerHrefs['Method_3']}}">Extended</a>
+    </th>
+
+    <th ng-mouseover="vm.hover = 8" ng-mouseleave="vm.hover = null"
+        ng-class="{'active-summary': vm.hover === 8 || vm.hover === 'methods'}" class="summary-border-right">
+        <a href="{{headerHrefs['total']}}">Omitted</a>
+    </th>
+</tr>
+</thead>
+    <tbody>
+    <tr ng-repeat-start="domain in summary track by domain.SystemItemId">
+
+        <td class="summary-border-right bold" ng-click="vm.getEntities(domain, $index)">
+            <a href="">
+                <i class="fa" ng-class="{'fa-caret-right': !domain.Selected && !$last, 'fa-caret-down': domain.Selected && !$last}"></i>
+                {{domain.ItemName}}
+            </a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 'total'" ng-mouseleave="vm.hover = null" class="summary-border-right"
+            ng-class="{'active-summary': vm.hover === 'total'}">
+            <a href="{{domain.Hrefs['total']}}">{{domain.Total}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 0" ng-mouseleave="vm.hover = null"
+            ng-class="{'active-summary': vm.hover === 0 || vm.hover === 'statuses'}">
+            <a href="{{domain.Hrefs['Status_0']}}">{{domain.Unmapped}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 1" ng-mouseleave="vm.hover = null"
+            ng-class="{'active-summary': vm.hover === 1 || vm.hover === 'statuses'}">
+            <a href="{{domain.Hrefs['Status_1']}}">{{domain.Incomplete}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 2" ng-mouseleave="vm.hover = null"
+            ng-class="{'active-summary': vm.hover === 2 || vm.hover === 'statuses'}">
+            <a href="{{domain.Hrefs['Status_2']}}">{{domain.Completed}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 3" ng-mouseleave="vm.hover = null"
+            ng-class="{'active-summary': vm.hover === 3 || vm.hover === 'statuses'}">
+            <a href="{{domain.Hrefs['Status_3']}}">{{domain.Reviewed}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 4" ng-mouseleave="vm.hover = null" class="summary-border-right"
+            ng-class="{'active-summary': vm.hover === 4 || vm.hover === 'statuses'}">
+            <a href="{{domain.Hrefs['Status_4']}}">{{domain.Approved}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 5" ng-mouseleave="vm.hover = null"
+            ng-class="{'active-summary': vm.hover === 5 || vm.hover === 'methods'}">
+            <a href="{{domain.Hrefs['Status_0']}}">{{domain.Unmapped}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 6" ng-mouseleave="vm.hover = null"
+            ng-class="{'active-summary': vm.hover === 6 || vm.hover === 'methods'}">
+            <a href="{{domain.Hrefs['Method_1']}}">{{domain.Mapped}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 7" ng-mouseleave="vm.hover = null"
+            ng-class="{'active-summary': vm.hover === 7 || vm.hover === 'methods'}">
+            <a href="{{domain.Hrefs['Method_3']}}">{{domain.Extended}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 8" ng-mouseleave="vm.hover = null" class="summary-border-right"
+            ng-class="{'active-summary': vm.hover === 8 || vm.hover === 'methods'}">
+            <a href="{{domain.Hrefs['Method_4']}}">{{domain.Omitted}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 'percent'" ng-mouseleave="vm.hover = null" class="summary-border-right"
+            ng-class="{'active-summary': vm.hover === 'percent'}">
+            <a class="percent-link" href="{{domain.Hrefs['Status_4']}}">
+                <uib-progress style="margin: 0px;">
+                    <uib-bar value="domain.Percent" type="success"><span ng-show="domain.Percent > 30">{{domain.Percent}}%</span></uib-bar>
+                    <uib-bar value="100 - domain.Percent" type="" style="background-color: transparent; color: black"><span ng-show="domain.Percent < 30">{{domain.Percent}}%</span></uib-bar>
+                </uib-progress>
+            </a>
+        </td>
+        <td>
+            <button class="btn btn-base"
+                    ng-click="showMoreDetails(domain)">
+                <i class="fa fa-table"></i>
+            </button>
+        </td>
+    </tr>
+    <tr ng-repeat="entity in domain.SubSummary track by entity.SystemItemId" ng-repeat-end ng-if="domain.Selected" >
+
+        <td class="summary-border-right" style="padding-left: 12px !important">
+            <a href="{{entity.Hrefs['total']}}">
+                {{entity.ItemName}}
+            </a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 'total'" ng-mouseleave="vm.hover = null" class="summary-border-right"
+            ng-class="{'active-summary': vm.hover === 'total'}">
+            <a href="{{entity.Hrefs['total']}}">{{entity.Total}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 0" ng-mouseleave="vm.hover = null"
+            ng-class="{'active-summary': vm.hover === 0 || vm.hover === 'statuses'}">
+            <a href="{{entity.Hrefs['Status_0']}}">{{entity.Unmapped}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 1" ng-mouseleave="vm.hover = null"
+            ng-class="{'active-summary': vm.hover === 1 || vm.hover === 'statuses'}">
+            <a href="{{entity.Hrefs['Status_1']}}">{{entity.Incomplete}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 2" ng-mouseleave="vm.hover = null"
+            ng-class="{'active-summary': vm.hover === 2 || vm.hover === 'statuses'}">
+            <a href="{{entity.Hrefs['Status_2']}}">{{entity.Completed}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 3" ng-mouseleave="vm.hover = null"
+            ng-class="{'active-summary': vm.hover === 3 || vm.hover === 'statuses'}">
+            <a href="{{entity.Hrefs['Status_3']}}">{{entity.Reviewed}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 4" ng-mouseleave="vm.hover = null" class="summary-border-right"
+            ng-class="{'active-summary': vm.hover === 4 || vm.hover === 'statuses'}">
+            <a href="{{entity.Hrefs['Status_4']}}">{{entity.Approved}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 5" ng-mouseleave="vm.hover = null"
+            ng-class="{'active-summary': vm.hover === 5 || vm.hover === 'methods'}">
+            <a href="{{entity.Hrefs['Status_0']}}">{{entity.Unmapped}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 6" ng-mouseleave="vm.hover = null"
+            ng-class="{'active-summary': vm.hover === 6 || vm.hover === 'methods'}">
+            <a href="{{entity.Hrefs['Method_1']}}">{{entity.Mapped}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 7" ng-mouseleave="vm.hover = null"
+            ng-class="{'active-summary': vm.hover === 7 || vm.hover === 'methods'}">
+            <a href="{{entity.Hrefs['Method_3']}}">{{entity.Extended}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 8" ng-mouseleave="vm.hover = null" class="summary-border-right"
+            ng-class="{'active-summary': vm.hover === 8 || vm.hover === 'methods'}">
+            <a href="{{entity.Hrefs['Method_4']}}">{{entity.Omitted}}</a>
+        </td>
+
+        <td ng-mouseover="vm.hover = 'percent'" ng-mouseleave="vm.hover = null" class="summary-border-right"
+            ng-class="{'active-summary': vm.hover === 'percent'}">
+            <a class="percent-link" href="{{entity.Hrefs['Status_4']}}">
+                <uib-progress style="margin: 0px;">
+                    <uib-bar value="entity.Percent" type="success"><span ng-show="entity.Percent > 30">{{entity.Percent}}%</span></uib-bar>
+                    <uib-bar value="100 - entity.Percent" type="" style="background-color: transparent; color: black"><span ng-show="entity.Percent < 30">{{entity.Percent}}%</span></uib-bar>
+                </uib-progress>
+            </a>
+        </td>
+        <td>
+            <button class="btn btn-base"
+                    ng-click="showMoreDetails(entity)">
+                <i class="fa fa-table"></i>
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>

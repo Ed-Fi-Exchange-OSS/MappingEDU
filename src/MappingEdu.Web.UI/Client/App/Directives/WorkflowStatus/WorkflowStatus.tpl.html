@@ -1,0 +1,33 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<span ng-if="!mapping">N/A</span>
+<div ng-if="mapping">
+    <div class="workflow-jellybean" ng-class="{'list': listMode, 'standard': !listMode}">
+        <a role="button" uib-tooltip="{{(mapping.WorkflowStatusType <= 1 ? 'Not yet Completed.' + (readOnly ? '' : 'Click to change to completed.') : 'Completed.' + (readOnly ? '' : 'Click to change back to incomplete.'))}}"
+           ng-click="updateStatus(mapping, 2)" class="complete-status" ng-class="{'workflow-completed': mapping.WorkflowStatusTypeId > 1, 'workflow-complete': mapping.WorkflowStatusTypeId <= 1}"
+           data-status-id="2">
+            <i class="fa fa-check"></i> {{listMode ? '' : 'Completed'}}
+        </a>
+        <a role="button" uib-tooltip="{{(mapping.WorkflowStatusType <= 2 ? 'Not yet Reviewed.' + (readOnly ? '' : 'Click to change to reviewed.') : 'Reviewed.' + (readOnly ? '' : 'Click to change back to complete.'))}}"
+           ng-click="updateStatus(mapping, 3)" class="reviewed-status" ng-class="{'workflow-reviewed': mapping.WorkflowStatusTypeId > 2, 'workflow-review': mapping.WorkflowStatusTypeId <= 2}"
+           data-status-id="3">
+            <i class="fa fa-search"></i> {{listMode ? '' : 'Reviewed'}}
+        </a>
+        <a role="button" uib-tooltip="{{(mapping.WorkflowStatusType <= 3 ? 'Not yet Approved.' + (readOnly ? '' : 'Click to change to approved.') : 'Approved.' + (readOnly ? '' : 'Click to change back to reviewed.'))}}"
+           ng-click="updateStatus(mapping, 4)" class="approved-status" ng-class="{'workflow-approved': mapping.WorkflowStatusTypeId > 3, 'workflow-approve': mapping.WorkflowStatusTypeId <= 3}"
+           data-status-id="2">
+            <i class="fa fa-thumbs-up"></i> {{listMode ? '' : 'Approved'}}
+        </a>
+    </div>
+    <div class="flagged-jellybean" ng-class="{'list': listMode, 'standard': !listMode}">
+        <a role="button" uib-tooltip="{{(mapping.Flagged ? 'Flagged.' + (readOnly ? '' : 'Click to unflag.') : 'Unflagged.' + (readOnly ? '' : 'Click to flag.'))}}"
+           ng-click="updateFlagged(mapping)" class="flagged-status" ng-class="{'workflow-flagged': mapping.Flagged, 'workflow-flag': !mapping.Flagged}">
+            <i class="fa fa-flag"></i> {{listMode ? '' : 'Flagged'}}
+        </a>
+    </div>
+</div>

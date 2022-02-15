@@ -1,0 +1,33 @@
+<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row">
+    <h2>Create New Mapping Project</h2>
+    <p>
+        Give your Mapping Project a name, and select source and target Data Standards for
+        your project. Any Standard can be a source or target, but there are a few differences.
+        Here are a few hints to guide your choice:
+    </p>
+    <ul>
+        <li>
+            The Data Standard you select as the "source" is the queue for the project, which works
+            like a punchlist. The system treats the elements in the source as a to-do list, with the
+            mapping project complete after all elements have had business logic entered.
+        </li>
+        <li>
+            If you're mapping to the Ed-Fi Data Standard, the source Data Standard typically refers
+            to the schema from your internal organization, and the Ed-Fi Data Standard is usually the 
+            target.
+        </li>
+        <li>
+            If you're mapping to CEDS elements, CEDS is typically set up as the source, though the CEDS 
+            Export report will be formatted correctly whether CEDS is the source or target.
+        </li>
+    </ul>
+</div>
+<br/>
+<ma-edit-mapping-project mapping-project="{}"></ma-edit-mapping-project>

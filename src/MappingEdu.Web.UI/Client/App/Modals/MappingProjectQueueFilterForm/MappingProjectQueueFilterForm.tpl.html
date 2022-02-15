@@ -1,0 +1,180 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="modal-header">
+    <span class="page-title">{{filter.MappingProjectQueueFilterId ? 'Update' : 'Add'}} Filter </span>
+</div>
+<div class="modal-body">
+    <form name="form" novalidate>
+        <div ng-if="filter.Search.length > 0">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Search</label>
+                </div>
+                <div class="col-md-12">
+                    {{filter.Search}}
+                </div>
+            </div>
+            <br/>
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Number of Rows</label>
+                </div>
+                <div class="col-md-12">
+                    {{filter.Length}}
+                </div>
+            </div>
+            <br />
+        </div>
+        <div ng-if="filter.ElementGroups.length > 0">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Element Groups</label>
+                </div>
+                <div class="col-md-4" ng-repeat="elementGroup in filter.ElementGroups">
+                    <span>{{displayElementGroup(elementGroup)}}</span>
+                </div>
+            </div>
+            <br/>
+        </div>
+        <div ng-if="filter.ItemTypes.length > 0">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Item Types</label>
+                </div>
+                <div class="col-md-4" ng-repeat="itemType in filter.ItemTypes">
+                    <span ma-enumeration-display enum-id="itemType" type="ItemType"></span>
+                </div>
+            </div>
+            <br/>
+        </div>
+        <div ng-if="filter.Extended || filter.Base">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Extension Status</label>
+                </div>
+                <div class="col-md-4" ng-if="filter.Extension">Extended</div>
+                <div class="col-md-4" ng-if="filter.Base">Not Extended</div>
+            </div>
+            <br/>
+        </div>
+        <div ng-if="filter.MappingMethods.length > 0">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Mapping Methods</label>
+                </div>
+                <div class="col-md-4" ng-repeat="mappingMethod in filter.MappingMethods">
+                    <span ma-enumeration-display enum-id="mappingMethod" type="MappingMethodTypeInQueue"></span>
+                </div>
+            </div>
+            <br/>
+        </div>
+        <div ng-if="filter.WorkflowStatuses.length > 0 || filter.Flagged || filter.Unflagged">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Workflow Statuses</label>
+                </div>
+                <div class="col-md-4" ng-repeat="workflowStatus in filter.WorkflowStatuses">
+                    <span ma-enumeration-display enum-id="workflowStatus" type="WorkflowStatusType"></span>
+                </div>
+            </div>
+            <br/>
+        </div>
+        <div ng-if="filter.Flagged || filter.Unflagged">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Flagged Statuses</label>
+                </div>
+                <div class="col-md-4" ng-if="filter.Flagged">Flagged</div>
+                <div class="col-md-4" ng-if="filter.Unflagged">Unflagged</div>
+            </div>
+            <br/>
+        </div>
+        <div ng-if="filter.AutoMapped || filter.UserMapped">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Mapped By</label>
+                </div>
+                <div class="col-md-4" ng-if="filter.AutoMapped">Auto Mapped</div>
+                <div class="col-md-4" ng-if="filter.UserMapped">User Mapped</div>
+            </div>
+            <br/>
+        </div>
+        <div ng-if="filter.CreatedByUserIds.length > 0">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Created By</label>
+                </div>
+                <div class="col-md-4" ng-repeat="userId in filter.CreatedByUserIds">
+                    <span>{{displayCreatedBy(userId)}}</span>
+                </div>
+            </div>
+            <br/>
+        </div>
+        <div ng-if="filter.CreatedByUserIds.length > 0">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Updated By</label>
+                </div>
+                <div class="col-md-4" ng-repeat="userId in filter.CreatedByUserIds">
+                    <span>{{displayUpdatedBy(userId)}}</span>
+                </div>
+            </div>
+            <br/>
+        </div>
+        <div ng-if="filter.CreatedByColumn || filter.CreationDateColumn || filter.UpdatedByColumn || filter.UpdateDateColumn || filter.MappedByColumn">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Extra Columns</label>
+                </div>
+                <div class="col-md-4" ng-if="filter.CreatedByColumn">Created By</div>
+                <div class="col-md-4" ng-if="filter.CreationDateColumn">Creation Date</div>
+                <div class="col-md-4" ng-if="filter.UpdatedByColumn">Updated By</div>
+                <div class="col-md-4" ng-if="filter.UpdateDateColumn">Update Date</div>
+                <div class="col-md-4" ng-if="filter.MappedByColumn">Mapped By</div>
+            </div>
+            <br/>
+        </div>
+        <div class="row">
+            <div class="col-md-6 form-group" ma-show-errors>
+                <label class="control-label">Filter Name</label>
+                <input class="form-control"
+                       type="text"
+                       ng-model="filter.Name"
+                       name="name"
+                       required
+                       ng-maxlength="500"
+                       set-focus/>
+                <div ng-messages="form.name.$error" class="help-block">
+                    <div ng-message="required">Filter Name is required.</div>
+                    <div ng-message="maxlength">Filter Name is too long.</div>
+                </div>
+            </div>
+            <div class="col-md-6 form-group" ma-show-errors>
+                <label class="control-label">Show In Dashboard</label><br/>
+                <switch class="green" ng-model="filter.ShowInDashboard"></switch>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <button type="button" class="btn btn-cancel"
+                        ng-click="cancel()">
+                    <i class="fa"></i>Cancel
+                </button>
+                <button ng-disabled="form.$invalid" type="submit" class="btn btn-save" ng-click="save(filter)" promise-btn>
+                    <i class="fa"></i>Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

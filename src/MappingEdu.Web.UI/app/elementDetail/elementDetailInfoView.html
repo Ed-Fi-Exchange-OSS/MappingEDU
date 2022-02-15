@@ -1,0 +1,585 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<ma-loading view-model="elementDetailInfoViewModel"></ma-loading>
+<div ma-handle-errors error-data="elementDetailInfoViewModel.errorData">
+</div>
+<br />
+<div class="section-header clearfix">
+    <div class="title collapsed" data-toggle="collapse" data-target="#elementDetails"
+         ng-click="elementDetailInfoViewModel.toggleElementDetailsCaret()">
+        <div class="toggle-icon fa fa-2x"
+             ng-class="{'fa-caret-down': elementDetailInfoViewModel.showElementDetails,
+                    'fa-caret-right': !elementDetailInfoViewModel.showElementDetails}">
+        </div>
+        <div class="toggle-text">
+            Details
+        </div>
+    </div>
+</div>
+<hr />
+<div id="elementDetails" class="collapse in">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="bodyText">
+                <label>Definition:</label>
+                <span ng-bind="elementDetailInfoViewModel.element.ElementDetails.Definition" style="overflow-wrap: break-word;"></span>
+            </div>
+        </div>
+        <div class="col-md-2" ng-if="elementDetailInfoViewModel.oldElement">
+            <a role="button" class="btn btn-edit" data-toggle="modal" data-target="#editElementDetailModal" data-backdrop="static" data-keyboard="false">
+                <i class="fa"></i>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="bodyText">
+                <label>Item Name:</label>
+                <span ng-bind="elementDetailInfoViewModel.element.ElementDetails.ItemName"></span>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="bodyText">
+                <label>Technical Name:</label>
+                <span ng-bind="elementDetailInfoViewModel.element.ElementDetails.TechnicalName"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="bodyText">
+                <label>Normalized Data Type:</label>
+                <span ng-bind="elementDetailInfoViewModel.element.ElementDetails.ItemDataType.Name"></span>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="bodyText">
+                <label>Field Length:</label>
+                <span ng-bind="elementDetailInfoViewModel.element.ElementDetails.FieldLength"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="bodyText">
+                <label>Source Data Type:</label>
+                <span ng-bind="elementDetailInfoViewModel.element.ElementDetails.DataTypeSource"></span>
+            </div>
+        </div>
+        <div class="col-md-5" ng-if="elementDetailInfoViewModel.element.ElementDetails.ItemDataType.Id == 17">
+            <div class="bodyText">
+                <label>System Enumeration: </label>
+                <span ng-bind="elementDetailInfoViewModel.element && elementDetailInfoViewModel.element.ElementDetails.EnumerationSystemItemName ?
+                      elementDetailInfoViewModel.element.ElementDetails.EnumerationSystemItemName +
+                      (elementDetailInfoViewModel.element.ElementDetails.EnumerationSystemItemDefinition ?
+                      ' - ' + elementDetailInfoViewModel.element.ElementDetails.EnumerationSystemItemDefinition : '') : '' | limitTo: 100"
+                      title="{{elementDetailInfoViewModel.element.ElementDetails.EnumerationSystemItemDefinition}}"></span><span ng-if="elementDetailInfoViewModel.element.ElementDetails.EnumerationSystemItemName.length + elementDetailInfoViewModel.element.ElementDetails.EnumerationSystemItemDefinition.length > 100">...</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <div class="bodyText">
+                <label>URL:</label>
+                <span ng-bind="elementDetailInfoViewModel.element.ElementDetails.ItemUrl"></span>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>
+<div class="section-header clearfix">
+    <div class="title collapsed" data-toggle="collapse" data-target="#elementSystemDetails"
+         ng-click="elementDetailInfoViewModel.toggleElementSystemDetailsCaret()">
+        <div class="toggle-icon fa fa-2x"
+             ng-class="{'fa-caret-down': elementDetailInfoViewModel.showElementSystemDetails,
+                    'fa-caret-right': !elementDetailInfoViewModel.showElementSystemDetails}">
+        </div>
+        <div class="toggle-text">System Details</div>
+    </div>
+</div>
+<hr />
+<div id="elementSystemDetails" class="collapse">
+    <div class="row">
+        <div class="col-md-5"
+             ng-repeat="systemDetails in elementDetailInfoViewModel.element.SystemItemCustomDetailsContainer.SystemItemCustomDetails | limitTo:2">
+            <div class="bodyText">
+                <label ng-bind="systemDetails.CustomDetailMetadata.DisplayName + ':'"></label>
+                <span ng-bind="systemDetails.Value" ng-if="!systemDetails.CustomDetailMetadata.IsBoolean"></span>
+                <i class="fa fa-square-o" ng-if="systemDetails.CustomDetailMetadata.IsBoolean &&  systemDetails.Value && systemDetails.Value == 0"></i>
+                <i class="fa fa-check-square-o" ng-if="systemDetails.CustomDetailMetadata.IsBoolean && systemDetails.Value && systemDetails.Value == 1"></i>
+            </div>
+        </div>
+        <div class="col-md-2" ng-if="elementDetailInfoViewModel.oldElement">
+            <a role="button" class="btn btn-edit" data-toggle="modal" data-target="#editElementSystemDetailModal" data-backdrop="static" data-keyboard="false">
+                <i class="fa"></i>
+            </a>
+        </div>
+        <div class="col-md-5"
+             ng-repeat="systemDetails in elementDetailInfoViewModel.element.SystemItemCustomDetailsContainer.SystemItemCustomDetails" ng-if="$index > 1">
+            <div class="bodyText">
+                <label ng-bind="systemDetails.CustomDetailMetadata.DisplayName + ':'"></label>
+                <span ng-bind="systemDetails.Value" ng-if="!systemDetails.CustomDetailMetadata.IsBoolean"></span>
+                <i class="fa fa-square-o" ng-if="systemDetails.CustomDetailMetadata.IsBoolean &&  systemDetails.Value && systemDetails.Value == 0"></i>
+                <i class="fa fa-check-square-o" ng-if="systemDetails.CustomDetailMetadata.IsBoolean && systemDetails.Value && systemDetails.Value == 1"></i>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>
+<div ng-if="dataStandard.PreviousDataStandard">
+    <div class="section-header clearfix">
+        <div class="title collapsed" data-toggle="collapse" data-target="#previousVersions"
+             ng-click="elementDetailInfoViewModel.togglePreviousVersionsCaret()">
+            <div class="toggle-icon fa fa-2x"
+                 ng-class="{'fa-caret-down': elementDetailInfoViewModel.showPreviousVersions,
+                    'fa-caret-right': !elementDetailInfoViewModel.showPreviousVersions}">
+            </div>
+            <div class="toggle-text">Previous Versions</div>
+        </div>
+    </div>
+    <hr />
+    <div id="previousVersions" class="collapse">
+        <div class="row">
+            <div class="col-md-5" ng-repeat-start="previousVersion in elementDetailInfoViewModel.element.PreviousVersions">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="">
+                            <div class="pull-right">
+                                <a role="button" class="btn btn-edit" ng-click="elementDetailInfoViewModel.editPreviousVersion(previousVersion)"
+                                   data-toggle="modal" data-target="#previousVersionModal" data-backdrop="static" data-keyboard="false">
+                                    <i class="fa"></i>
+                                </a>
+                                <a role="button" class="btn btn-delete" ma-confirm-action="elementDetailInfoViewModel.deletePreviousVersion(previousVersion)">
+                                    <i class="fa"></i>
+                                </a>
+                            </div>
+                            <span class="h4">{{ previousVersion.ItemChangeType.Name }}</span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <label>Previous Version</label>
+                        <p>
+                            <span ng-repeat="item in previousVersion.PreviousVersionItems">
+                                <span class="standard-a" ng-bind="item.Name"></span>
+                                <i class="fa fa-caret-right" ng-if="!$last"></i>
+                            </span>
+                        </p>
+                        <label>Description</label>
+                        <p>{{ previousVersion.Description }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix" ng-if="$index%2==1"></div>
+            <div ng-repeat-end=""></div>
+        </div>
+        <div class="row">
+            <a class="btn btn-add" data-toggle="modal" data-target="#previousVersionModal"
+               data-backdrop="static" data-keyboard="false" ng-click="elementDetailInfoViewModel.addPreviousVersion()">
+                <i class="fa"></i>Add
+            </a>
+        </div>
+        <br />
+    </div>
+</div>
+<div ng-if="elementDetailInfoViewModel.nextDataStandard">
+    <div class="section-header clearfix">
+        <div class="title collapsed" data-toggle="collapse" data-target="#nextVersions"
+             ng-click="elementDetailInfoViewModel.toggleNextVersionsCaret()">
+            <div class="toggle-icon fa fa-2x"
+                 ng-class="{'fa-caret-down': elementDetailInfoViewModel.showNextVersions,
+                    'fa-caret-right': !elementDetailInfoViewModel.showNextVersions}">
+            </div>
+            <div class="toggle-text">Next Versions</div>
+        </div>
+    </div>
+    <hr />
+    <div id="nextVersions" class="collapse">
+        <div class="row">
+            <div class="col-md-5" ng-repeat-start="nextVersion in elementDetailInfoViewModel.element.NextVersions">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="">
+                            <div class="pull-right">
+                                <a role="button" class="btn btn-edit" ng-click="elementDetailInfoViewModel.editNextVersion(nextVersion)"
+                                   data-toggle="modal" data-target="#nextVersionModal" data-backdrop="static" data-keyboard="false">
+                                    <i class="fa"></i>
+                                </a>
+                                <a role="button" class="btn btn-delete" ma-confirm-action="elementDetailInfoViewModel.deleteNextVersion(nextVersion)">
+                                    <i class="fa"></i>
+                                </a>
+                            </div>
+                            <span class="h4">{{ nextVersion.ItemChangeType.Name }}</span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <label>Next Version</label>
+                        <p>
+                            <span ng-repeat="item in nextVersion.NextVersionItems">
+                                <span class="standard-a" ng-bind="item.Name"></span>
+                                <i class="fa fa-caret-right" ng-if="!$last"></i>
+                            </span>
+                        </p>
+                        <label>Description</label>
+                        <p>{{ nextVersion.Description }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix" ng-if="$index%2==1"></div>
+            <div ng-repeat-end=""></div>
+        </div>
+        <div class="row">
+            <a class="btn btn-add" data-toggle="modal" data-target="#nextVersionModal"
+               data-backdrop="static" data-keyboard="false" ng-click="elementDetailInfoViewModel.addNextVersion()">
+                <i class="fa"></i>Add
+            </a>
+        </div>
+        <br />
+    </div>
+</div>
+<div class="section-header clearfix" ng-if="elementDetailInfoViewModel.oldElement">
+    <div class="title collapsed" data-toggle="collapse" data-target="#notes"
+         ng-click="elementDetailInfoViewModel.toggleNotesCaret()">
+        <div class="toggle-icon fa fa-2x"
+             ng-class="{'fa-caret-down': elementDetailInfoViewModel.showNotes,
+                    'fa-caret-right': !elementDetailInfoViewModel.showNotes}">
+        </div>
+        <div class="toggle-text">Notes</div>
+    </div>
+</div>
+<hr />
+<div id="notes" class="collapse">
+    <div class="row" ng-repeat="note in elementDetailInfoViewModel.element.Notes">
+        <div class="col-md-7">
+            <div class="map-note">
+                <div ng-if="!note.editNote">
+                    <label ng-bind="note.Title"></label><br />
+                    <span ng-bind="note.UpdateDateStr"></span> - <span ng-bind="note.Notes"></span>
+                </div>
+                <div ng-if="note.editNote">
+                    <label>Title:</label><br />
+                    <input type="text" class="note-title" ng-model="note.editNote.Title" maxlength="100" /><br />
+                    <label>Note:</label><br />
+                    <textarea class="note-text" ng-model="note.editNote.Notes"></textarea>
+                </div>
+                <div class="pull-right" ng-if="!note.editNote">
+                    <a role="button" class="btn btn-edit" ng-click="elementDetailInfoViewModel.editNote(note)">
+                        <i class="fa"></i>
+                        Edit
+                    </a>
+                    <button type="button" class="btn btn-delete" ma-confirm-action="elementDetailInfoViewModel.deleteNote(note)">
+                        <i class="fa"></i>
+                        Delete
+                    </button>
+                </div>
+                <div class="pull-right" ng-if="note.editNote">
+                    <button type="button" class="btn btn-cancel" ng-click="elementDetailInfoViewModel.cancelEditNote(note)">
+                        <i class="fa"></i>
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-happy" ng-click="elementDetailInfoViewModel.saveNote(note)">
+                        <i class="fa"></i>
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="elementDetailInfoViewModel.noteToAdd">
+        <div class="col-md-7">
+            <div class="map-note">
+                <label>Title:</label><br />
+                <input type="text" class="note-title" ng-model="elementDetailInfoViewModel.noteToAdd.Title" maxlength="100" /><br />
+                <label>Note:</label><br />
+                <textarea class="note-text" ng-model="elementDetailInfoViewModel.noteToAdd.Notes"></textarea>
+            </div>
+            <div class="pull-right">
+                <button type="button" class="btn btn-cancel" ng-click="elementDetailInfoViewModel.cancelAddNote()">
+                    <i class="fa"></i>
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-happy" ng-click="elementDetailInfoViewModel.saveAddedNote()">
+                    <i class="fa"></i>
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7">
+            <a role="button" class="btn btn-edit" ng-click="elementDetailInfoViewModel.addNote()" ng-if="!elementDetailInfoViewModel.noteToAdd">
+                <i class="fa"></i>Add Note
+            </a>
+        </div>
+    </div>
+</div>
+
+<div id="editElementDetailModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="page-title">Edit Element Detail</span>
+            </div>
+            <div class="modal-body">
+                <ma-edit-element-detail element-detail="elementDetailInfoViewModel.element.ElementDetails"
+                                        save="elementDetailInfoViewModel.saveElementDetail()"
+                                        cancel="elementDetailInfoViewModel.cancelElementDetail()"
+                                        editing-an-element="true"
+                                        error-data="elementDetailInfoViewModel.errorData"
+                                        types="elementDetailInfoViewModel.itemDataTypes"
+                                        enumerations="elementDetailInfoViewModel.systemItemEnumerations"
+                                        element-form="elementDetailInfoViewModel.elementForm">
+                </ma-edit-element-detail>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editElementSystemDetailModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="page-title">Edit Element System Details</span>
+            </div>
+            <div class="modal-body">
+                <div ma-handle-errors error-data="elementDetailInfoViewModel.errorData">
+                </div>
+                <div class="row">
+                    <form name="systemDetailsForm"
+                          ng-submit="elementDetailInfoViewModel.saveSystemDetails()"
+                          novalidate>
+                        <div class="col-md-6 form-group" ma-show-errors
+                             ng-repeat="systemDetails in elementDetailInfoViewModel.element.SystemItemCustomDetailsContainer.SystemItemCustomDetails">
+                            <label class="control-label">{{systemDetails.CustomDetailMetadata.DisplayName}}</label>
+                            <input class="form-control"
+                                   type="text"
+                                   ng-model="systemDetails.Value"
+                                   ng-if="!systemDetails.CustomDetailMetadata.IsBoolean"
+                                   set-focus />
+                            <input class="form-control checkbox-inline"
+                                   type="checkbox"
+                                   ng-model="systemDetails.boolValue"
+                                   ng-if="systemDetails.CustomDetailMetadata.IsBoolean"
+                                   ng-init="systemDetails.boolValue = systemDetails.Value == '1'"
+                                   set-focus />
+                        </div>
+                        <div class="col-md-12 btn-group">
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-cancel"
+                                        ng-click="elementDetailInfoViewModel.cancelSystemDetails()">
+                                    <i class="fa"></i>
+                                    Cancel
+                                </button>
+                                <button type="submit" class="btn btn-happy">
+                                    <i class="fa"></i>
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="previousVersionModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Edit Previous Version
+            </div>
+            <div class="modal-body">
+                <div ma-handle-errors error-data="elementDetailInfoViewModel.errorData">
+                </div>
+                <div class="row">
+                    <form name="previousVersionForm"
+                          ng-submit="elementDetailInfoViewModel.savePreviousVersion()"
+                          novalidate>
+                        <div class="col-md-12 form-group" ma-show-errors>
+                            <input type="hidden"
+                                   name="systemItemId"
+                                   ng-model="elementDetailInfoViewModel.editedPreviousVersion.OldSystemItemId" />
+                            <label class="control-label">Change Type</label>
+                            <select class="form-control"
+                                    ng-model="elementDetailInfoViewModel.editedPreviousVersion.ItemChangeTypeId"
+                                    ng-options="item.Id as item.DisplayText for item in elementDetailInfoViewModel.itemChangeTypesPrevious"
+                                    ng-change="elementDetailInfoViewModel.determinePreviousVersionItemDisplay()"
+                                    name="itemChangeType"
+                                    required
+                                    set-focus>
+                                <option value=""></option>
+                            </select>
+                            <div ng-messages="previousVersionForm.itemChangeType.$error" class="help-block">
+                                <div ng-message="required">Change Type is required.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-group" ng-show="elementDetailInfoViewModel.showPreviousVersionItem">
+                            <label class="control-label">Next Version</label>
+                            <div>
+                                <span ng-repeat="item in elementDetailInfoViewModel.editedPreviousVersion.PreviousVersionItems">
+                                    <span class="standard-a" ng-bind="item.Name"></span>
+                                    <i class="fa fa-caret-right" ng-if="!$last"></i>
+                                </span>
+                                <span ng-if="!elementDetailInfoViewModel.editedPreviousVersion.PreviousVersionItems || elementDetailInfoViewModel.editedPreviousVersion.PreviousVersionItems.length === 0"><i>No item selected</i></span>
+                                <a role="button" class="btn" data-toggle="collapse" data-target="#elementListContainerPrevious">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                                <a role="button" class="btn btn-delete" ng-click="elementDetailInfoViewModel.clearSelectedItemPrevious()">
+                                    <i class="fa"></i>
+                                </a>
+                            </div>
+                            <div id="elementListContainerPrevious" class="collapse">
+                                <span ng-show="!elementDetailInfoViewModel.elementListPreviousLoaded">Loading search table <i class="fa fa-spinner fa-spin"></i></span>
+                                <table class="table table-striped table-bordered" id="elementListTablePrevious" ng-show="elementDetailInfoViewModel.elementListPreviousLoaded">
+                                    <thead>
+                                        <tr>
+                                            <th style="display: none">
+                                            </th>
+                                            <th style="display: none">
+                                            </th>
+                                            <th>
+                                                Path
+                                            </th>
+                                            <th>
+                                                Type
+                                            </th>
+                                            <th style="display: none">
+                                            </th>
+                                            <th>
+                                                Select
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-group" ma-show-errors>
+                            <label class="control-label">Description</label>
+                            <textarea class="form-control"
+                                      ng-model="elementDetailInfoViewModel.editedPreviousVersion.Description"
+                                      name="description"
+                                      rows="5"></textarea>
+                        </div>
+                        <div class="col-md-12 btn-toolbar row">
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-cancel"
+                                        ng-click="elementDetailInfoViewModel.cancelPreviousVersion()">
+                                    <i class="fa"></i>
+                                    Cancel
+                                </button>
+                                <button type="submit" class="btn btn-happy" ng-disabled="!elementDetailInfoViewModel.editedPreviousVersion.ItemChangeTypeId">
+                                    <i class="fa"></i>
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="nextVersionModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Edit Next Version
+            </div>
+            <div class="modal-body">
+                <div ma-handle-errors error-data="elementDetailInfoViewModel.errorData">
+                </div>
+                <div class="row">
+                    <form name="nextVersionForm"
+                          ng-submit="elementDetailInfoViewModel.saveNextVersion()"
+                          novalidate>
+                        <div class="col-md-12 form-group" ma-show-errors>
+                            <input type="hidden"
+                                   name="systemItemId"
+                                   ng-model="elementDetailInfoViewModel.editedNextVersion.NewSystemItemId" />
+                            <label class="control-label">Change Type</label>
+                            <select class="form-control"
+                                    ng-model="elementDetailInfoViewModel.editedNextVersion.ItemChangeTypeId"
+                                    ng-options="item.Id as item.DisplayText for item in elementDetailInfoViewModel.itemChangeTypesNext"
+                                    ng-change="elementDetailInfoViewModel.determineNextVersionItemDisplay()"
+                                    name="itemChangeType"
+                                    required
+                                    set-focus>
+                                <option value=""></option>
+                            </select>
+                            <div ng-messages="nextVersionForm.itemChangeType.$error" class="help-block">
+                                <div ng-message="required">Change Type is required.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-group" ng-show="elementDetailInfoViewModel.showNextVersionItem">
+                            <label class="control-label">Next Version</label>
+                            <div>
+                                <span ng-repeat="item in elementDetailInfoViewModel.editedNextVersion.NextVersionItems">
+                                    <span class="standard-a" ng-bind="item.Name"></span>
+                                    <i class="fa fa-caret-right" ng-if="!$last"></i>
+                                </span>
+                                <span ng-if="!elementDetailInfoViewModel.editedNextVersion.NextVersionItems || elementDetailInfoViewModel.editedNextVersion.NextVersionItems.length === 0"><i>No item selected</i></span>
+                                <a role="button" class="btn" data-toggle="collapse" data-target="#elementListContainerNext">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                                <a role="button" class="btn btn-delete" ng-click="elementDetailInfoViewModel.clearSelectedItemNext()">
+                                    <i class="fa"></i>
+                                </a>
+                            </div>
+                            <div id="elementListContainerNext" class="collapse">
+                                <span ng-show="!elementDetailInfoViewModel.elementListNextLoaded">Loading search table <i class="fa fa-spinner fa-spin"></i></span>
+                                <table class="table table-striped table-bordered" id="elementListTableNext" ng-show="elementDetailInfoViewModel.elementListNextLoaded">
+                                    <thead>
+                                        <tr>
+                                            <th style="display: none">
+                                            </th>
+                                            <th style="display: none">
+                                            </th>
+                                            <th>
+                                                Path
+                                            </th>
+                                            <th>
+                                                Type
+                                            </th>
+                                            <th style="display: none">
+                                            </th>
+                                            <th>
+                                                Select
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-group" ma-show-errors>
+                            <label class="control-label">Description</label>
+                            <textarea class="form-control"
+                                      ng-model="elementDetailInfoViewModel.editedNextVersion.Description"
+                                      name="description"
+                                      rows="5"></textarea>
+                        </div>
+                        <div class="col-md-12 btn-toolbar row">
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-cancel"
+                                        ng-click="elementDetailInfoViewModel.cancelNextVersion()">
+                                    <i class="fa"></i>
+                                    Cancel
+                                </button>
+                                <button type="submit" class="btn btn-happy" ng-disabled="!elementDetailInfoViewModel.editedNextVersion.ItemChangeTypeId">
+                                    <i class="fa"></i>
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

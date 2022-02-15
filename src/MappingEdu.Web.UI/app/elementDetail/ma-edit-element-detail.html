@@ -1,0 +1,128 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div>
+    <div ma-handle-errors error-data="errorData">
+    </div>
+    <form name="elementForm"
+          ng-submit="save()"
+          novalidate>
+        <div class="row" ng-if="!addingAnElement">
+            <div class="col-md-12 form-group" ma-show-errors>
+                <label class="control-label">Definition</label>
+                <textarea class="form-control"
+                          type="text"
+                          ng-model="elementDetail.Definition"
+                          ng-maxlength="8000"
+                          name="definition"></textarea>
+                <div ng-messages="elementForm.definition.$error" class="help-block">
+                    <div ng-message="maxlength">Definition is too long.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 form-group" ma-show-errors>
+                <label class="control-label">Item Name</label>
+                <input class="form-control"
+                       type="text"
+                       ng-model="elementDetail.ItemName"
+                       name="itemName"
+                       required
+                       ng-maxlength="255"
+                       set-focus />
+                <div ng-messages="elementForm.itemName.$error" class="help-block">
+                    <div ng-message="required">Element Name is required.</div>
+                    <div ng-message="maxlength">Element Name is too long.</div>
+                </div>
+            </div>
+            <div class="col-md-6 form-group" ma-show-errors ng-if="editingAnElement">
+                <label class="control-label">Technical Name</label>
+                <input class="form-control"
+                       type="text"
+                       ng-model="elementDetail.TechnicalName"
+                       ng-maxlength="255"
+                       name="technicalName" />
+                <div ng-messages="elementForm.technicalName.$error" class="help-block">
+                    <div ng-message="maxlength">Technical Name is too long.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 form-group" ma-show-errors ng-if="editingAnElement">
+                <label class="control-label">Normalized Data Type</label>
+                <select class="form-control"
+                        ng-model="elementDetail.ItemDataTypeId"
+                        ng-options="item.Id as item.DisplayText for item in types"
+                        name="itemDataType"></select>
+            </div>
+            <div class="col-md-6 form-group" ma-show-errors ng-if="editingAnElement">
+                <label class="control-label">Field Length</label>
+                <input class="form-control"
+                       type="text"
+                       ng-model="elementDetail.FieldLength"
+                       ng-pattern="/^\d*$/"
+                       name="fieldLength" />
+                <div ng-messages="elementForm.fieldLength.$error" class="help-block">
+                    <div ng-message="pattern">Field Length must be a whole number.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group" ma-show-errors ng-if="editingAnElement">
+                <label class="control-label">Source Data Type</label>
+                <input class="form-control"
+                       type="text"
+                       ng-model="elementDetail.DataTypeSource"
+                       ng-maxlength="255"
+                       name="sourceDataType" />
+                <div ng-messages="elementForm.sourceDataType.$error" class="help-block">
+                    <div ng-message="maxlength">Source Data Type is too long.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group" ma-show-errors ng-if="editingAnElement" ng-show="elementDetail.ItemDataTypeId == 17">
+                <label class="control-label">System Enumeration</label>
+                <select class="form-control" ng-model="elementDetail.EnumerationSystemItemId" name="systemEnumeration">
+                    <option value=""></option>
+                    <option ng-repeat="item in enumerations" value="{{item.SystemItemId}}" title="{{item.Definition}}"
+                            ng-selected="{{item.SystemItemId == elementDetail.EnumerationSystemItemId}}">
+                        {{item.ItemName + ' - ' + item.Definition | limitTo: 100}}{{item.ItemName.length + item.Definition.length > 100 ? '...' : ''}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group" ma-show-errors ng-if="editingAnElement">
+                <label class="control-label">URL</label>
+                <input class="form-control"
+                       type="text"
+                       ng-model="elementDetail.ItemUrl"
+                       ng-maxlength="255"
+                       name="url" />
+                <div ng-messages="elementForm.url.$error" class="help-block">
+                    <div ng-message="maxlength">URL is too long.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 btn-toolbar row">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-cancel"
+                            ng-click="cancel()">
+                        <i class="fa"></i>
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-happy">
+                        <i class="fa"></i>
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

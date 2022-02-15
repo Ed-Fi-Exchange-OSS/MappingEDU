@@ -1,0 +1,118 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<ma-loading view-model="dataStandardElementListViewModel"></ma-loading>
+<ma-container-fluid></ma-container-fluid>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover" id="elementListTable">
+            <thead>
+            <tr>
+                <th></th>
+                <th>
+                    Element Groups
+                    <button data-toggle="collapse" data-target="#filterElementGroups" ng-init="showElementGroupFilter = false"
+                            ng-click="showElementGroupFilter = !showElementGroupFilter"
+                            ng-disabled="dataStandardElementListViewModel.loading">
+                        <i class="fa fa-filter" ng-class="{'filtered' : !allElementGroups}"></i>
+                    </button>
+                    <div id="filterElementGroups" class="collapse dropdiv">
+                        <label>
+                            <input type="checkbox" ng-model="allElementGroups"
+                                   ng-change="dataStandardElementListViewModel.clearElementGroups();dataStandardElementListViewModel.applyFilter()"
+                                   value=""/>
+                            All Element Groups
+                        </label>
+                        <div ng-repeat="elementGroup in dataStandardElementListViewModel.elementGroups | filter: '!Unknown'">
+                            <label>
+                                <input ng-model="elementGroups[elementGroup.Id]" ng-change="dataStandardElementListViewModel.applyFilter()"
+                                       type="checkbox" value="{{elementGroup.Id}}"/>
+                                {{elementGroup.DisplayText}}
+                            </label>
+                        </div>
+                    </div>
+                </th>
+                <th>
+                    <div ng-if="dataStandardElementListViewModel.isExtended">
+                        Items
+                        <button data-toggle="collapse" data-target="#filterExtension" ng-init="showExtensionsFilter = false"
+                                ng-click="showExtensionsFilters = !showExtensionsFilter"
+                                ng-disabled="dataStandardElementListViewModel.loading">
+                            <i class="fa fa-filter" ng-class="{'filtered' : !allItems}"></i>
+                        </button>
+                        <div id="filterExtension" class="collapse dropdiv">
+                            <label>
+                                <input type="checkbox" ng-model="allItems"
+                                       ng-change="dataStandardElementListViewModel.clearItems();dataStandardElementListViewModel.applyFilter()"
+                                       value=""/>
+                                All
+                            </label>
+                            <div>
+                                <label>
+                                    <input ng-model="items['base']" ng-change="dataStandardElementListViewModel.applyFilter()"
+                                           type="checkbox"/>
+                                    Base
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <input ng-model="items['extended']" ng-change="dataStandardElementListViewModel.applyFilter()"
+                                           type="checkbox"/>
+                                    Extended
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+                <th>
+                    Item Types
+                    <button data-toggle="collapse" data-target="#filterItemTypes" ng-init="showItemTypeFilter = false"
+                            ng-click="showItemTypeFilter = !showItemTypeFilter"
+                            ng-disabled="dataStandardElementListViewModel.loading">
+                        <i class="fa fa-filter" ng-class="{'filtered' : !allItemTypes}"></i>
+                    </button>
+                    <div id="filterItemTypes" class="collapse dropdiv">
+                        <label>
+                            <input type="checkbox" ng-model="allItemTypes"
+                                   ng-change="dataStandardElementListViewModel.clearItemTypes();dataStandardElementListViewModel.applyFilter()"
+                                   value=""/>
+                            All Item Types
+                        </label>
+                        <div>
+                            <label>
+                                <input ng-model="itemTypes['element']" ng-change="dataStandardElementListViewModel.applyFilter()"
+                                       type="checkbox" value="4"/>
+                                Element
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <input ng-model="itemTypes['enumeration']" ng-change="dataStandardElementListViewModel.applyFilter()"
+                                       type="checkbox" value="5"/>
+                                Enumeration
+                            </label>
+                        </div>
+                    </div>
+                </th>
+                <th>
+                </th>
+                <th>
+                </th>
+            </tr>
+            <tr>
+                <th style="width: 0%"></th>
+                <th style="width: 40%">Path</th>
+                <th style="width: 30%">Element</th>
+                <th style="width: 10%">Item Type</th>
+                <th style="width: 10%">Data Type</th>
+                <th style="width: 10%">Length</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div ma-close-dropdown></div>

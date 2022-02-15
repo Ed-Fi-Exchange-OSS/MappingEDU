@@ -1,0 +1,88 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row">
+    <div ma-handle-errors errorData="mappingProjectAdminViewModel.errorData">
+    </div>
+    <form name="mappingProjectForm"
+          ng-submit="mappingProjectAdminViewModel.save(mappingProject)"
+          novalidate>
+        <input type="hidden" ng-model="mappingProject.MappingProjectId" />
+        <div class="col-md-12 form-group" ma-show-errors>
+            <label class="control-label">Project Name</label>
+            <input class="form-control"
+                   type="text"
+                   ng-model="mappingProject.ProjectName"
+                   name="projectName"
+                   required
+                   ng-maxlength="50"
+                   set-focus />
+            <div ng-messages="mappingProjectForm.projectName.$error" class="help-block">
+                <div ng-message="required">The Project Name is required.</div>
+                <div ng-message="maxlength">The Project Name is too long.</div>
+            </div>
+        </div>
+
+        <div class="col-md-12 form-group" ma-show-errors>
+            <label class="control-label">Description</label>
+            <textarea class="form-control"
+                      type="text"
+                      ng-model="mappingProject.Description"
+                      name="description"
+                      required
+                      ng-maxlength="1000"></textarea>
+            <div ng-messages="mappingProjectForm.description.$error" class="help-block">
+                <div ng-message="required">The Description is required.</div>
+                <div ng-message="maxlength">The Description is too long.</div>
+            </div>
+        </div>
+
+        <div class="col-md-6 form-group" ma-show-errors ng-show="{{mappingProjectAdminViewModel.canChangeDataStandards}}">
+            <label class="control-label">Source Data Standard</label>
+            <ui-select ng-model="mappingProject.SourceDataStandardId"
+                       theme="bootstrap"
+                       name="standard"
+                       required>
+                <ui-select-match placeholder="Select a source standard...">{{$select.selected.SystemName}} ({{$select.selected.SystemVersion}})</ui-select-match>
+                <ui-select-choices repeat="standard.DataStandardId as standard in mappingProjectAdminViewModel.srcDataStandards | filter: $select.search">
+                    <div ng-bind-html="standard.SystemName | highlight: $select.search"></div>
+                    <small>Version: <span ng-bind-html="''+ standard.SystemVersion | highlight: $select.search"></span></small>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <div class="col-md-6 form-group" ma-show-errors ng-show="{{mappingProjectAdminViewModel.canChangeDataStandards}}">
+            <label class="control-label">Target Data Standard</label>
+            <ui-select ng-model="mappingProject.TargetDataStandardId"
+                       theme="bootstrap"
+                       name="standard"
+                       required>
+                <ui-select-match placeholder="Select a target standard...">{{$select.selected.SystemName}} ({{$select.selected.SystemVersion}})</ui-select-match>
+                <ui-select-choices repeat="standard.DataStandardId as standard in mappingProjectAdminViewModel.targetDataStandards | filter: $select.search">
+                    <div ng-bind-html="standard.SystemName | highlight: $select.search"></div>
+                    <small>Version: <span ng-bind-html="''+ standard.SystemVersion | highlight: $select.search"></span></small>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+
+        <div class="col-md-12 btn-toolbar row">
+            <a class="btn btn-redirect pull-left" ng-class="{'btn-lg': !modal}" ui-sref="app.data-standard.create" ng-show="{{ mappingProjectAdminViewModel.isNew}}">
+                <i class="fa"></i>  Create New Data Standard
+            </a>
+            <div class="pull-right">
+                <button type="button" class="btn btn-cancel" ng-class="{'btn-lg': !modal}"
+                        ng-click="mappingProjectAdminViewModel.cancel(mappingProject)">
+                    <i class="fa"></i>
+                    Cancel
+                </button>
+                <button type="submit" class="btn" ng-class="{'btn-lg': !modal, 'btn-save': modal, 'btn-add': !modal}" ng-disabled="mappingProjectForm.$invalid">
+                    <i class="fa"></i>
+                    {{(modal) ? 'Save' : 'Create'}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

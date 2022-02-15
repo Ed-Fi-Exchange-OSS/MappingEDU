@@ -1,0 +1,110 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()">&times;</button>
+    <h4 class="modal-title">
+        <span ng-show="!isTargetReport">Mapping Project Report</span>
+        <span ng-show="isTargetReport">Target Standard Punchlist</span>
+    </h4>
+</div>
+<div class="modal-body">
+    <div class="alert-info">
+        &nbsp;&nbsp;Select which tabs should appear in the report. (All tabs selected by default.)<br/>
+        &nbsp;&nbsp;Select columns included on each tab. (All columns selected by default except custom Data Standard details)<br/>
+        &nbsp;&nbsp;Optionally, select any desired filters the report. (All rows shown by default.)
+    </div>
+    <br/>
+    <form>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Element List</label>&nbsp;<switch class="green small-switch" ng-model="elementList.Show"></switch>
+                <!--<multi-select ng-show="elementList.Show" model="elementList.Columns" options="elementListColumns" options-header="Columns Not in Report" selection-header="Columns In Report"></multi-select>-->
+            </div>
+            <div class="col-md-6">
+                <label>Enumeration List</label>&nbsp;<switch class="green small-switch" ng-model="enumerationList.Show"></switch>
+                <!--<multi-select ng-show="enumerationList.Show" model="enumerationList.Columns" options="enumerationListColumns" options-header="Columns Not in Report" selection-header="Columns In Report"></multi-select>-->
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Element Mapping List</label>&nbsp;<switch class="green small-switch" ng-model="elementMappingList.Show"></switch>
+                <div ng-show="elementMappingList.Show">
+                    <multi-select model="elementMappingList.Columns" options="elementMappingColumns" options-header="Columns Not in Report" selection-header="Columns In Report"></multi-select>
+                    <br/>
+                    <label>Element Mapping List Filters</label>
+                    <h5>Element Mapping Method</h5>
+                    <ui-select ng-model="elementMappingList.MappingMethods"
+                               theme="bootstrap"
+                               required
+                               multiple>
+                        <ui-select-match placeholder="Select Mapping Methods to Filter on (Optional)...">
+                            {{$item.DisplayText}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="type in mappingMethods | filter: $select.search">
+                            <div ng-bind-html="type.DisplayText | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+
+                    <h5>Workflow Status</h5>
+                    <ui-select ng-model="elementMappingList.WorkflowStatuses"
+                               theme="bootstrap"
+                               required
+                               multiple>
+                        <ui-select-match placeholder="Select Workflow Statuses to Filter on (Optional)...">
+                            {{$item.DisplayText}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="type in workflowStatuses | filter: $select.search">
+                            <div ng-bind-html="type.DisplayText | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label>Enumeration Mapping List</label>&nbsp;<switch class="green small-switch" ng-model="enumerationMappingList.Show"></switch>
+                <div ng-show="enumerationMappingList.Show">
+                    <multi-select model="enumerationMappingList.Columns" options="enumerationMappingColumns" options-header="Columns Not in Report" selection-header="Columns In Report"></multi-select>
+                    <br />
+                    <label>Enumeration Mapping List Filters</label>
+                    <h5>Enumeration Mapping Status Type</h5>
+                    <ui-select ng-model="enumerationMappingList.EnumerationMappingStatusTypes"
+                               theme="bootstrap"
+                               required
+                               multiple>
+                        <ui-select-match placeholder="Select Mapping Statuses to Filter on (Optional)...">
+                            {{$item.DisplayText}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="type in enumerationMappingStatusTypes | filter: $select.search">
+                            <div ng-bind-html="type.DisplayText | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+
+                    <h5>Enumeration Mapping Status Reason</h5>
+                    <ui-select ng-model="enumerationMappingList.EnumerationMappingStatusReasonTypes"
+                               theme="bootstrap"
+                               required
+                               multiple>
+                        <ui-select-match placeholder="Select Mapping Status Reasons to Filter on (Optional)...">
+                            {{$item.DisplayText}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="type in enumerationMappingStatusReasonTypes | filter: $select.search">
+                            <div ng-bind-html="type.DisplayText | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="">
+        <button type="button" class="btn btn-cancel" ng-click="close()"><i class="fa"></i> Close</button>
+        <button type="submit" class="btn btn-download" ng-click="download()" promise-btn><i class="fa"></i> Download</button>
+    </div>
+</div>

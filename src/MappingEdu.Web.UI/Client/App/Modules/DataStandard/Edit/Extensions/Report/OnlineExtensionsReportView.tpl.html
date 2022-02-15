@@ -1,0 +1,278 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<ma-container-fluid></ma-container-fluid>
+<style>
+    .custom-scrolling-tabs > scrtabs-tab-scroll-arrow {
+        height: 26px;
+    }
+</style>
+<div class="row">
+    <br />
+    <div class="col-md-12" style="display: inline; padding-bottom: 10px">
+
+        <div class="underline-header">
+            Extensions Report
+            <span class="pull-right">
+                <button class="btn btn-download" promise-btn ng-click="onlineExtensionsReportViewModel.downloadReport()">
+                    <i class="fa"></i>
+                    Download Report
+                </button>
+                <a class="btn btn-base" ui-sref="app.data-standard.edit.extensions.list" ng-if="onlineExtensionsReportViewModel.access.Role >= 2"> Back </a>
+            </span>
+        </div>
+        <div style="margin-top: -16px">
+
+            <div id="path-scroller" style="position: relative; width: 100%; overflow-x: hidden; white-space: nowrap; height: inherit">
+                <a ui-sref="app.data-standard.edit.extensions.report({parentId: null})" class="path-segment" style="font-size: 13px"> {{onlineExtensionsReportViewModel.standard.SystemName}} ({{onlineExtensionsReportViewModel.standard.SystemVersion}})</a>
+                <span ng-repeat="item in onlineExtensionsReportViewModel.parent.PathSegments">
+                    <i class="fa fa-caret-right separator"></i>
+                    <a ui-sref="app.data-standard.edit.extensions.report({parentId: '{{item.SystemItemId}}'})" href="" ng-class="{'path-segment': !item.IsExtended, 'path-segment-c': item.IsExtended}" style="font-size: 13px">
+                        <span ng-if="item.IsExtended && !item.Extension"><i class="fa fa-extended"></i></span>
+                        <span ng-if="item.Extension">({{item.Extension.ShortName}})</span>
+                        {{item.ItemName}}
+                    </a>
+                </span>
+                <br/>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div ng-class="{'col-md-7': onlineExtensionsReportViewModel.showSidebar, 'col-md-12': !onlineExtensionsReportViewModel.showSidebar}" style="font-size: 13px; border-right: 1px solid #ccc; background: white; margin-top: -8px">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-inline" style="width: 100%; font-size: 13px">
+                    <div class="pull-right">
+                        <div class="btn-group" uib-dropdown auto-close="outsideClick">
+                            <button style="font-size: 13px" type="button" class="btn btn-base" uib-dropdown-toggle>
+                                Extensions <span class="caret"></span>
+                            </button>
+
+                            <div class="dropdown-menu dropdiv" style="width: 230px">
+                                <label><input style="vertical-align: top" type="checkbox" ng-model="onlineExtensionsReportViewModel.allExtensions" ng-change="onlineExtensionsReportViewModel.reloadTable()"/>&nbsp;&nbsp;All</label>
+                                <div class="row">
+                                    <div class="col-md-6" ng-repeat="extension in onlineExtensionsReportViewModel.extensions">
+                                        <label ng-click="$event.stopPropagation()"><input style="vertical-align: top" type="checkbox" ng-model="extension.Selected" ng-change="onlineExtensionsReportViewModel.allExtensions=false;onlineExtensionsReportViewModel.reloadTable(true)"/>&nbsp;&nbsp;{{extension.ShortName}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-group" uib-dropdown ng-if="(onlineExtensionsReportViewModel.containsAssociations || onlineExtensionsReportViewModel.containsDescriptors) && onlineExtensionsReportViewModel.parent">
+                            <button style="font-size: 13px" type="button" class="btn btn-base" uib-dropdown-toggle>
+                                <span ng-show="onlineExtensionsReportViewModel.allEntityTypes">Entity Type</span>
+                                <span ng-show="onlineExtensionsReportViewModel.entityType['entity']">Entities<span ng-show="onlineExtensionsReportViewModel.entityType['descriptor'] || onlineExtensionsReportViewModel.entityType['association']">, </span></span>
+                                <span ng-show="onlineExtensionsReportViewModel.entityType['association']">Associations<span ng-show="onlineExtensionsReportViewModel.entityType['descriptor']">, </span></span>
+                                <span ng-show="onlineExtensionsReportViewModel.entityType['descriptor']">Descriptors</span>
+                                <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-menu dropdiv">
+                                <div>
+                                    <label>
+                                        <input style="vertical-align: top" type="checkbox" ng-model="onlineExtensionsReportViewModel.allEntityTypes" ng-change="onlineExtensionsReportViewModel.changeEntityType(onlineExtensionsReportViewModel.allEntityTypes)"/>&nbsp;&nbsp;All
+                                    </label>
+                                </div>
+                                <div>
+                                    <label ng-click="$event.stopPropagation()">
+                                        <input style="vertical-align: top" type="checkbox" ng-model="onlineExtensionsReportViewModel.entityType['entity']"
+                                               ng-change="onlineExtensionsReportViewModel.allEntityTypes=false;onlineExtensionsReportViewModel.changeEntityType()"/>&nbsp;&nbsp;Entities
+                                    </label>
+                                </div>
+                                <div ng-if="onlineExtensionsReportViewModel.containsAssociations">
+                                    <label ng-click="$event.stopPropagation()">
+                                        <input style="vertical-align: top" type="checkbox" ng-model="onlineExtensionsReportViewModel.entityType['association']"
+                                               ng-change="onlineExtensionsReportViewModel.allEntityTypes=false;onlineExtensionsReportViewModel.changeEntityType()"/>&nbsp;&nbsp;Associations
+                                    </label>
+                                </div>
+                                <div ng-if="onlineExtensionsReportViewModel.containsDescriptors">
+                                    <label ng-click="$event.stopPropagation()">
+                                        <input style="vertical-align: top" type="checkbox" ng-model="onlineExtensionsReportViewModel.entityType['descriptor']"
+                                               ng-change="onlineExtensionsReportViewModel.allEntityTypes=false;onlineExtensionsReportViewModel.changeEntityType()" />&nbsp;&nbsp;Descriptors
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-group" uib-dropdown ng-if="onlineExtensionsReportViewModel.parent">
+                            <button style="font-size: 13px" type="button" class="btn btn-base" uib-dropdown-toggle>
+                                <span ng-show="onlineExtensionsReportViewModel.allExtensionStatuses">Extension Status</span>
+                                <span ng-show="onlineExtensionsReportViewModel.extensionStatus['new']">New<span ng-show="onlineExtensionsReportViewModel.extensionStatus['notExtended'] || onlineExtensionsReportViewModel.extensionStatus['extended']">, </span></span>
+                                <span ng-show="onlineExtensionsReportViewModel.extensionStatus['extended']">Extended<span ng-show="onlineExtensionsReportViewModel.extensionStatus['notExtended']">, </span></span>
+                                <span ng-show="onlineExtensionsReportViewModel.extensionStatus['notExtended']">Not Extended</span>
+                                <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-menu dropdiv">
+                                <div>
+                                    <label>
+                                        <input style="vertical-align: top" type="checkbox" ng-model="onlineExtensionsReportViewModel.allExtensionStatuses" ng-change="onlineExtensionsReportViewModel.changeExtensionStatus(onlineExtensionsReportViewModel.allExtensionStatuses)"/>&nbsp;&nbsp;All
+                                    </label>
+                                </div>
+                                <div>
+                                    <label ng-click="$event.stopPropagation()">
+                                        <input style="vertical-align: top" type="checkbox" ng-model="onlineExtensionsReportViewModel.extensionStatus['new']"
+                                               ng-change="onlineExtensionsReportViewModel.allExtensionStatuses=false;onlineExtensionsReportViewModel.changeExtensionStatus()"/>&nbsp;&nbsp;New
+                                    </label>
+                                </div>
+                                <div>
+                                    <label ng-click="$event.stopPropagation()">
+                                        <input style="vertical-align: top" type="checkbox" ng-model="onlineExtensionsReportViewModel.extensionStatus['extended']"
+                                               ng-change="onlineExtensionsReportViewModel.allExtensionStatuses=false;onlineExtensionsReportViewModel.changeExtensionStatus()"/>&nbsp;&nbsp;Extended
+                                    </label>
+                                </div>
+                                <div>
+                                    <label ng-click="$event.stopPropagation()">
+                                        <input style="vertical-align: top" type="checkbox" ng-model="onlineExtensionsReportViewModel.extensionStatus['notExtended']"
+                                               ng-change="onlineExtensionsReportViewModel.allExtensionStatuses=false;onlineExtensionsReportViewModel.changeExtensionStatus()"/>&nbsp;&nbsp;Not Extended
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-group" ng-if="!onlineExtensionsReportViewModel.showSidebar">
+                            <button class="btn btn-base" ng-click="onlineExtensionsReportViewModel.toggleSidebar(true)" uib-tooltip="Show Side Panel" tooltip-placement="left">
+                                <i class="fa fa-plus-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table ma-fixed-table fixed-columns="3"
+                       table-height="500" fixed-right-columns="1"
+                       table-reload="onlineExtensionsReportViewModel.reload" table-scroll="onlineExtensionsReportViewModel.tableScroll" 
+                       auto-resize="false" class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th style="width: 80px; max-width: 80px" class="text-center">Extension</th>
+                        <th style="max-width: 300px; width: 300px">Entity/Element</th>
+                        <th style="width: 86px; max-width: 86px" class="text-center extension-total">Total</th>
+                        <th style="min-width: 86px" class="text-center"
+                            ng-style="{'background-color':  extension.Color.Header, 'color': 'white'}"
+                            ng-repeat="extension in onlineExtensionsReportViewModel.extensions  | filter: {'Selected': !onlineExtensionsReportViewModel.allExtensions }">
+                            {{extension.ShortName}}
+                        </th>
+                        <th class="extension-total" style="width: 24px; max-width: 24px; -moz-min-width: 24px; -ms-min-width: 24px; -o-min-width: 24px; -webkit-min-width: 24px; min-width: 24px"><i class="fa fa-table" style="color: #8c8c8c"></i></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="row in onlineExtensionsReportViewModel.filteredReport">
+                        <td class="text-center" style="width: 80px; max-width: 80px">{{row.ShortName ? row.ShortName : 'Core'}}</td>
+                        <td style="max-width: 300px; width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            <span uib-tooltip="{{row.ItemName}}" tooltip-placement="top-left" tooltip-append-to-body="true">
+                                <a ng-if="row.ItemTypeId < 4" ui-sref="app.data-standard.edit.extensions.report({parentId: '{{row.SystemItemId}}'})">{{row.ItemName}}</a>
+                                <span ng-if="row.ItemTypeId >= 4">{{row.ItemName}}</span>
+                            </span>
+                        </td>
+                        <td style="width: 86px; max-width: 86px" class="text-center extension-total" ng-click="onlineExtensionsReportViewModel.selectCell(null, row, $index)"
+                            ng-class="{'selected': (onlineExtensionsReportViewModel.selected.Index == $index && !onlineExtensionsReportViewModel.selected.Extension.ShortName)}">
+                            {{row.Total}}
+                        </td>
+                        <td ng-repeat="extension in onlineExtensionsReportViewModel.extensions | filter: {'Selected': !onlineExtensionsReportViewModel.allExtensions }"
+                            ng-click="onlineExtensionsReportViewModel.selectCell(extension, row, $parent.$index)"
+                            class="text-center"
+                            style="min-width: 86px"
+                            ng-class="{'clickable': row[extension.ShortName]}"
+                            ng-style="{'background-color': (onlineExtensionsReportViewModel.selected.Index == $parent.$index && onlineExtensionsReportViewModel.selected.Extension.ShortName == extension.ShortName) ? extension.Color.Selected : (onlineExtensionsReportViewModel.hoverIndex == (($parent.$index * onlineExtensionsReportViewModel.extensions.length) + $index) ? extension.Color.Hover : extension.Color.Cell),
+                               'color': (onlineExtensionsReportViewModel.selected.Index == $parent.$index && onlineExtensionsReportViewModel.selected.Extension.ShortName == extension.ShortName) ? 'white' : 'black'}"
+                            ng-mouseover="onlineExtensionsReportViewModel.hoverIndex = row[extension.ShortName] ? ($parent.$index * onlineExtensionsReportViewModel.extensions.length) + $index : null"
+                            ng-mouseleave="onlineExtensionsReportViewModel.hoverIndex = null">
+                            <div ng-style="{'visibility': row[extension.ShortName] ? '' : 'hidden'}">{{row[extension.ShortName]}}</div>
+                        </td>
+                        <td class="text-center extension-total" ng-click="onlineExtensionsReportViewModel.createTable(row, $index, true)" style="width: 24px; max-width: 24px; -moz-min-width: 24px; -ms-min-width: 24px; -o-min-width: 24px; -webkit-min-width: 24px; min-width: 24px"
+                            ng-class="{'selected': !onlineExtensionsReportViewModel.selected && onlineExtensionsReportViewModel.table.Index == $index }">
+                            <i class="fa fa-table"></i>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr style="font-weight: bold; border-top: 2px solid black">
+                        <th style="width: 80px; max-width: 80px" class="text-center"></th>
+                        <th style="max-width: 300px; width: 300px">Total</th>
+                        <td style="width: 86px; max-width: 86px" class="text-center extension-total"
+                            ng-click="onlineExtensionsReportViewModel.selectCell(null, onlineExtensionsReportViewModel.total, -1)"
+                            ng-class="{'selected': (onlineExtensionsReportViewModel.selected.Index == -1 && !onlineExtensionsReportViewModel.selected.Extension.ShortName)}">
+                            {{onlineExtensionsReportViewModel.total.Total}}
+                        </td>
+                        <td ng-click="onlineExtensionsReportViewModel.selectCell(extension, onlineExtensionsReportViewModel.total, -1)"
+                            class="text-center clickable"
+                            style="min-width: 86px"
+                            ng-style="{'background-color': (onlineExtensionsReportViewModel.selected.Index == -1 && onlineExtensionsReportViewModel.selected.Extension.ShortName == extension.ShortName) ? extension.Color.Selected : (onlineExtensionsReportViewModel.hoverIndex == ((-1 * onlineExtensionsReportViewModel.extensions.length) + $index) ? extension.Color.Hover : extension.Color.Cell),
+                                           'color': (onlineExtensionsReportViewModel.selected.Index == -1 && onlineExtensionsReportViewModel.selected.Extension.ShortName == extension.ShortName) ? 'white' : 'black' }"
+                            ng-mouseover="onlineExtensionsReportViewModel.hoverIndex = onlineExtensionsReportViewModel.total[extension.ShortName] ? (-1 * onlineExtensionsReportViewModel.extensions.length) + $index : null"
+                            ng-mouseleave="onlineExtensionsReportViewModel.hoverIndex = null"
+                            ng-repeat="extension in onlineExtensionsReportViewModel.extensions | filter: {'Selected': !onlineExtensionsReportViewModel.allExtensions }">
+                            {{onlineExtensionsReportViewModel.total[extension.ShortName]}}
+                        </td>
+                        <td class="text-center extension-total" style="width: 24px; max-width: 24px; -moz-min-width: 24px; -ms-min-width: 24px; -o-min-width: 24px; -webkit-min-width: 24px; min-width: 24px"
+                            ng-click="onlineExtensionsReportViewModel.createTable(onlineExtensionsReportViewModel.total, -1, true)"
+                            ng-class="{'selected': !onlineExtensionsReportViewModel.selected && onlineExtensionsReportViewModel.table.Index == -1 }">
+                            <i class="fa fa-table"></i>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div ng-show="onlineExtensionsReportViewModel.showSidebar" class="col-md-5" style="margin-left: -1px; border-left: 1px solid #ccc;">
+        <div ng-if="onlineExtensionsReportViewModel.selected">
+            <div class="form-inline" style="width: 100%; border-bottom: 1px solid #eee; padding-bottom: 0px; font-size: 13px">
+                <label>Extensions <span ng-if="onlineExtensionsReportViewModel.selected.ShortName">({{onlineExtensionsReportViewModel.selected.Extension.ShortName}})</span></label>
+                <span class="pull-right">
+                    <label>Search: </label>
+                    <input ng-change="onlineExtensionsReportViewModel.onSearch()" ng-model="onlineExtensionsReportViewModel.search" style="width: 300px; margin: 0px; height: 20px; padding: 5px;" type="text" class="form-control input-sm" />
+                    <button class="btn btn-base" style="padding-top: 0px; padding-bottom: 0px" ng-click="onlineExtensionsReportViewModel.toggleSidebar(false)" uib-tooltip="Hide Side Panel" tooltip-placement="left">
+                        <i class="fa fa-minus-circle"></i>
+                    </button>
+                </span>
+            </div>
+            <div class="row" style="margin-top: -10px">
+                <div class="col-md-12" ng-if="!onlineExtensionsReportViewModel.selected.Extension.ShortName" style="padding-bottom: 4px">
+                    <ul class="nav nav-tabs" style="font-size: 13px; margin-top: 5px">
+                        <li ng-class="{'active': onlineExtensionsReportViewModel.selected.Tab === extension.ShortName }"
+                            style="cursor: pointer"
+                            ng-repeat="extension in onlineExtensionsReportViewModel.extensions"
+                            ng-click="onlineExtensionsReportViewModel.selectTab(onlineExtensionsReportViewModel.selected.Row, extension)"
+                            ng-if="(extension.Selected || onlineExtensionsReportViewModel.allExtensions) && onlineExtensionsReportViewModel.selected.Row[extension.ShortName]">
+                            <a>{{extension.ShortName}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="extensions" class="col-md-12" style="position: relative; height: 500px">
+                    <div ng-repeat="detail in onlineExtensionsReportViewModel.extensionDetails | filter: {'DomainItemPath': onlineExtensionsReportViewModel.search }" style="overflow-x: hidden">
+                        <a ui-sref="app.element.detail({elementId: '{{detail.ElementId}}', dataStandardId: '{{onlineExtensionsReportViewModel.standard.DataStandardId}}' })"><b style="overflow-x: auto; font-size: 13px" ma-domain-item-path-wrap path="{{detail.DomainItemPath}}"></b></a><br/>
+                        <p style="font-size: 13px">{{detail.Definition}}</p>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <a class="btn btn-primary" href="{{onlineExtensionsReportViewModel.detailedListHref}}">View Detailed List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="!onlineExtensionsReportViewModel.selected">
+            <div class="form-inline" style="width: 100%; border-bottom: 1px solid #eee; padding-bottom: 0px; font-size: 13px">
+                <label>{{onlineExtensionsReportViewModel.table.Title}} Extensions Count Table</label>
+                <div class="pull-right">
+                    <button class="btn btn-base" style="padding-top: 0px; padding-bottom: 0px" ng-click="onlineExtensionsReportViewModel.toggleSidebar(false)" uib-tooltip="Hide Side Panel" tooltip-placement="left">
+                        <i class="fa fa-minus-circle"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <canvas id="bar" class="chart chart-bar"
+                            chart-colours="onlineExtensionsReportViewModel.table.Colors"
+                            chart-data="onlineExtensionsReportViewModel.table.Data"
+                            chart-labels="onlineExtensionsReportViewModel.table.Labels"
+                            chart-series="onlineExtensionsReportViewModel.table.Series"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

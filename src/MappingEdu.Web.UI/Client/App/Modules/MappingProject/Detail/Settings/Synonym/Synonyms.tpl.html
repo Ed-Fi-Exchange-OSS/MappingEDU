@@ -1,0 +1,74 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="modal-header bold">
+    Project Synonyms
+</div>
+<div class="modal-body">
+    <p>
+        Use Synonyms to create a thesaurus for your Mapping Project. For example, if
+        'Begin Date' in one Standard means the same thing as 'Start Date' in another Standard,
+        or if 'Student' in one Standard is the same concept as 'K12 Student' in another
+        Standard, you can create those Synonym entries here. Adding Synonyms helps to improve
+        suggestions offered by the Suggest tab in the Matchmaker.
+    </p>
+    <ul>
+        <li>To add a Synonym, add a term from the source Standard and an equivalent term from the target Standard.</li>
+        <li>Make sure to enter text exactly how in appears in the Standard definitions.</li>
+        <li>The Synonyms you enter only apply to this Project.</li>
+    </ul>
+    <br />
+    <table id="synonyms" class="table table-responsive table-hover" datatable="ng" dt-options="dtOptions"
+           dt-column-defs="dtColumnDefs">
+        <thead>
+            <tr>
+                <th>Source Word</th>
+                <th>Target Word</th>
+                <th style="width: 40px">Edit</th>
+                <th style="width: 50px">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="synonym in synonyms">
+                <td>{{synonym.SourceWord}}</td>
+                <td>{{synonym.TargetWord}}</td>
+                <td class="text-center">
+                    <button class="btn btn-edit"
+                            ng-click="synonymModal(synonym, $index)">
+                        <i class="fa"></i>
+                    </button>
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-delete"
+                            ma-confirm-action="delete(synonym, $index)">
+                        <i class="fa"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pull-right">
+        <button class="btn btn-add"
+                ng-click="synonymModal()">
+            <i class="fa"></i>
+            Add
+        </button>
+    </div>
+    <br/>
+</div>
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="bodyText pull-right">
+                <button class="btn btn-cancel" ng-click="cancel(active.tab)">
+                    <i class="fa"></i>
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

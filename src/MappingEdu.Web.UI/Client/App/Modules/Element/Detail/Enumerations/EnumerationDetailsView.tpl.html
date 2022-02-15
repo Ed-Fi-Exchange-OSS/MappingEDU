@@ -1,0 +1,46 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<br/>
+<div class="underline-header">Enumeration Items</div>
+<div id="enumerationDetails">
+    <table class="table table-hover" datatable="ng" dt-options="enumerationDetailsViewModel.dtOptions" dt-column-defs="enumerationDetailsViewModel.dtColumnDefs">
+        <thead>
+            <tr>
+                <th>Code Value</th>
+                <th>Short Description</th>
+                <th>Description</th>
+                <th style="width: 30px;">Edit</th>
+                <th style="width: 50px;">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in enumerationDetailsViewModel.enumerations">
+                <td ng-bind="item.CodeValue"></td>
+                <td ng-bind="item.ShortDescription"></td>
+                <td ng-bind="item.Description"></td>
+                <td class="text-center">
+                    <a class="btn btn-edit" ng-click="enumerationDetailsViewModel.edit(item)">
+                        <i class="fa"></i>
+                    </a>
+                </td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-delete" ma-confirm-action="enumerationDetailsViewModel.delete(item, $index)">
+                        <i class="fa"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row" ng-if="enumerationDetailsViewModel.dataStandardId">
+        <div class="col-md-12" ma-standard-access standard-id="enumerationDetailsViewModel.dataStandardId" access="Edit">
+            <a class="btn btn-add pull-right" ng-click="enumerationDetailsViewModel.add()">
+                <i class="fa"></i>Add
+            </a>
+        </div>
+    </div>
+</div>

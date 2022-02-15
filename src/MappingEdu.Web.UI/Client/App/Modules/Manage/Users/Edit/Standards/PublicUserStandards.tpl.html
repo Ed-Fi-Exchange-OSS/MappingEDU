@@ -1,0 +1,61 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row">
+    <div class="col-md-11" style="margin-top: 20px">
+    </div>
+</div>
+<form name="projectShareForm">
+    <div class="row">
+        <div class="col-md-10 form-group">
+            <ui-select ng-model="selected.standard"
+                       theme="bootstrap"
+                       name="standard"
+                       required>
+                <ui-select-match allow-clear="true" placeholder="Select a standard...">{{$select.selected.SystemName}} ({{$select.selected.SystemVersion}})</ui-select-match>
+                <ui-select-choices repeat="standard in userStandardsViewModel.standards | filter: {IsPublic: false} | filter:$select.search ">
+                    <div ng-bind-html="standard.SystemName | highlight: $select.search"></div>
+                    <small>Version: <span ng-bind-html="''+ standard.SystemVersion | highlight: $select.search"></span></small>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <button class="col-md-2 btn btn-public" ng-click="userStandardsViewModel.togglePublic(selected.standard)" ng-disabled="projectShareForm.$invalid" promise-btn><i class="fa"></i> Make Public</button>
+    </div>
+</form>
+<div clas="row">
+    <div class="col-md-10">
+        <div class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <p>Making this Data Standard public will provide:</p>
+            <ul>
+                <li>All users with access to view the entities, elements, and enumerations.</li>
+                <li>All users with access to export the Data Standard.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<table class="table table-hover" datatable="ng" dt-options="userStandardsViewModel.dtOptions" dt-instance="userStandardsViewModel.instance">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Version</th>
+            <th style="width: 50px">Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="standard in userStandardsViewModel.standards | filter:{IsPublic: true}">
+            <td><a ui-sref="app.data-standard.edit.groups({ dataStandardId: '{{ standard.Id }}' })" ng-bind="standard.SystemName"></a></td>
+            <td ng-bind="standard.SystemVersion"></td>
+            <td class="text-center">
+                <button type="button" class="btn btn-delete"
+                        ma-confirm-action="userStandardsViewModel.togglePublic(standard)">
+                    <i class="fa"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

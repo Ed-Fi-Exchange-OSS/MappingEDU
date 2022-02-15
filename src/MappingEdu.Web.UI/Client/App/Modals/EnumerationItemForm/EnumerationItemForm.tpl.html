@@ -1,0 +1,59 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="modal-header">
+    <span class="page-title">{{enumerationItem.SystemEnumerationItemId ? 'Edit' : 'Add'}} Enumeration </span>
+</div>
+<div class="modal-body">
+    <form name="form" novalidate>
+        <div class="row">
+            <div class="col-md-12 form-group" ma-show-errors>
+                <label>Code Value</label>
+                <input name="codeValue" type="text" value="" placeholder="Code" class="form-control"
+                       ng-model="enumerationItem.CodeValue"
+                       required ng-maxlength="1024" />
+                <div ng-messages="enumerationForm.codeValue.$error" class="help-block">
+                    <div ng-message="required">Code Value is required.</div>
+                    <div ng-message="maxlength">Code Value is too long.</div>
+                </div>
+            </div>
+            <div class="col-md-12 form-group" ma-show-errors>
+                <label>Short Description</label>
+                <input name="shortDescription" type="text" value="" placeholder="Short Description" class="form-control"
+                       ng-model="enumerationItem.ShortDescription"
+                       ng-maxlength="1024">
+                <div ng-messages="enumerationForm.shortDescription.$error" class="help-block">
+                    <div ng-message="maxlength">Short Description is too long.</div>
+                </div>
+            </div>
+            <div class="col-md-12 form-group" ma-show-errors>
+                <label>Description</label>
+                <input name="description" type="text" value="" placeholder="Description" class="form-control"
+                       ng-model="enumerationItem.Description"
+                       ng-maxlength="1024">
+                <div ng-messages="enumerationForm.description.$error" class="help-block">
+                    <div ng-message="maxlength">Description is too long.</div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <button type="button" class="btn btn-cancel"
+                        ng-click="cancel()">
+                    <i class="fa"></i>Cancel
+                </button>
+                <button type="submit" class="btn btn-save" ng-click="save(enumerationItem)" promise-btn>
+                    <i class="fa"></i>Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

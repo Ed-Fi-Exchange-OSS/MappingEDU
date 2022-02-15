@@ -1,0 +1,22 @@
+<package>
+    <metadata>
+        <id>MappingEdu.Web.UI</id>
+        <version>1.0.0.0</version>
+        <authors>Ed-Fi Alliance</authors>
+        <owners>Ed-Fi Alliance</owners>
+        <licenseUrl>https://github.com/Ed-Fi-Alliance/MappingEDU</licenseUrl>
+        <projectUrl>https://github.com/Ed-Fi-Alliance/MappingEDU</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>The MappingEDU Application Deployment Package</description>
+        <releaseNotes></releaseNotes>
+    </metadata>
+    <files>
+        <file src="bin\**\*.*" target="bin" />
+        <file src="Client\**\*.*" target="Client"/>
+        <file src="Favicon.ico" target="Favicon.ico" />
+        <file src="Views\**\*.*" target="Views"/>
+        <file src="Templates\**\*.*" target="Templates"/>
+        <file src="Web.config" target="Web.config" />
+        <file src="..\packages\EntityFramework.6.2.0\tools\migrate.exe" target="bin" />
+    </files>
+</package>

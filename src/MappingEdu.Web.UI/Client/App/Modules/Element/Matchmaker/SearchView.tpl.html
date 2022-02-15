@@ -1,0 +1,168 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<ul id="search-context-menu{{searchViewModel.random}}" class="dropdown-menu" role="menu" style="display: none">
+    <li><a href="" ng-click="searchViewModel.viewInBrowse()">View in Browse</a></li>
+    <li id="row-not-selected"><a href="" ng-click="searchViewModel.toggleSelect()">Select</a></li>
+    <li id="row-selected"><a href="" ng-click="searchViewModel.toggleSelect()">Deselect</a></li>
+</ul>
+
+<table id="matchmakerModalSearchTable{{searchViewModel.random}}" class="table table-responsive table-hover small">
+    <thead>
+        <tr>
+            <th class="small bold" colspan="4">
+                Click anywhere in the row to select an element. Click again to deselect.<br/>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div style="display: inline-block;" ng-if="!searchViewModel.showSelected">
+                    Element Groups
+                    <button data-toggle="collapse" data-target="#elementGroups{{searchViewModel.random}}" ng-init="showElementGroupFilter = false"
+                            ng-click="showElementGroupFilter = !showElementGroupFilter">
+                        <i class="fa fa-filter" ng-class="{'filtered' : !searchViewModel.allElementGroups}"></i>
+                    </button>
+                    <div id="elementGroups{{searchViewModel.random}}" class="collapse dropdiv">
+                        <label>
+                            <input type="checkbox" ng-model="searchViewModel.allElementGroups"
+                                   ng-change="searchViewModel.clearElementGroups()"
+                                   value=""/>
+                            All Element Groups
+                        </label>
+                        <div ng-repeat="elementGroup in elementGroups | filter: '!Unknown'">
+                            <label>
+                                <input ng-model="searchViewModel.selectedElementGroups[elementGroup.SystemItemId]" ng-change="searchViewModel.clearEntitiesByGroup();"
+                                       type="checkbox" value="{{elementGroup.SystemItemId}}"/>
+                                {{elementGroup.ItemName}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: inline-block;" ng-if="itemTypeId == 4 && !searchViewModel.showSelected">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Entities
+                    <button data-toggle="collapse" data-target="#entities" ng-init="showEntitiesFilter = false"
+                            ng-click="showEntitiesFilter = !showEntitiesFilter">
+                        <i class="fa fa-filter" ng-class="{'filtered' : !searchViewModel.allEntities}"></i>
+                    </button>
+                    <div id="entities" class="collapse dropdiv">
+                        <div class="input-group">
+                            <input style="width: 350px" type="text" ng-model="searchViewModel.entitySearchText" class="form-control" ng-change="searchViewModel.entitiesSearchLength()"/>
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div style="overflow-y: auto; max-height: 200px;">
+                            <div ng-repeat="entity in entities | filter: searchViewModel.entitySearch | limitTo: (searchViewModel.entitySearchText) ? entities.length : 0 | orderBy: 'ItemName'">
+                                <label>
+                                    <input ng-model="searchViewModel.selectedEntities[entity.SystemItemId]" ng-change="searchViewModel.redraw()"
+                                           type="checkbox" value="{{entity.SystemItemId}}"/>
+                                    {{entity.ItemName}}
+                                </label>
+                            </div>
+                        </div>
+                        <div ng-show="searchViewModel.entitySearchText">
+                            <span class="pull-right">
+                                Showing {{searchViewModel.entitiesSearchCount}}/{{(searchViewModel.entitiesLength) ? searchViewModel.entitiesLength : entities.length}}
+                            </span>
+                        </div>
+                        <hr ng-show="searchViewModel.entitySearchText"/>
+                        <label>
+                            <input type="checkbox" ng-model="searchViewModel.allEntities"
+                                   ng-change="searchViewModel.clearEntities()"
+                                   value=""/>
+                            All Entites
+                        </label>
+                        <div style="overflow-y: auto; max-height: 200px;">
+                            <div ng-repeat="(key, entity) in searchViewModel.selectedEntities" ng-show="entity">
+                                <label>
+                                    <input ng-model="searchViewModel.selectedEntities[key]" ng-change="searchViewModel.redraw()"
+                                           type="checkbox"/>
+                                    {{searchViewModel.displayEntity(key)}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            Selected {{searchViewModel.selectedEntitiesLength}}/{{(searchViewModel.entitiesLength) ? searchViewModel.entitiesLength : entities.length}}
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: inline-block" ng-if="searchViewModel.isExtended && !searchViewModel.showSelected">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Items
+                    <button data-toggle="collapse" data-target="#filterExtensions{{searchViewModel.random}}" c ng-init="showExtensionsFilter = false"
+                            ng-click="showExtensionsFilters = !showExtensionsFilter"
+                            ng-disabled="searchViewModel.loading">
+                        <i class="fa fa-filter" ng-class="{'filtered' : !searchViewModel.allItems}"></i>
+                    </button>
+                    <div id="filterExtensions{{searchViewModel.random}}" class="collapse dropdiv">
+                        <label>
+                            <input type="checkbox" ng-model="searchViewModel.allItems"
+                                   ng-change="searchViewModel.clearItems()"
+                                   value=""/>
+                            All
+                        </label>
+                        <div>
+                            <label>
+                                <input ng-model="searchViewModel.selectedItems['base']" ng-change="searchViewModel.redraw()"
+                                       type="checkbox"/>
+                                Base
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <input ng-model="searchViewModel.selectedItems['extended']" ng-change="searchViewModel.redraw()"
+                                       type="checkbox"/>
+                                Extended
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th ng-if="itemTypeId >= 4"></th>
+            <th ng-if="itemTypeId >= 4">
+                <label id="appliedMethodFilter" ng-if="!searchViewModel.showSelected">Data Types</label>
+                <button data-toggle="collapse" data-target="#dataTypes" ng-init="showDataTypeFilter = false"
+                        ng-click="showDataTypeFilter = !showDataTypeFilter" ng-if="!searchViewModel.showSelected">
+                    <i class="fa fa-filter" ng-class="{'filtered' : !searchViewModel.allDataTypes}"></i>
+                </button>
+                <div id="dataTypes" class="collapse dropdiv" style="width: 275px;">
+                    <div class="col-md-12">
+                        <label>
+                            <input type="checkbox" ng-model="searchViewModel.allDataTypes"
+                                   ng-change="searchViewModel.clearDataTypes()"
+                                   value="" />
+                            All Methods
+                        </label>
+                    </div>
+                    <div class="col-md-6" ng-repeat="enum in dataTypes | orderBy:'DisplayText'" ng-if="enum.Id">
+                        <label>
+                            <input ng-model="searchViewModel.selectedDataTypes[enum.Id]" ng-change="searchViewModel.redraw()"
+                                   type="checkbox" value="{{enum.Id}}" />
+                            {{enum.DisplayText}}
+                        </label>
+                    </div>
+                </div>
+            </th>
+            <th>
+                <div class="pull-right" ng-if="!onlyOne">
+                    <button class="btn btn-sm btn-base" ng-click="searchViewModel.toggleSelectedView()">
+                        <span ng-show="!searchViewModel.showSelected">View Selected</span>
+                        <span ng-show="searchViewModel.showSelected">View All</span>
+                    </button>
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th style="width: 60%">Matching Target Elements</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 20%" ng-if="itemTypeId >= 4">Data Type</th>
+            <th style="width: 10%" ng-if="itemTypeId >= 4">Length</th>
+        </tr>
+    </thead>
+</table>

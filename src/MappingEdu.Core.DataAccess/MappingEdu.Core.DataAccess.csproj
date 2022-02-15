@@ -1,0 +1,852 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5569070C-ECD5-45D2-AD41-C7F79D9D336A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MappingEdu.Core.DataAccess</RootNamespace>
+    <AssemblyName>MappingEdu.Core.DataAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TeamCityDebug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\TeamCityDebug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.0.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.0.1\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="CuttingEdge.Conditions, Version=1.2.0.11174, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\CuttingEdge.Conditions.1.2.0.0\lib\NET35\CuttingEdge.Conditions.dll</HintPath>
+    </Reference>
+    <Reference Include="EFCache, Version=1.0.0.0, Culture=neutral, PublicKeyToken=46c4868af4307d2c, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.Cache.1.0.0\lib\net45\EFCache.dll</HintPath>
+    </Reference>
+    <Reference Include="EFCache.Redis, Version=2015.10.11.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EFCache.Redis.2015.10.11.1\lib\net46\EFCache.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.14.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.14\lib\net45\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="StackExchange.Redis, Version=1.0.316.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.1.0.488\lib\net45\StackExchange.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataAccessHelper.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="Entities\Cache\CacheMode.cs" />
+    <Compile Include="Entities\Cache\CachePolicy.cs" />
+    <Compile Include="Entities\EntityConfiguration.cs" />
+    <Compile Include="Entities\Mappings\AutoMappingReasonTypeMapping.cs" />
+    <Compile Include="Entities\Mappings\MappingProjectQueueFilterMapping.cs" />
+    <Compile Include="Entities\Mappings\MappingProjectTemplateMapping.cs" />
+    <Compile Include="Entities\Mappings\MappedSystemExtensionMapping.cs" />
+    <Compile Include="Entities\Mappings\UserNotficationMapping.cs" />
+    <Compile Include="Entities\Mappings\MappingProjectSynonymMapping.cs" />
+    <Compile Include="Entities\Mappings\EntityHintMapping.cs" />
+    <Compile Include="Entities\Mappings\SystemConstantMapping.cs" />
+    <Compile Include="Entities\Mappings\SystemConstantTypeMapping.cs" />
+    <Compile Include="Entities\Tracker\EntityChangeTracker.cs" />
+    <Compile Include="Entities\Tracker\MappedSystemChangeTracker.cs" />
+    <Compile Include="Entities\Tracker\MappingProjectChangeTracker.cs" />
+    <Compile Include="Entities\EntityContext.cs" />
+    <Compile Include="DataAccessModule.cs" />
+    <Compile Include="Entities\Mappings\BuildVersionMapping.cs" />
+    <Compile Include="Entities\Mappings\CompleteStatusTypeMapping.cs" />
+    <Compile Include="Entities\Mappings\CustomDetailMetadataMapping.cs" />
+    <Compile Include="Entities\Mappings\CustomMigrationMapping.cs" />
+    <Compile Include="Entities\Mappings\EntityMappingBase.cs" />
+    <Compile Include="Entities\Mappings\EnumerationMappingStatusReasonTypeMapping.cs" />
+    <Compile Include="Entities\Mappings\LogMapping.cs" />
+    <Compile Include="Entities\Mappings\MapNoteMapping.cs" />
+    <Compile Include="Entities\Mappings\MappingProjectUpdateMapping.cs" />
+    <Compile Include="Entities\Mappings\MappedSystemUpdateMapping.cs" />
+    <Compile Include="Entities\Mappings\MappedSystemUserMapping.cs" />
+    <Compile Include="Entities\Mappings\MappingMethodTypeMapping.cs" />
+    <Compile Include="Entities\Mappings\MappingProjectMapping.cs" />
+    <Compile Include="Entities\Mappings\MappingProjectUserMapping.cs" />
+    <Compile Include="Entities\Mappings\MappingStatusTypeMapping.cs" />
+    <Compile Include="Entities\Mappings\MappingStatusReasonTypeMapping.cs" />
+    <Compile Include="Entities\Mappings\ItemChangeTypeMapping.cs" />
+    <Compile Include="Entities\Mappings\ItemDataTypeMapping.cs" />
+    <Compile Include="Entities\Mappings\ItemTypeMapping.cs" />
+    <Compile Include="Entities\Mappings\OrganizationMapping.cs" />
+    <Compile Include="Entities\Mappings\ProjectStatusTypeMapping.cs" />
+    <Compile Include="Entities\Mappings\SystemEnumerationItemMapMapping.cs" />
+    <Compile Include="Entities\Mappings\SystemEnumerationItemMapping.cs" />
+    <Compile Include="Entities\Mappings\SystemItemCustomDetailMapping.cs" />
+    <Compile Include="Entities\Mappings\Tables.cs" />
+    <Compile Include="Entities\Mappings\WorkflowStatusTypeMapping.cs" />
+    <Compile Include="Exceptions\MappingEduEntityValidationException.cs" />
+    <Compile Include="Exceptions\MappingEduUpdateException.cs" />
+    <Compile Include="Migrations\201412290501097_Base.cs" />
+    <Compile Include="Migrations\201412290501097_Base.Designer.cs">
+      <DependentUpon>201412290501097_Base.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412290502202_AddRolesAndUsers.cs" />
+    <Compile Include="Migrations\201412290502202_AddRolesAndUsers.Designer.cs">
+      <DependentUpon>201412290502202_AddRolesAndUsers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412301630330_ExcludeInExternalReports.cs" />
+    <Compile Include="Migrations\201412301630330_ExcludeInExternalReports.Designer.cs">
+      <DependentUpon>201412301630330_ExcludeInExternalReports.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201501061912171_FixSystemItemCustomDetail.cs" />
+    <Compile Include="Migrations\201501061912171_FixSystemItemCustomDetail.Designer.cs">
+      <DependentUpon>201501061912171_FixSystemItemCustomDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502031723050_RemoveCategoryFromEnumerationItem.cs" />
+    <Compile Include="Migrations\201502031723050_RemoveCategoryFromEnumerationItem.Designer.cs">
+      <DependentUpon>201502031723050_RemoveCategoryFromEnumerationItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502112201388_SystemEnumerationItemMap.cs" />
+    <Compile Include="Migrations\201502112201388_SystemEnumerationItemMap.Designer.cs">
+      <DependentUpon>201502112201388_SystemEnumerationItemMap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502122200047_CascadeEnumerationDeletion.cs" />
+    <Compile Include="Migrations\201502122200047_CascadeEnumerationDeletion.Designer.cs">
+      <DependentUpon>201502122200047_CascadeEnumerationDeletion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503122252461_IncreaseSizeOfSystemVersion.cs" />
+    <Compile Include="Migrations\201503122252461_IncreaseSizeOfSystemVersion.Designer.cs">
+      <DependentUpon>201503122252461_IncreaseSizeOfSystemVersion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507291330472_AddMappingProject.cs" />
+    <Compile Include="Migrations\201507291330472_AddMappingProject.Designer.cs">
+      <DependentUpon>201507291330472_AddMappingProject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508032350285_AddWorkflowStatusAndMappingMethod.cs" />
+    <Compile Include="Migrations\201508032350285_AddWorkflowStatusAndMappingMethod.Designer.cs">
+      <DependentUpon>201508032350285_AddWorkflowStatusAndMappingMethod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508040015235_PopulateSystemItemMapWorkflowStatusAndMappingMethod.cs" />
+    <Compile Include="Migrations\201508040015235_PopulateSystemItemMapWorkflowStatusAndMappingMethod.Designer.cs">
+      <DependentUpon>201508040015235_PopulateSystemItemMapWorkflowStatusAndMappingMethod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508050050323_ConvertScript.cs" />
+    <Compile Include="Migrations\201508050050323_ConvertScript.Designer.cs">
+      <DependentUpon>201508050050323_ConvertScript.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508050100340_AddElementGroupRelationship.cs" />
+    <Compile Include="Migrations\201508050100340_AddElementGroupRelationship.Designer.cs">
+      <DependentUpon>201508050100340_AddElementGroupRelationship.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508181603440_AddFlaggedToSystemItemMap.cs" />
+    <Compile Include="Migrations\201508181603440_AddFlaggedToSystemItemMap.Designer.cs">
+      <DependentUpon>201508181603440_AddFlaggedToSystemItemMap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508281548019_SystemItemMapFieldsNotNullable.cs" />
+    <Compile Include="Migrations\201508281548019_SystemItemMapFieldsNotNullable.Designer.cs">
+      <DependentUpon>201508281548019_SystemItemMapFieldsNotNullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508281642061_AddStatusNoteToSystemItemMap.cs" />
+    <Compile Include="Migrations\201508281642061_AddStatusNoteToSystemItemMap.Designer.cs">
+      <DependentUpon>201508281642061_AddStatusNoteToSystemItemMap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511251538142_AddLogTable.cs" />
+    <Compile Include="Migrations\201511251538142_AddLogTable.Designer.cs">
+      <DependentUpon>201511251538142_AddLogTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512111702017_CloneProjectMapNoteAndProjectNameChanges.cs" />
+    <Compile Include="Migrations\201512111702017_CloneProjectMapNoteAndProjectNameChanges.Designer.cs">
+      <DependentUpon>201512111702017_CloneProjectMapNoteAndProjectNameChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602082219308_SystemConstants.cs" />
+    <Compile Include="Migrations\201602082219308_SystemConstants.Designer.cs">
+      <DependentUpon>201602082219308_SystemConstants.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602171803457_UserUpdate.cs" />
+    <Compile Include="Migrations\201602171803457_UserUpdate.Designer.cs">
+      <DependentUpon>201602171803457_UserUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603102147395_MatchmakerOptimization.cs" />
+    <Compile Include="Migrations\201603102147395_MatchmakerOptimization.Designer.cs">
+      <DependentUpon>201603102147395_MatchmakerOptimization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603172011553_RemoveMarkForInclusion.cs" />
+    <Compile Include="Migrations\201603172011553_RemoveMarkForInclusion.Designer.cs">
+      <DependentUpon>201603172011553_RemoveMarkForInclusion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603281936496_SystemItemMapOptimization.cs" />
+    <Compile Include="Migrations\201603281936496_SystemItemMapOptimization.Designer.cs">
+      <DependentUpon>201603281936496_SystemItemMapOptimization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603301928319_AutoMappingReasonTypes.cs" />
+    <Compile Include="Migrations\201603301928319_AutoMappingReasonTypes.Designer.cs">
+      <DependentUpon>201603301928319_AutoMappingReasonTypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604041912368_ClonedFrom.cs" />
+    <Compile Include="Migrations\201604041912368_ClonedFrom.Designer.cs">
+      <DependentUpon>201604041912368_ClonedFrom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604072301587_SystemItemMapOptimizationUpdate.cs" />
+    <Compile Include="Migrations\201604072301587_SystemItemMapOptimizationUpdate.Designer.cs">
+      <DependentUpon>201604072301587_SystemItemMapOptimizationUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604112150079_MappingProjectReport.cs" />
+    <Compile Include="Migrations\201604112150079_MappingProjectReport.Designer.cs">
+      <DependentUpon>201604112150079_MappingProjectReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604131610307_ElementDashboardProcedures.cs" />
+    <Compile Include="Migrations\201604131610307_ElementDashboardProcedures.Designer.cs">
+      <DependentUpon>201604131610307_ElementDashboardProcedures.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604142011405_MappingReviewQueueSQLProcedure.cs" />
+    <Compile Include="Migrations\201604142011405_MappingReviewQueueSQLProcedure.Designer.cs">
+      <DependentUpon>201604142011405_MappingReviewQueueSQLProcedure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604160022445_ExportAndPerformanceProcedures.cs" />
+    <Compile Include="Migrations\201604160022445_ExportAndPerformanceProcedures.Designer.cs">
+      <DependentUpon>201604160022445_ExportAndPerformanceProcedures.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604201926404_ElementListProcedures.cs" />
+    <Compile Include="Migrations\201604201926404_ElementListProcedures.Designer.cs">
+      <DependentUpon>201604201926404_ElementListProcedures.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604212026042_ExportPerformance2.cs" />
+    <Compile Include="Migrations\201604212026042_ExportPerformance2.Designer.cs">
+      <DependentUpon>201604212026042_ExportPerformance2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604251901449_UniqueMappingPerMappingProject.cs" />
+    <Compile Include="Migrations\201604251901449_UniqueMappingPerMappingProject.Designer.cs">
+      <DependentUpon>201604251901449_UniqueMappingPerMappingProject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605021738047_AddItemTypeToQueue.cs" />
+    <Compile Include="Migrations\201605021738047_AddItemTypeToQueue.Designer.cs">
+      <DependentUpon>201605021738047_AddItemTypeToQueue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605041455103_UniqueMappingProjectNameWhenActive.cs" />
+    <Compile Include="Migrations\201605041455103_UniqueMappingProjectNameWhenActive.Designer.cs">
+      <DependentUpon>201605041455103_UniqueMappingProjectNameWhenActive.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605122142022_MappedEnumerationPercentage.cs" />
+    <Compile Include="Migrations\201605122142022_MappedEnumerationPercentage.Designer.cs">
+      <DependentUpon>201605122142022_MappedEnumerationPercentage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605161531497_MappingProjectSummary.cs" />
+    <Compile Include="Migrations\201605161531497_MappingProjectSummary.Designer.cs">
+      <DependentUpon>201605161531497_MappingProjectSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605181807451_ComplexSystemConstants.cs" />
+    <Compile Include="Migrations\201605181807451_ComplexSystemConstants.Designer.cs">
+      <DependentUpon>201605181807451_ComplexSystemConstants.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605191815184_UpdateReportEnumerations.cs" />
+    <Compile Include="Migrations\201605191815184_UpdateReportEnumerations.Designer.cs">
+      <DependentUpon>201605191815184_UpdateReportEnumerations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605201632149_Public.cs" />
+    <Compile Include="Migrations\201605201632149_Public.Designer.cs">
+      <DependentUpon>201605201632149_Public.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605251732333_TargetReport.cs" />
+    <Compile Include="Migrations\201605251732333_TargetReport.Designer.cs">
+      <DependentUpon>201605251732333_TargetReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605262245093_DashboardProcedureUpdate.cs" />
+    <Compile Include="Migrations\201605262245093_DashboardProcedureUpdate.Designer.cs">
+      <DependentUpon>201605262245093_DashboardProcedureUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605312141211_InfoToDebug.cs" />
+    <Compile Include="Migrations\201605312141211_InfoToDebug.Designer.cs">
+      <DependentUpon>201605312141211_InfoToDebug.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606101741016_ImprovedHinting.cs" />
+    <Compile Include="Migrations\201606101741016_ImprovedHinting.Designer.cs">
+      <DependentUpon>201606101741016_ImprovedHinting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606131544327_UserIsActive.cs" />
+    <Compile Include="Migrations\201606131544327_UserIsActive.Designer.cs">
+      <DependentUpon>201606131544327_UserIsActive.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606141747495_removeSemiColon.cs" />
+    <Compile Include="Migrations\201606141747495_removeSemiColon.Designer.cs">
+      <DependentUpon>201606141747495_removeSemiColon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606281831209_IsExtended.cs" />
+    <Compile Include="Migrations\201606281831209_IsExtended.Designer.cs">
+      <DependentUpon>201606281831209_IsExtended.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607062013412_UpdateMappingSummary.cs" />
+    <Compile Include="Migrations\201607062013412_UpdateMappingSummary.Designer.cs">
+      <DependentUpon>201607062013412_UpdateMappingSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607082000116_UpdateMappingReport.cs" />
+    <Compile Include="Migrations\201607082000116_UpdateMappingReport.Designer.cs">
+      <DependentUpon>201607082000116_UpdateMappingReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607191927262_MappingQueueFilters.cs" />
+    <Compile Include="Migrations\201607191927262_MappingQueueFilters.Designer.cs">
+      <DependentUpon>201607191927262_MappingQueueFilters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608101930072_UserNotifications.cs" />
+    <Compile Include="Migrations\201608101930072_UserNotifications.Designer.cs">
+      <DependentUpon>201608101930072_UserNotifications.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608291527156_IsExtendedSystemItemSearch.cs" />
+    <Compile Include="Migrations\201608291527156_IsExtendedSystemItemSearch.Designer.cs">
+      <DependentUpon>201608291527156_IsExtendedSystemItemSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609091740033_ExpandItemName.cs" />
+    <Compile Include="Migrations\201609091740033_ExpandItemName.Designer.cs">
+      <DependentUpon>201609091740033_ExpandItemName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609121702020_IsExtendedUpdated.cs" />
+    <Compile Include="Migrations\201609121702020_IsExtendedUpdated.Designer.cs">
+      <DependentUpon>201609121702020_IsExtendedUpdated.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609141902029_UpdateMappingSummary2.cs" />
+    <Compile Include="Migrations\201609141902029_UpdateMappingSummary2.Designer.cs">
+      <DependentUpon>201609141902029_UpdateMappingSummary2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609262228317_MappingProjectTemplate.cs" />
+    <Compile Include="Migrations\201609262228317_MappingProjectTemplate.Designer.cs">
+      <DependentUpon>201609262228317_MappingProjectTemplate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610061712491_ReviewQueueUnflagged.cs" />
+    <Compile Include="Migrations\201610061712491_ReviewQueueUnflagged.Designer.cs">
+      <DependentUpon>201610061712491_ReviewQueueUnflagged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610111902530_MappingProjectQueueFilter.cs" />
+    <Compile Include="Migrations\201610111902530_MappingProjectQueueFilter.Designer.cs">
+      <DependentUpon>201610111902530_MappingProjectQueueFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610131645552_DashboardFilters.cs" />
+    <Compile Include="Migrations\201610131645552_DashboardFilters.Designer.cs">
+      <DependentUpon>201610131645552_DashboardFilters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610191439550_PerformanceImprovements.cs" />
+    <Compile Include="Migrations\201610191439550_PerformanceImprovements.Designer.cs">
+      <DependentUpon>201610191439550_PerformanceImprovements.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610281758392_PerformanceImprovements2.cs" />
+    <Compile Include="Migrations\201610281758392_PerformanceImprovements2.Designer.cs">
+      <DependentUpon>201610281758392_PerformanceImprovements2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611111917580_MappedSystemExtensions.cs" />
+    <Compile Include="Migrations\201611111917580_MappedSystemExtensions.Designer.cs">
+      <DependentUpon>201611111917580_MappedSystemExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703141640305_PublicExtensions.cs" />
+    <Compile Include="Migrations\201703141640305_PublicExtensions.Designer.cs">
+      <DependentUpon>201703141640305_PublicExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709131827340_SystemConstantType.cs" />
+    <Compile Include="Migrations\201709131827340_SystemConstantType.Designer.cs">
+      <DependentUpon>201709131827340_SystemConstantType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801171755391_CustomDetailPivotFix.cs" />
+    <Compile Include="Migrations\201801171755391_CustomDetailPivotFix.Designer.cs">
+      <DependentUpon>201801171755391_CustomDetailPivotFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801181707372_MappingProjectAttachments.cs" />
+    <Compile Include="Migrations\201801181707372_MappingProjectAttachments.Designer.cs">
+      <DependentUpon>201801181707372_MappingProjectAttachments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802091923248_SystemConstantGroupAndPrivate.cs" />
+    <Compile Include="Migrations\201802091923248_SystemConstantGroupAndPrivate.Designer.cs">
+      <DependentUpon>201802091923248_SystemConstantGroupAndPrivate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805251835087_IncludeEnumerationElementsInMappingReport.cs" />
+    <Compile Include="Migrations\201805251835087_IncludeEnumerationElementsInMappingReport.Designer.cs">
+      <DependentUpon>201805251835087_IncludeEnumerationElementsInMappingReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003181400295_IX_SystemItemMap_MappingProjectId.cs" />
+    <Compile Include="Migrations\202003181400295_IX_SystemItemMap_MappingProjectId.Designer.cs">
+      <DependentUpon>202003181400295_IX_SystemItemMap_MappingProjectId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104271752045_IncludeAllItemTypesInReportMappingList.cs" />
+    <Compile Include="Migrations\202104271752045_IncludeAllItemTypesInReportMappingList.Designer.cs">
+      <DependentUpon>202104271752045_IncludeAllItemTypesInReportMappingList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202202141820407_RemoveProjectAttachments.cs" />
+    <Compile Include="Migrations\202202141820407_RemoveProjectAttachments.designer.cs">
+      <DependentUpon>202202141820407_RemoveProjectAttachments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\Seed\AddOrUpdateAllDatabaseEnumerations.cs" />
+    <Compile Include="Entities\Mappings\MappedSystemMapping.cs" />
+    <Compile Include="Entities\Mappings\NoteMapping.cs" />
+    <Compile Include="Entities\Mappings\SystemItemMapMapping.cs" />
+    <Compile Include="Entities\Mappings\SystemItemMapping.cs" />
+    <Compile Include="Entities\Mappings\SystemItemVersionDeltaMapping.cs" />
+    <Compile Include="Migrations\Seed\MigrationExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\VersionInfo.cs" />
+    <Compile Include="Repositories\EnumerationRepository.cs" />
+    <Compile Include="Repositories\ExecuteBooleanScalar.cs" />
+    <Compile Include="Repositories\MappedSystemRepository.cs" />
+    <Compile Include="Repositories\DataStandardExportRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Repositories\MappingProjectRepository.cs" />
+    <Compile Include="Repositories\LoggingRepository.cs" />
+    <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="Repositories\MappingProjectReportRepository.cs" />
+    <Compile Include="Repositories\SystemItemMapRepository.cs" />
+    <Compile Include="Repositories\SystemItemRepository.cs" />
+    <Compile Include="Services\BuildVersionMigrator.cs" />
+    <Compile Include="Services\DatabaseConnection.cs" />
+    <Compile Include="Services\DatabaseMigrator.cs" />
+    <Compile Include="Services\EnumerationEntityCreator.cs" />
+    <Compile Include="Services\FindEntity.cs" />
+    <Compile Include="Services\Validation\CustomDetailMetadataValidateEntity.cs" />
+    <Compile Include="Services\Validation\MapNoteValidateEntity.cs" />
+    <Compile Include="Services\Validation\MappedSystemValidateEntity.cs" />
+    <Compile Include="Services\Validation\NoteValidateEntity.cs" />
+    <Compile Include="Services\Validation\SystemEnumerationItemValidateEntity.cs" />
+    <Compile Include="Services\Validation\SystemItemMapValidateEntity.cs" />
+    <Compile Include="Services\Validation\SystemItemValidateEntity.cs" />
+    <Compile Include="Services\Validation\IValidateEntity.cs" />
+    <Compile Include="Services\Validation\SystemItemVersionDeltaValidateEntity.cs" />
+    <Compile Include="Services\Validation\ValidateEntity.cs" />
+    <Compile Include="Util\MappingExtensions.cs" />
+    <Compile Include="Util\PagedResult.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MappingEdu.Common\MappingEdu.Common.csproj">
+      <Project>{956c2fb1-df12-4b5f-b39d-f30292ad8a43}</Project>
+      <Name>MappingEdu.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MappingEdu.Core.Domain\MappingEdu.Core.Domain.csproj">
+      <Project>{d1838d22-6c0d-4368-a662-51c925953c57}</Project>
+      <Name>MappingEdu.Core.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MappingEdu.Core\MappingEdu.Core.csproj">
+      <Project>{b992ff21-c54d-42f1-a923-a947b949ddd8}</Project>
+      <Name>MappingEdu.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MappingEdu.Service.Model\MappingEdu.Service.Model.csproj">
+      <Project>{4CF79BEE-37A7-45CC-ABC0-40D7215DFB5B}</Project>
+      <Name>MappingEdu.Service.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201412290501097_Base.resx">
+      <DependentUpon>201412290501097_Base.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412290502202_AddRolesAndUsers.resx">
+      <DependentUpon>201412290502202_AddRolesAndUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412301630330_ExcludeInExternalReports.resx">
+      <DependentUpon>201412301630330_ExcludeInExternalReports.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201501061912171_FixSystemItemCustomDetail.resx">
+      <DependentUpon>201501061912171_FixSystemItemCustomDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502031723050_RemoveCategoryFromEnumerationItem.resx">
+      <DependentUpon>201502031723050_RemoveCategoryFromEnumerationItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502112201388_SystemEnumerationItemMap.resx">
+      <DependentUpon>201502112201388_SystemEnumerationItemMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502122200047_CascadeEnumerationDeletion.resx">
+      <DependentUpon>201502122200047_CascadeEnumerationDeletion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503122252461_IncreaseSizeOfSystemVersion.resx">
+      <DependentUpon>201503122252461_IncreaseSizeOfSystemVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507291330472_AddMappingProject.resx">
+      <DependentUpon>201507291330472_AddMappingProject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508032350285_AddWorkflowStatusAndMappingMethod.resx">
+      <DependentUpon>201508032350285_AddWorkflowStatusAndMappingMethod.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508040015235_PopulateSystemItemMapWorkflowStatusAndMappingMethod.resx">
+      <DependentUpon>201508040015235_PopulateSystemItemMapWorkflowStatusAndMappingMethod.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508050050323_ConvertScript.resx">
+      <DependentUpon>201508050050323_ConvertScript.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508050100340_AddElementGroupRelationship.resx">
+      <DependentUpon>201508050100340_AddElementGroupRelationship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508181603440_AddFlaggedToSystemItemMap.resx">
+      <DependentUpon>201508181603440_AddFlaggedToSystemItemMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508281548019_SystemItemMapFieldsNotNullable.resx">
+      <DependentUpon>201508281548019_SystemItemMapFieldsNotNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508281642061_AddStatusNoteToSystemItemMap.resx">
+      <DependentUpon>201508281642061_AddStatusNoteToSystemItemMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511251538142_AddLogTable.resx">
+      <DependentUpon>201511251538142_AddLogTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512111702017_CloneProjectMapNoteAndProjectNameChanges.resx">
+      <DependentUpon>201512111702017_CloneProjectMapNoteAndProjectNameChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602082219308_SystemConstants.resx">
+      <DependentUpon>201602082219308_SystemConstants.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602171803457_UserUpdate.resx">
+      <DependentUpon>201602171803457_UserUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603102147395_MatchmakerOptimization.resx">
+      <DependentUpon>201603102147395_MatchmakerOptimization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603172011553_RemoveMarkForInclusion.resx">
+      <DependentUpon>201603172011553_RemoveMarkForInclusion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603281936496_SystemItemMapOptimization.resx">
+      <DependentUpon>201603281936496_SystemItemMapOptimization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603301928319_AutoMappingReasonTypes.resx">
+      <DependentUpon>201603301928319_AutoMappingReasonTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604041912368_ClonedFrom.resx">
+      <DependentUpon>201604041912368_ClonedFrom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604072301587_SystemItemMapOptimizationUpdate.resx">
+      <DependentUpon>201604072301587_SystemItemMapOptimizationUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604112150079_MappingProjectReport.resx">
+      <DependentUpon>201604112150079_MappingProjectReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604131610307_ElementDashboardProcedures.resx">
+      <DependentUpon>201604131610307_ElementDashboardProcedures.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604142011405_MappingReviewQueueSQLProcedure.resx">
+      <DependentUpon>201604142011405_MappingReviewQueueSQLProcedure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604160022445_ExportAndPerformanceProcedures.resx">
+      <DependentUpon>201604160022445_ExportAndPerformanceProcedures.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604201926404_ElementListProcedures.resx">
+      <DependentUpon>201604201926404_ElementListProcedures.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604212026042_ExportPerformance2.resx">
+      <DependentUpon>201604212026042_ExportPerformance2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604251901449_UniqueMappingPerMappingProject.resx">
+      <DependentUpon>201604251901449_UniqueMappingPerMappingProject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605021738047_AddItemTypeToQueue.resx">
+      <DependentUpon>201605021738047_AddItemTypeToQueue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605041455103_UniqueMappingProjectNameWhenActive.resx">
+      <DependentUpon>201605041455103_UniqueMappingProjectNameWhenActive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605122142022_MappedEnumerationPercentage.resx">
+      <DependentUpon>201605122142022_MappedEnumerationPercentage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605161531497_MappingProjectSummary.resx">
+      <DependentUpon>201605161531497_MappingProjectSummary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605181807451_ComplexSystemConstants.resx">
+      <DependentUpon>201605181807451_ComplexSystemConstants.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605191815184_UpdateReportEnumerations.resx">
+      <DependentUpon>201605191815184_UpdateReportEnumerations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605201632149_Public.resx">
+      <DependentUpon>201605201632149_Public.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605251732333_TargetReport.resx">
+      <DependentUpon>201605251732333_TargetReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605262245093_DashboardProcedureUpdate.resx">
+      <DependentUpon>201605262245093_DashboardProcedureUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605312141211_InfoToDebug.resx">
+      <DependentUpon>201605312141211_InfoToDebug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606101741016_ImprovedHinting.resx">
+      <DependentUpon>201606101741016_ImprovedHinting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606131544327_UserIsActive.resx">
+      <DependentUpon>201606131544327_UserIsActive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606141747495_removeSemiColon.resx">
+      <DependentUpon>201606141747495_removeSemiColon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606281831209_IsExtended.resx">
+      <DependentUpon>201606281831209_IsExtended.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607062013412_UpdateMappingSummary.resx">
+      <DependentUpon>201607062013412_UpdateMappingSummary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607082000116_UpdateMappingReport.resx">
+      <DependentUpon>201607082000116_UpdateMappingReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607191927262_MappingQueueFilters.resx">
+      <DependentUpon>201607191927262_MappingQueueFilters.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608101930072_UserNotifications.resx">
+      <DependentUpon>201608101930072_UserNotifications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608291527156_IsExtendedSystemItemSearch.resx">
+      <DependentUpon>201608291527156_IsExtendedSystemItemSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609091740033_ExpandItemName.resx">
+      <DependentUpon>201609091740033_ExpandItemName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609121702020_IsExtendedUpdated.resx">
+      <DependentUpon>201609121702020_IsExtendedUpdated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609141902029_UpdateMappingSummary2.resx">
+      <DependentUpon>201609141902029_UpdateMappingSummary2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609262228317_MappingProjectTemplate.resx">
+      <DependentUpon>201609262228317_MappingProjectTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610061712491_ReviewQueueUnflagged.resx">
+      <DependentUpon>201610061712491_ReviewQueueUnflagged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610111902530_MappingProjectQueueFilter.resx">
+      <DependentUpon>201610111902530_MappingProjectQueueFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610131645552_DashboardFilters.resx">
+      <DependentUpon>201610131645552_DashboardFilters.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610191439550_PerformanceImprovements.resx">
+      <DependentUpon>201610191439550_PerformanceImprovements.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610281758392_PerformanceImprovements2.resx">
+      <DependentUpon>201610281758392_PerformanceImprovements2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611111917580_MappedSystemExtensions.resx">
+      <DependentUpon>201611111917580_MappedSystemExtensions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703141640305_PublicExtensions.resx">
+      <DependentUpon>201703141640305_PublicExtensions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709131827340_SystemConstantType.resx">
+      <DependentUpon>201709131827340_SystemConstantType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801171755391_CustomDetailPivotFix.resx">
+      <DependentUpon>201801171755391_CustomDetailPivotFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801181707372_MappingProjectAttachments.resx">
+      <DependentUpon>201801181707372_MappingProjectAttachments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802091923248_SystemConstantGroupAndPrivate.resx">
+      <DependentUpon>201802091923248_SystemConstantGroupAndPrivate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805251835087_IncludeEnumerationElementsInMappingReport.resx">
+      <DependentUpon>201805251835087_IncludeEnumerationElementsInMappingReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003181400295_IX_SystemItemMap_MappingProjectId.resx">
+      <DependentUpon>202003181400295_IX_SystemItemMap_MappingProjectId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104271752045_IncludeAllItemTypesInReportMappingList.resx">
+      <DependentUpon>202104271752045_IncludeAllItemTypesInReportMappingList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202141820407_RemoveProjectAttachments.resx">
+      <DependentUpon>202202141820407_RemoveProjectAttachments.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Migrations\SqlTypes\IntId\Create.sql" />
+    <Content Include="Migrations\SqlTypes\IntId\Drop.sql" />
+    <Content Include="Migrations\SqlTypes\UniqueIdentifierId\Create.sql" />
+    <Content Include="Migrations\SqlTypes\UniqueIdentifierId\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\DataStandardExportEnumerationItems\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\DataStandardExportEnumerationItems\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\DataStandardExportEnumerationItems\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\DataStandardExportEnumerationItems\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\DataStandardExportSystemItems\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\DataStandardExportSystemItems\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\DataStandardExportSystemItems\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\DataStandardExportSystemItems\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\ExtensionReport\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\ExtensionReport\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\GetDashboardQueueFilters\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\GetDashboardQueueFilters\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\GetDashboardQueueFilters\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\GetDashboardQueueFilters\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\GetDashboard\Alter3.sql" />
+    <Content Include="Migrations\StoredProcedures\GetDashboard\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\GetDashboard\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\GetDashboard\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\GetDashboard\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\GetElementListForDeltaPage\Alter4.sql" />
+    <Content Include="Migrations\StoredProcedures\GetElementListForDeltaPage\Alter3.sql" />
+    <Content Include="Migrations\StoredProcedures\GetElementListForDeltaPage\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\GetElementListForDeltaPage\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\GetElementListForDeltaPage\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\GetElementListForDeltaPage\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\GetElementListPage\Alter7.sql" />
+    <Content Include="Migrations\StoredProcedures\GetElementListPage\Alter6.sql" />
+    <Content Include="Migrations\StoredProcedures\GetElementListPage\Alter5.sql" />
+    <Content Include="Migrations\StoredProcedures\GetElementListPage\Alter4.sql" />
+    <Content Include="Migrations\StoredProcedures\GetElementListPage\Alter3.sql" />
+    <Content Include="Migrations\StoredProcedures\GetElementListPage\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\GetElementListPage\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\GetElementListPage\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\GetDashboardElementGroups\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\GetDashboardElementGroups\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\GetElementListPage\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectItemMaps\Alter3.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectItemMaps\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectItemMaps\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectItemMaps\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectItemMaps\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectReportEnumerationItemMaps\Alter3.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectReportEnumerationItemMaps\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectReportEnumerationItemMaps\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectReportEnumerationItemMaps\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectReportEnumerationItemMaps\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectReportEnumerationItems\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectReportEnumerationItems\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectReportEnumerationItems\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectSummaryDetail\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectSummaryDetail\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectSummaryDetail\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectSummaryDetail\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectSummary\Alter4.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectSummary\Alter3.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectSummary\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectSummary\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectSummary\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMappingProjectSummary\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMatchmakerSearchPage\Alter4.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMatchmakerSearchPage\Alter3.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMatchmakerSearchPage\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMatchmakerSearchPage\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMatchmakerSearchPage\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\GetMatchmakerSearchPage\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\GetReviewQueuePage\Alter13.sql" />
+    <Content Include="Migrations\StoredProcedures\GetReviewQueuePage\Alter12.sql" />
+    <Content Include="Migrations\StoredProcedures\GetReviewQueuePage\Alter11.sql" />
+    <Content Include="Migrations\StoredProcedures\GetReviewQueuePage\Alter10.sql" />
+    <Content Include="Migrations\StoredProcedures\GetReviewQueuePage\Alter9.sql" />
+    <Content Include="Migrations\StoredProcedures\GetReviewQueuePage\Alter8.sql" />
+    <Content Include="Migrations\StoredProcedures\GetReviewQueuePage\Alter7.sql" />
+    <Content Include="Migrations\StoredProcedures\GetReviewQueuePage\Alter6.sql" />
+    <Content Include="Migrations\StoredProcedures\GetReviewQueuePage\Alter5.sql" />
+    <Content Include="Migrations\StoredProcedures\GetReviewQueuePage\Alter4.sql" />
+    <Content Include="Migrations\StoredProcedures\GetReviewQueuePage\Alter3.sql" />
+    <Content Include="Migrations\StoredProcedures\GetReviewQueuePage\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\GetReviewQueuePage\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\GetUnmappedAndIncompleteByMappingProjectAndDomain\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\GetUnmappedAndIncompleteByMappingProjectAndDomain\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\GetUnmappedAndIncompleteByMappingProjectAndDomain\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\GetReviewQueuePage\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\GetReviewQueuePage\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportElementList\Alter3.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportElementList\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportElementList\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportElementList\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportElementList\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportEnumerationItems\Alter3.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportEnumerationItems\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportEnumerationItems\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportEnumerationItems\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportEnumerationItems\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportSourceElementMappings\Alter5.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportSourceElementMappings\Alter4.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportSourceElementMappings\Alter3.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportSourceElementMappings\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportSourceElementMappings\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportSourceElementMappings\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportSourceElementMappings\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportSourceEnumerationItemMappings\Alter3.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportSourceEnumerationItemMappings\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportSourceEnumerationItemMappings\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportSourceEnumerationItemMappings\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportSourceEnumerationItemMappings\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportTargetElementMappings\Alter3.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportTargetElementMappings\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportTargetElementMappings\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportTargetElementMappings\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportTargetElementMappings\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportTargetEnumerationItemMappings\Alter3.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportTargetEnumerationItemMappings\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportTargetEnumerationItemMappings\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportTargetEnumerationItemMappings\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\MappingProjectReportTargetEnumerationItemMappings\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\SystemItemSearch\Alter3.sql" />
+    <Content Include="Migrations\StoredProcedures\SystemItemSearch\Alter2.sql" />
+    <Content Include="Migrations\StoredProcedures\SystemItemSearch\Alter1.sql" />
+    <Content Include="Migrations\StoredProcedures\SystemItemSearch\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\SystemItemSearch\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\UpdateAllPaths\Create.sql" />
+    <Content Include="Migrations\StoredProcedures\UpdateAllPaths\Drop.sql" />
+    <Content Include="Migrations\StoredProcedures\UpdatePaths\Create.sql" />
+    <EmbeddedResource Include="Migrations\StoredProcedures\UpdatePaths\Drop.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)Migrations\StoredProcedures\*" "$(SolutionDir)MappingEdu.Web.UI/bin/StoredProcedures" /Y /S /I
+xcopy "$(ProjectDir)Migrations\StoredProcedures\*" "$(ProjectDir)bin/StoredProcedures" /Y /S /I
+xcopy "$(ProjectDir)Migrations\SqlTypes\*" "$(SolutionDir)MappingEdu.Web.UI/bin/SqlTypes" /Y /S /I
+xcopy "$(ProjectDir)Migrations\SqlTypes\*" "$(ProjectDir)bin/SqlTypes" /Y /S /I</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

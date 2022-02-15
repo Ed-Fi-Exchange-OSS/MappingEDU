@@ -1,0 +1,1094 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.4.0.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.4.0.1\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\packages\Microsoft.TypeScript.MSBuild.1.7.6\tools\Microsoft.TypeScript.Default.props" Condition="Exists('..\packages\Microsoft.TypeScript.MSBuild.1.7.6\tools\Microsoft.TypeScript.Default.props')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{20C06D4D-C399-467A-9C03-327D018A48A6}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MappingEdu.Web.UI</RootNamespace>
+    <AssemblyName>MappingEdu.Web.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>
+    <TargetFrameworkProfile />
+    <ApplicationInsightsResourceId>/subscriptions/a77059fc-e7b9-4554-a602-99c628915a15/resourcegroups/MappingEDU/providers/microsoft.insights/components/mappingedu_qa</ApplicationInsightsResourceId>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PublishDatabases>false</PublishDatabases>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DocumentationFile>bin\MappingEdu.Web.UI.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\MappingEdu.Web.UI.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.3.1.7705, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac, Version=4.0.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.0.1\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Mvc5.4.0.2\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Owin, Version=4.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Owin.4.2.0\lib\net45\Autofac.Integration.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.WebApi, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.WebApi2.4.0.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.WebApi.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.WebApi2.Owin.4.0.0\lib\net45\Autofac.Integration.WebApi.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="ClosedXML, Version=0.76.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.76.0\lib\net40-client\ClosedXML.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.14.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.14\lib\net45\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=3.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.1.0\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.6.5.0\lib\net461\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocol.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Protocol.Extensions.1.0.1\lib\net45\Microsoft.IdentityModel.Protocol.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.6.5.0\lib\net461\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Saml, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Saml.0.9.0.0\lib\net45\Owin.Security.Saml.dll</HintPath>
+    </Reference>
+    <Reference Include="SAML2.Core, Version=0.5.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SAML2.Core.0.5.0.1\lib\net45\SAML2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Swashbuckle.Core.5.2.2\lib\net40\Swashbuckle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.AppContext, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.AppContext.4.3.0\lib\net463\System.AppContext.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Console, Version=4.0.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Console.4.3.1\lib\net46\System.Console.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.6.0.0\lib\net461\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Tracing, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.Tracing.4.3.0\lib\net462\System.Diagnostics.Tracing.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.identitymodel.services" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.4\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.4.3.0\lib\net46\System.IO.FileSystem.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Linq, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.4.3.0\lib\net463\System.Linq.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Linq.Expressions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Expressions.4.3.0\lib\net463\System.Linq.Expressions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.Extensions.4.3.1\lib\net462\System.Runtime.Extensions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.4.3.0\lib\net463\System.Runtime.InteropServices.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.RegularExpressions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.RegularExpressions.4.3.1\lib\net463\System.Text.RegularExpressions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.7\lib\net45\System.Web.Http.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.ReaderWriter.4.3.1\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.1.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.3.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ApiControllers\MappingProjectQueueFilterController.cs" />
+    <Compile Include="Controllers\ApiControllers\MappedSystemExtensionController.cs" />
+    <Compile Include="Controllers\ApiControllers\SystemItemController.cs" />
+    <Compile Include="Controllers\ApiControllers\MappedSystemController.cs" />
+    <Compile Include="Controllers\ApiControllers\MappingProjectController.cs" />
+    <Compile Include="Controllers\ApiControllers\MappingProjectTemplateController.cs" />
+    <Compile Include="Controllers\ApiControllers\SystemItemMapsController.cs" />
+    <Compile Include="Controllers\ApiControllers\CustomDetailMetadataController.cs" />
+    <Compile Include="Controllers\ApiControllers\MappingProjectSynonymController.cs" />
+    <Compile Include="Controllers\ApiControllers\EntityHintController.cs" />
+    <Compile Include="Controllers\ApiControllers\HealthController.cs" />
+    <Compile Include="Controllers\ApiControllers\HomeController.cs" />
+    <Compile Include="Controllers\ApiControllers\ControllerBase.cs" />
+    <Compile Include="Controllers\ApiControllers\AutoMapperController.cs" />
+    <Compile Include="Controllers\ApiControllers\MappingProjectSummaryController.cs" />
+    <Compile Include="Controllers\ApiControllers\SystemContantController.cs" />
+    <Compile Include="Controllers\ApiControllers\OrganizationController.cs" />
+    <Compile Include="Controllers\ApiControllers\UserNotificationsController.cs" />
+    <Compile Include="Controllers\ApiControllers\UserController.cs" />
+    <Compile Include="Infrastructure\Attributes\CheckModelForNullAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\ExceptionHandlingAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\ValidateModelAttribute.cs" />
+    <Compile Include="Infrastructure\Configuration.cs" />
+    <Compile Include="Infrastructure\Config\MvcRouteConfig.cs" />
+    <Compile Include="Infrastructure\Config\LoggingConfig.cs" />
+    <Compile Include="Infrastructure\Config\ApiRouteConfig.cs" />
+    <Compile Include="Infrastructure\Config\ContainerConfig.cs" />
+    <Compile Include="Infrastructure\Config\DocumentationConfig.cs" />
+    <Compile Include="Infrastructure\Config\FormattersConfig.cs" />
+    <Compile Include="Controllers\ApiControllers\ApproveAllSystemItemMapsController.cs" />
+    <Compile Include="Controllers\ApiControllers\DataStandardSourceMappingProjectsController.cs" />
+    <Compile Include="Controllers\ApiControllers\DataStandardTargetMappingProjectsController.cs" />
+    <Compile Include="Controllers\ApiControllers\ImportController.cs" />
+    <Compile Include="Controllers\ApiControllers\ElementListController.cs" />
+    <Compile Include="Controllers\ApiControllers\ElementSearchController.cs" />
+    <Compile Include="Controllers\ApiControllers\ElementSuggestController.cs" />
+    <Compile Include="Controllers\ApiControllers\LoggingController.cs" />
+    <Compile Include="Controllers\ApiControllers\MappingProjectDashboardController.cs" />
+    <Compile Include="Controllers\ApiControllers\MappingProjectElementsController.cs" />
+    <Compile Include="Controllers\ApiControllers\MappingProjectReportsController.cs" />
+    <Compile Include="Controllers\ApiControllers\MappingProjectReviewQueueController.cs" />
+    <Compile Include="Controllers\ApiControllers\MappingProjectStatusController.cs" />
+    <Compile Include="Controllers\ApiControllers\NewSystemItemController.cs" />
+    <Compile Include="Controllers\ApiControllers\ElementController.cs" />
+    <Compile Include="Controllers\ApiControllers\DomainController.cs" />
+    <Compile Include="Controllers\ApiControllers\BriefElementController.cs" />
+    <Compile Include="Controllers\ApiControllers\ElementDetailsController.cs" />
+    <Compile Include="Controllers\ApiControllers\EnumerationItemController.cs" />
+    <Compile Include="Controllers\ApiControllers\EnumerationItemMappingController.cs" />
+    <Compile Include="Controllers\ApiControllers\NextDataStandardController.cs" />
+    <Compile Include="Controllers\ApiControllers\SystemItemEnumerationController.cs" />
+    <Compile Include="Controllers\ApiControllers\SystemItemMappingController.cs" />
+    <Compile Include="Controllers\ApiControllers\EntityController.cs" />
+    <Compile Include="Controllers\ApiControllers\EnumerationController.cs" />
+    <Compile Include="Controllers\ApiControllers\MapNoteController.cs" />
+    <Compile Include="Controllers\ApiControllers\DataStandardController.cs" />
+    <Compile Include="Controllers\ApiControllers\NextVersionDeltaController.cs" />
+    <Compile Include="Controllers\ApiControllers\NoteController.cs" />
+    <Compile Include="Controllers\ApiControllers\PreviousVersionDeltaController.cs" />
+    <Compile Include="Controllers\ApiControllers\SystemItemDefinitionController.cs" />
+    <Compile Include="Controllers\ApiControllers\SystemItemDetailController.cs" />
+    <Compile Include="Controllers\ApiControllers\SystemItemSelectorController.cs" />
+    <Compile Include="Controllers\ApiControllers\SystemItemTreeController.cs" />
+    <Compile Include="Controllers\ApiControllers\WorkflowStatusController.cs" />
+    <Compile Include="Infrastructure\Config\MapperConfig.cs" />
+    <Compile Include="Infrastructure\Helpers\AuthorizationServerHelper.cs" />
+    <Compile Include="Infrastructure\Helpers\IAuthorizationServerHelper.cs" />
+    <Compile Include="Infrastructure\Providers\AuthorizationServerProvider.cs" />
+    <Compile Include="Infrastructure\Providers\HttpContextBaseProvider.cs" />
+    <Compile Include="Infrastructure\Providers\LoggingProvider.cs" />
+    <Compile Include="Infrastructure\Startup.cs" />
+    <Compile Include="Controllers\ApiControllers\SystemItemNameController.cs" />
+    <Compile Include="Infrastructure\Extensions\ControllerExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\DisplayEnumerationExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\HtmlExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\UriExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\UrlHelperExtensions.cs" />
+    <Compile Include="Infrastructure\Modules\UrlRoutingModule.cs" />
+    <Compile Include="Properties\VersionInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Client\App\Directives\WidthChanged.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\DisableAnimation.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\EnumerationDisplay.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\Favorite\Favorite.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\DomainItemPathWrap.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\FixedTable.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\SystemItemNotes\SystemItemNotes.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\Mentio\Mentio.ts" />
+    <Content Include="Client\App\Directives\Breadcrumbs\Breadcrumbs.tpl.html" />
+    <Content Include="Client\App\Directives\Favorite\Favorite.tpl.html" />
+    <Content Include="Client\App\Directives\HandleErrors\HandleErrors.tpl.html" />
+    <Content Include="Client\App\Directives\SystemItemNotes\SystemItemNotes.tpl.html" />
+    <Content Include="Client\App\Directives\Mentio\mentio-menu.tpl.html" />
+    <Content Include="Client\App\Directives\TextboxOptions\TextboxOptions.tpl.html" />
+    <Content Include="Client\App\Directives\MultiSelect\MultiSelect.tpl.html" />
+    <Content Include="Client\App\Directives\HandleSuccess\HandleSuccess.tpl.html" />
+    <Content Include="Client\App\Directives\Loading\Loading.tpl.html" />
+    <Content Include="Client\App\Directives\WorkflowStatus\WorkflowStatus.tpl.html" />
+    <Content Include="Client\App\Modals\BulkMapping\BulkMappingView.tpl.html" />
+    <Content Include="Client\App\Modals\CustomDetailForm\CustomDetailForm.tpl.html" />
+    <Content Include="Client\App\Modals\MappingProjectQueueFilterForm\MappingProjectQueueFilterForm.tpl.html" />
+    <Content Include="Client\App\Modals\EnumerationItemForm\EnumerationItemForm.tpl.html" />
+    <Content Include="Client\App\Modals\EnumerationMapForm\EnumerationMapForm.tpl.html" />
+    <Content Include="Client\App\Modals\Welcome\WelcomeView.tpl.html" />
+    <Content Include="Client\App\Modals\Share\ShareView.tpl.html" />
+    <Content Include="Client\App\Directives\BrowseDataStandard\BrowseDataStandard.tpl.html" />
+    <Content Include="Client\App\Modals\SystemItemCustomDetailForm\SystemItemCustomDetailForm.tpl.html" />
+    <Content Include="Client\App\Modals\SystemItemForm\EntityForm.tpl.html" />
+    <Content Include="Client\App\Modals\SystemItemForm\ElementForm.tpl.html" />
+    <Content Include="Client\App\Modals\SystemItemForm\EnumerationForm.tpl.html" />
+    <Content Include="Client\App\Modals\SystemItemForm\ElementGroupForm.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\Actions\DataStandardActionsView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\Actions\DataStandardClone.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\Browse\DataStandardBrowseView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\CustomDetails\DataStandardCustomDetailsView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\DataStandardEditView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\Elements\DataStandardExtensionElementsView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\Extensions\Report\OnlineExtensionsReportView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\Extensions\List\Delete\DeleteExtensionView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\Extensions\List\Link\LinkExtensionView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\Extensions\List\DataStandardExtensionsListView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\Groups\DataStandardElementGroupsView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\Elements\DataStandardElementsView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\Info\DataStandardInfoView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\Projects\DataStandardProjectsView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\Share\DataStandardShareView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\Source\DataStandardSourceView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Edit\Target\DataStandardTargetView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Directives\EditDataStandard.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Create\DataStandardCreateView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\List\DataStandardListView.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Modals\UploadInterchange\UploadInterchange.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Modals\UploadSwagger\UploadSwaggerApi.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Modals\UploadDefinition\UploadDefinition.tpl.html" />
+    <Content Include="Client\App\Modules\DataStandard\Modals\UploadExtension\UploadExtension.tpl.html" />
+    <Content Include="Client\App\Modules\Element\Detail\Mapping\Project\ElementDetailProjectMappingView.tpl.html" />
+    <Content Include="Client\App\Modules\Element\Detail\Mapping\Project\BusinessLogic\BusinessLogic.tpl.html" />
+    <Content Include="Client\App\Modules\Element\Detail\Mapping\Project\EnumerationMapping\EnumerationMapping.tpl.html" />
+    <Content Include="Client\App\Modules\Element\Detail\Mapping\Project\WorkflowStatus\WorkflowStatus.tpl.html" />
+    <Content Include="Client\App\Modules\Element\Detail\Mapping\Standard\ElementDetailStandardMappingView.tpl.html" />
+    <Content Include="Client\App\Modules\Element\Detail\Actions\ElementDetailActionsView.tpl.html" />
+    <Content Include="Client\App\Modules\Element\Detail\Info\ElementDetailInfoView.tpl.html" />
+    <Content Include="Client\App\Modules\Element\Detail\ElementDetailView.tpl.html" />
+    <Content Include="Client\App\Modules\Element\Detail\Enumerations\EnumerationDetailsView.tpl.html" />
+    <Content Include="Client\App\Modules\Element\Detail\Usage\EnumerationUsageView.tpl.html" />
+    <Content Include="Client\App\Modules\Element\MappingTemplates\Calculation.tpl.html" />
+    <Content Include="Client\App\Modules\Element\MappingTemplates\ReferenceDescriptor.tpl.html" />
+    <Content Include="Client\App\Modules\Element\MappingTemplates\VariableParameter.tpl.html" />
+    <Content Include="Client\App\Modules\ElementGroup\Detail\Actions\ElementGroupDetailActionsView.tpl.html" />
+    <Content Include="Client\App\Modules\ElementGroup\Detail\Info\ElementGroupDetailInfoView.tpl.html" />
+    <Content Include="Client\App\Modules\ElementGroup\Detail\ElementGroupDetailView.tpl.html" />
+    <Content Include="Client\App\Modals\DeltaForm\DeltaFormView.tpl.html" />
+    <Content Include="Client\App\Modules\Element\Matchmaker\MatchmakerView.tpl.html" />
+    <Content Include="Client\App\Modules\Element\Matchmaker\SearchView.tpl.html" />
+    <Content Include="Client\App\Modules\Element\Matchmaker\SuggestView.tpl.html" />
+    <Content Include="Client\App\Modals\EnumerationAutoMapper\EnumerationAutoMapper.tpl.html" />
+    <Content Include="Client\App\Modules\Entity\Detail\Actions\EntityDetailActionsView.tpl.html" />
+    <Content Include="Client\App\Modules\Entity\Detail\Info\EntityDetailInfoView.tpl.html" />
+    <Content Include="Client\App\Modules\Entity\Detail\EntityDetailView.tpl.html" />
+    <Content Include="Client\App\Modules\Errors\UnknownError\UnknownError.tpl.html" />
+    <Content Include="Client\App\Modules\Errors\AccessDenied\AccessDenied.tpl.html" />
+    <Content Include="Client\App\Modules\Home\Home.tpl.html" />
+    <Content Include="Client\App\Modules\Layout\Directives\Breadcrumbs.tpl.html" />
+    <Content Include="Client\App\Modules\Layout\Navbar.tpl.html" />
+    <Content Include="Client\App\Modules\Layout\Footer.tpl.html" />
+    <Content Include="Client\App\Modules\Login\ConfirmEmail\ConfirmEmail.tpl.html" />
+    <Content Include="Client\App\Modules\Login\ForgotPassword\ForgotPasswordView.tpl.html" />
+    <Content Include="Client\App\Modules\Login\Login.tpl.html" />
+    <Content Include="Client\App\Modules\Login\ResetPassword\ResetPasswordView.tpl.html" />
+    <TypeScriptCompile Include="Client\App\Directives\TextboxOptions\TextboxOptions.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\MultiSelect\MultiSelect.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\DoesExist.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\Access.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\IsAvailable.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\Directives.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\Role.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\WorkflowStatus\WorkflowStatus.ts" />
+    <TypeScriptCompile Include="Client\App\Filters\Filters.ts" />
+    <TypeScriptCompile Include="Client\App\Filters\LinkyWithHtml.ts" />
+    <TypeScriptCompile Include="Client\App\Interceptors\cache.interceptor.ts" />
+    <TypeScriptCompile Include="Client\App\Interceptors\interceptors.ts" />
+    <TypeScriptCompile Include="Client\App\Modals\CustomDetailForm\CustomDetailForm.ts" />
+    <TypeScriptCompile Include="Client\App\Modals\MappingProjectQueueFilterForm\MappingProjectQueueFilterForm.ts" />
+    <TypeScriptCompile Include="Client\App\Modals\EnumerationItemForm\EnumerationItemForm.ts" />
+    <TypeScriptCompile Include="Client\App\Modals\EnumerationMapForm\EnumerationMapForm.ts" />
+    <TypeScriptCompile Include="Client\App\Modals\Modals.ts" />
+    <TypeScriptCompile Include="Client\App\Modals\BulkMapping\BulkMappingController.ts" />
+    <TypeScriptCompile Include="Client\App\Modals\Welcome\WelcomeController.ts" />
+    <TypeScriptCompile Include="Client\App\Modals\Share\ShareController.ts" />
+    <TypeScriptCompile Include="Client\App\Modals\SystemItemCustomDetailForm\SystemItemCustomDetailForm.ts" />
+    <TypeScriptCompile Include="Client\App\Modals\SystemItemForm\SystemItemForm.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\DataStandard.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\BrowseDataStandard\BrowseDataStandard.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\Actions\DataStandardClone.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\Actions\DataStandardActionsController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\Browse\DataStandardBrowseController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\CustomDetails\DataStandardCustomDetailsController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\Extensions\DataStandardExtensionsController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\Extensions\Report\OnlineExtensionsReportController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\Extensions\List\Delete\DeleteExtensionController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\Extensions\List\Link\LinkExtensionController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\Extensions\List\DataStandardExtensionsListController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\Projects\DataStandardProjectsController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\Share\DataStandardShareController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\List\DataStandardListController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Modals\Modals.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Modals\UploadInterchange\UploadInterchange.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Modals\UploadSwagger\UploadSwaggerApi.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Modals\UploadDefinition\UploadDefinition.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Modals\UploadExtension\UploadExtension.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\ElementGroup\ElementGroup.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Element\Detail\Mapping\Project\ElementDetailProjectMappingController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Element\Detail\Mapping\Project\BusinessLogic\BusinessLogic.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Element\Detail\Mapping\Project\EnumerationMapping\EnumerationMapping.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Element\Detail\Mapping\Project\WorkflowStatus\WorkflowStatus.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Element\Detail\Mapping\Standard\ElementDetailStandardMappingController.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\PreviewBusinessLogic.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Element\Element.ts" />
+    <TypeScriptCompile Include="Client\App\Modals\DeltaForm\DeltaFormController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Element\Matchmaker\MatchmakerController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Element\Matchmaker\SearchController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Element\Matchmaker\SuggestController.ts" />
+    <TypeScriptCompile Include="Client\App\Modals\EnumerationAutoMapper\EnumerationAutoMapper.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Entity\Entity.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Errors\UnknownError\UnknownError.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Errors\AccessDenied\AccessDenied.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Errors\Errors.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Layout\Directives\Breadcrumbs.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Login\ConfirmEmail\ConfirmEmail.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Login\ForgotPassword\ForgotPasswordController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Login\Login.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Login\ResetPassword\ResetPasswordController.ts" />
+    <Content Include="Client\App\Modules\Manage\Logs\Clear\ClearLogs.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Logs\Export\ExportLogs.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Logs\View\ViewLog.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Logs\ManageLogsView.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Organizations\Create\OrganizationsCreateView.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Organizations\Directives\OrganizationForm.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Organizations\Edit\OrganizationsEditView.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Organizations\Edit\Users\OrganizationUsers.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Organizations\OrganizationsManageView.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Projects\ProjectsManageView.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Standards\StandardsManageView.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\SystemConstants\ManageSystemConstantsView.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Users\Directives\UserForm.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Users\Create\UsersCreateView.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Users\Edit\Organizations\UserOrganizations.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Users\Edit\Projects\PublicUserProjects.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Users\Edit\Projects\UserProjects.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Users\Edit\Standards\PublicUserStandards.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Users\Edit\Standards\UserStandards.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Users\Edit\UsersEditView.tpl.html" />
+    <Content Include="Client\App\Modules\Manage\Users\UsersManageView.tpl.html" />
+    <Content Include="Client\App\Modals\AutoMapper\AutoMapper.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\Actions\MappingProjectActionsView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\Actions\BulkUpdateView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\Filters\MappingProjectQueueFiltersView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\MappingSummary\Summaries\DetailSummary\DetailSummaryView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\MappingSummary\Summaries\FullSummary\FullSummaryView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\MappingSummary\Summaries\MethodSummary\MethodSummaryView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\MappingSummary\Summaries\StatusSummary\StatusSummaryView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\Reports\CreateReport.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\Settings\Entity\SelectEntity.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\Settings\Synonym\Synonyms.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\Settings\Synonym\SynonymFormView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\Settings\MappingProjectSettingsView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\Settings\Entity\EntityHints.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\Notifications\MappingProjectNotificationView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\Settings\Template\TemplateFormView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\Settings\Template\Templates.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Directives\EditMappingProject.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Directives\MappingProjectHeader.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Directives\MappingProjectStatus.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Directives\CloneMappingProject.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\Dashboard\MappingProjectDashboardView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\MappingProjectDetailView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Create\MappingProjectCreateView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\Info\MappingProjectInfoView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\MappingSummary\MappingProjectMappingSummaryView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\Reports\MappingProjectReportsView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\ReviewQueue\MappingProjectReviewQueueView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\Detail\Share\MappingProjectShareView.tpl.html" />
+    <Content Include="Client\App\Modules\MappingProject\List\MappingProjectListView.tpl.html" />
+    <Content Include="Client\App\Modules\Styles\StylesView.tpl.html" />
+    <Content Include="Client\Content\Fonts\fontawesome-webfont.svg" />
+    <Content Include="Client\Content\Fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Client\Content\Images\edfi-logo-scaled.png" />
+    <Content Include="Client\Content\Images\Loading.gif" />
+    <Content Include="Client\Content\Images\projectavatar.png" />
+    <Content Include="Client\Content\Images\switch.png" />
+    <Content Include="Client\Content\Styles\scrolling-tabs.css" />
+    <Content Include="Client\Content\Styles\angular-loader.css" />
+    <Content Include="Client\Content\Styles\angular-chart.css" />
+    <Content Include="Client\Content\Styles\angular-ui-switch.min.css" />
+    <Content Include="Client\Content\Styles\bootstrap-theme.css" />
+    <Content Include="Client\Content\Styles\bootstrap-theme.min.css" />
+    <Content Include="Client\Content\Styles\bootstrap.css" />
+    <Content Include="Client\Content\Styles\bootstrap.min.css" />
+    <Content Include="Client\Content\Styles\dataTables.bootstrap.css" />
+    <Content Include="Client\Content\Styles\font-awesome.css" />
+    <Content Include="Client\Content\Styles\font-awesome.min.css" />
+    <Content Include="Client\Content\Styles\multi-select.css" />
+    <Content Include="Client\Content\Styles\perfect-scrollbar.css" />
+    <Content Include="Client\Content\Styles\perfect-scrollbar.min.css" />
+    <Content Include="Client\Content\Styles\select.min.css" />
+    <Content Include="Client\Content\Styles\site.css" />
+    <Content Include="Client\Content\Styles\textAngular.css" />
+    <Content Include="Client\Content\Styles\Themes\base\accordion.css" />
+    <Content Include="Client\Content\Styles\Themes\base\all.css" />
+    <Content Include="Client\Content\Styles\Themes\base\autocomplete.css" />
+    <Content Include="Client\Content\Styles\Themes\base\base.css" />
+    <Content Include="Client\Content\Styles\Themes\base\button.css" />
+    <Content Include="Client\Content\Styles\Themes\base\core.css" />
+    <Content Include="Client\Content\Styles\Themes\base\datepicker.css" />
+    <Content Include="Client\Content\Styles\Themes\base\dialog.css" />
+    <Content Include="Client\Content\Styles\Themes\base\draggable.css" />
+    <Content Include="Client\Content\Styles\Themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Client\Content\Styles\Themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Client\Content\Styles\Themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Client\Content\Styles\Themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Client\Content\Styles\Themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Client\Content\Styles\Themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Client\Content\Styles\Themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Client\Content\Styles\Themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Client\Content\Styles\Themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Client\Content\Styles\Themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Client\Content\Styles\Themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Client\Content\Styles\Themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Client\Content\Styles\Themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Client\Content\Styles\Themes\base\menu.css" />
+    <Content Include="Client\Content\Styles\Themes\base\progressbar.css" />
+    <Content Include="Client\Content\Styles\Themes\base\resizable.css" />
+    <Content Include="Client\Content\Styles\Themes\base\selectable.css" />
+    <Content Include="Client\Content\Styles\Themes\base\selectmenu.css" />
+    <Content Include="Client\Content\Styles\Themes\base\slider.css" />
+    <Content Include="Client\Content\Styles\Themes\base\sortable.css" />
+    <Content Include="Client\Content\Styles\Themes\base\spinner.css" />
+    <Content Include="Client\Content\Styles\Themes\base\tabs.css" />
+    <Content Include="Client\Content\Styles\Themes\base\theme.css" />
+    <Content Include="Client\Content\Styles\Themes\base\tooltip.css" />
+    <Content Include="Client\Content\Styles\toastr.min.css" />
+    <Content Include="Client\Vendor\angular-cookie.min.js" />
+    <Content Include="Client\Vendor\angular-vs-repeater.min.js" />
+    <Content Include="Client\Vendor\scrolling-tabs.js" />
+    <Content Include="Client\Vendor\fixed-table-header.min.js" />
+    <Content Include="Client\Vendor\angular-animate.min.js" />
+    <Content Include="Client\Vendor\angular-chart.js" />
+    <Content Include="Client\Vendor\angular-loader.js" />
+    <Content Include="Client\Vendor\angular-spinner.js" />
+    <Content Include="Client\Vendor\angular-elastic.js" />
+    <Content Include="Client\Vendor\chart.js" />
+    <Content Include="Client\Vendor\ngProgress.js" />
+    <Content Include="Client\Vendor\angular-promise-buttons.js" />
+    <Content Include="Client\Vendor\angular-sanitize.min.js" />
+    <Content Include="Client\Vendor\angular-ui-switch.js" />
+    <Content Include="Client\Vendor\angular-datatables.js" />
+    <Content Include="Client\Vendor\angular-messages.js" />
+    <Content Include="Client\Vendor\angular-mocks.js" />
+    <Content Include="Client\Vendor\angular-route.js" />
+    <Content Include="Client\Vendor\angular-ui-router.js" />
+    <Content Include="Client\Vendor\angular.js" />
+    <Content Include="Client\Vendor\bootstrap.js" />
+    <Content Include="Client\Vendor\dataTables.bootstrap.js" />
+    <Content Include="Client\Vendor\FileAPI.flash.swf" />
+    <Content Include="Client\Vendor\FileAPI.js" />
+    <Content Include="Client\Vendor\dataTables.checkbox.js" />
+    <Content Include="Client\Vendor\jquery-2.1.4.js" />
+    <Content Include="Client\Vendor\jquery-ui-1.11.4.js" />
+    <Content Include="Client\Vendor\jquery.dataTables.js" />
+    <Content Include="Client\Vendor\jquery.multi-select.js" />
+    <Content Include="Client\Vendor\ng-file-upload-all.js" />
+    <Content Include="Client\Vendor\ng-file-upload-shim.js" />
+    <Content Include="Client\Vendor\ng-file-upload.js" />
+    <Content Include="Client\Vendor\perfect-scrollbar.jquery.js" />
+    <Content Include="Client\Vendor\perfect-scrollbar.jquery.min.js" />
+    <Content Include="Client\Vendor\perfect-scrollbar.js" />
+    <Content Include="Client\Vendor\perfect-scrollbar.min.js" />
+    <Content Include="Client\Vendor\restangular.js" />
+    <Content Include="Client\Vendor\select.min.js" />
+    <Content Include="Client\Vendor\spin.js" />
+    <Content Include="Client\Vendor\textAngular-rangy.min.js" />
+    <Content Include="Client\Vendor\textAngular-sanitize.min.js" />
+    <Content Include="Client\Vendor\textAngular.js" />
+    <Content Include="Client\Vendor\textAngularSetup.js" />
+    <Content Include="Client\Vendor\toastr.js" />
+    <Content Include="Client\Vendor\underscore.js" />
+    <Content Include="Client\Loader.js" />
+    <Content Include="Client\App\Modules\Manage\ManageView.tpl.html" />
+    <None Include="packages.config" />
+    <None Include="Views\Home\Index.cshtml" />
+    <Content Include="Favicon.ico" />
+    <Content Include="Templates\Email\ShareMappingProjectTemplate.html" />
+    <Content Include="Templates\Email\ShareDataStandardTemplate.html" />
+    <Content Include="Templates\Email\ResetPasswordTemplate.html" />
+    <Content Include="Templates\Email\NewUserTemplate.html" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="MappingEdu.Web.UI.nuspec" />
+    <Content Include="Templates\Import\SystemImport_Master.xltx" />
+    <Content Include="Client\Content\Styles\variables.cosmo.bootswatch.less" />
+    <Content Include="Client\Content\Styles\variables.mappingedu.less" />
+    <Content Include="Client\Content\Fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Client\Content\Fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Client\Content\Fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Client\Content\Fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Client\Content\Styles\angular-promise-button.css" />
+    <Content Include="Client\Content\Fonts\fontawesome-webfont.eot" />
+    <Content Include="Client\Content\Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Client\Content\Fonts\fontawesome-webfont.woff" />
+    <Content Include="Client\Content\Fonts\fontawesome-webfont.woff2" />
+    <Content Include="Client\Content\Fonts\FontAwesome.otf" />
+    <None Include="Client\Vendor\jquery-2.1.4.intellisense.js" />
+    <None Include="Properties\PublishProfiles\Desktop.pubxml" />
+    <Content Include="Templates\Export\SystemExport_Master.xltx" />
+    <Content Include="Templates\Export\SystemExport_Master.xlsx" />
+    <None Include="Web.base.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.TeamCityDebug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MappingEdu.Common\MappingEdu.Common.csproj">
+      <Project>{956c2fb1-df12-4b5f-b39d-f30292ad8a43}</Project>
+      <Name>MappingEdu.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MappingEdu.Core.DataAccess\MappingEdu.Core.DataAccess.csproj">
+      <Project>{5569070c-ecd5-45d2-ad41-c7f79d9d336a}</Project>
+      <Name>MappingEdu.Core.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MappingEdu.Core.Domain\MappingEdu.Core.Domain.csproj">
+      <Project>{d1838d22-6c0d-4368-a662-51c925953c57}</Project>
+      <Name>MappingEdu.Core.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MappingEdu.Core\MappingEdu.Core.csproj">
+      <Project>{b992ff21-c54d-42f1-a923-a947b949ddd8}</Project>
+      <Name>MappingEdu.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MappingEdu.Service.Model\MappingEdu.Service.Model.csproj">
+      <Project>{4cf79bee-37a7-45cc-abc0-40d7215dfb5b}</Project>
+      <Name>MappingEdu.Service.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MappingEdu.Service\MappingEdu.Service.csproj">
+      <Project>{160f56d1-0435-43d6-83a3-4572ba533541}</Project>
+      <Name>MappingEdu.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Client\App\App.ts" />
+    <TypeScriptCompile Include="Client\App\Constants.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\AutoExpand.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\CloseDropdown.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\ConfirmAction.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\ConfirmPassword.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\ContainerFluid.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\EditableDiv.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\ElementPath.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\EumDisplay.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\FocusIf.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\GoBack.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\HandleErrors\HandleErrors.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\HandleSuccess\HandleSuccess.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\Loading\Loading.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\MappingDetail.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\ModalSetFocus.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\SetFocus.ts" />
+    <TypeScriptCompile Include="Client\App\Directives\ShowErrors.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Create\DataStandardCreateController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\DataStandardEditController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\Groups\DataStandardElementGroupsController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\Elements\DataStandardElementsController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\Info\DataStandardInfoController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\Source\DataStandardSourceController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Edit\Target\DataStandardTargetController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Directives\DataStandardFullname.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\DataStandard\Directives\EditDataStandard.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Element\Detail\Actions\ElementDetailActionsController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Element\Detail\ElementDetailController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Element\Detail\Info\ElementDetailInfoController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Element\Detail\Mapping\ElementDetailMappingController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Element\Detail\Usage\EnumerationUsageController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Element\Detail\Enumerations\EnumerationDetailsController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\ElementGroup\Detail\Actions\ElementGroupDetailActionsController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\ElementGroup\Detail\ElementGroupDetailController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\ElementGroup\Detail\Info\ElementGroupDetailInfoController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Entity\Detail\Actions\EntityDetailActionsController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Entity\Detail\EntityDetailController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Entity\Detail\Info\EntityDetailInfoController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Home\Home.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Layout\Layout.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Logs\Clear\ClearLogs.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Logs\Export\ExportLogs.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Logs\View\ViewLog.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Logs\ManageLogsController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\ManageController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Organizations\Create\OrganizationsCreateController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Organizations\Directives\OrganizationForm.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Organizations\Edit\OrganizationsEditController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Organizations\Edit\Users\OrganizationUsers.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Organizations\OrganizationsManageController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Projects\ProjectsManageController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Standards\StandardsManageController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\SystemConstants\ConstantDirectives\BooleanConstant.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\SystemConstants\ConstantDirectives\ComplexTextConstant.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\SystemConstants\ConstantDirectives\TextAreaConstant.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\SystemConstants\ConstantDirectives\TextConstant.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\SystemConstants\ConstantDirectives\ConstantDisplayDirective.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\SystemConstants\ManageSystemConstantsController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Users\Directives\UserForm.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Users\Create\UsersCreateController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Users\Edit\Organizations\UserOrganizations.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Users\Edit\Projects\UserProjects.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Users\Edit\Standards\UserStandards.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Users\Edit\UsersEditController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Manage\Users\UsersManageController.ts" />
+    <TypeScriptCompile Include="Client\App\Modals\AutoMapper\AutoMapper.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Actions\MappingProjectActionsController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Actions\BulkUpdateController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Filters\MappingProjectQueueFiltersController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\MappingSummary\Summaries\DetailSummary\DetailSummaryController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\MappingSummary\Summaries\FullSummary\FullSummaryController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\MappingSummary\Summaries\MethodSummary\MethodSummaryController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\MappingSummary\Summaries\StatusSummary\StatusSummaryController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\MappingSummary\Summaries\SummaryActionsController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\MappingSummary\MappingSummaryService.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Reports\CreateReportController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Settings\Entity\SelectEntity.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Settings\Synonym\Synonyms.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Settings\Synonym\SynonymFormController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Settings\MappingProjectSettingsController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Settings\Entity\EntityHints.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Notifications\MappingProjectNotificationController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Settings\Template\TemplateFormController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Settings\Template\Templates.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Directives\MappingProjectHeader.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\List\MappingProjectListController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\MappingProject.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Create\MappingProjectCreateController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Directives\CloneMappingProject.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Directives\EditMappingProject.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Directives\MappingProjectStatus.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Admin\MappingProjectAdminController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Dashboard\MappingProjectDashboardController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\MappingProjectDetailController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Info\MappingProjectInfoController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\MappingSummary\MappingProjectMappingSummaryController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Reports\MappingProjectReportsController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\ReviewQueue\MappingProjectReviewQueueController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Share\MappingProjectShareController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\MappingProject\Detail\Status\MappingProjectStatusController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Styles\StylesController.ts" />
+    <TypeScriptCompile Include="Client\App\Modules\Styles\StylesService.ts" />
+    <TypeScriptCompile Include="Client\App\Polyfills.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Authentication.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\DataStandard\Extensions.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\DataStandard\Import.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Entity\EntityHint.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Logging.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\SystemItem.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Home.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\DataStandard\DataStandard.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\DataStandard\DataStandardElements.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\DataStandard\DataStandardNext.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\DataStandard\DataStandardSource.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\DataStandard\DataStandardTarget.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\ElementGroup\ElementGroup.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\ElementGroup\NewSystemItem.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Element\Element.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Element\Matchmaker.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Entity\Entity.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\MappingProject\Template.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\MappingProject\Synonym.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\MappingProject\Summary.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\MappingProject\Status.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\MappingProject\ReviewQueue.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\MappingProject\Reports.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\MappingProject\Dashboard.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\MappingProject\SystemItemMaps.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\MappingProject\MappingProjects.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\AutoMap.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\CustomDetailMetadata.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Notifications.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\SystemConstants.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Repositories.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Organizations.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Element\ElementDetail.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Element\ElementMapping.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Element\EnumerationItemMapping.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Element\EnumerationItem.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Element\Enumeration.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Element\MapNote.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Element\MappingProjectElements.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Element\NextVersionDelta.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Element\Note.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Element\PreviousVersionDelta.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Element\SystemItemDetail.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Element\SystemItemEnumeration.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Element\WorkflowStatus.ts" />
+    <TypeScriptCompile Include="Client\App\Repositories\Users.ts" />
+    <TypeScriptCompile Include="Client\App\Services\Breadcrumbs.ts" />
+    <TypeScriptCompile Include="Client\App\Services\ErrorHandler.ts" />
+    <TypeScriptCompile Include="Client\App\Services\Logging.ts" />
+    <TypeScriptCompile Include="Client\App\Services\Navbar.ts" />
+    <TypeScriptCompile Include="Client\App\Services\Profile.ts" />
+    <TypeScriptCompile Include="Client\App\Services\Services.ts" />
+    <TypeScriptCompile Include="Client\App\Services\Session.ts" />
+    <TypeScriptCompile Include="Client\App\Services\Datatables.ts" />
+    <TypeScriptCompile Include="Client\App\Services\Utils.ts" />
+    <TypeScriptCompile Include="Client\App\Filters\Percentage.ts" />
+    <TypeScriptCompile Include="Client\App\Security\Authorization.ts" />
+    <TypeScriptCompile Include="Client\App\Security\Principal.ts" />
+    <TypeScriptCompile Include="Client\App\Security\Security.ts" />
+    <TypeScriptCompile Include="Client\App\Services\Events.ts" />
+    <TypeScriptCompile Include="Client\App\Services\Logger.ts" />
+    <TypeScriptCompile Include="Client\App\Services\Underscore.ts" />
+    <TypeScriptCompile Include="Client\Typings\Angular\angular-file-upload.d..ts" />
+    <TypeScriptCompile Include="Client\Typings\Angular\angular-animate.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Angular\angular-cookies.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Angular\angular-mocks.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Angular\angular-resource.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Angular\angular-route.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Angular\angular-sanitize.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Angular\angular-ui-bootstrap.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Angular\angular-ui-router.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Angular\angular.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Angular\restangular.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\JQuery\jquery.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Lab\lab.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Ladda\angular.ladda.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Ladda\ladda.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Moment\moment-node.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Moment\moment.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\NgProgressLite\ngprogress-lite.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\NgProgress\ngprogress.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Restangular\restangular.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Toastr\toastr.d.ts" />
+    <TypeScriptCompile Include="Client\Typings\Underscore\underscore.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TeamCityDebug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile>client\client.js</TypeScriptOutFile>
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+    <NoWarn>CS1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <TypeScriptRemoveComments>True</TypeScriptRemoveComments>
+    <TypeScriptOutFile>client\client.js</TypeScriptOutFile>
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.TypeScript.MSBuild.1.7.6\tools\Microsoft.TypeScript.targets" Condition="Exists('..\packages\Microsoft.TypeScript.MSBuild.1.7.6\tools\Microsoft.TypeScript.targets')" />
+  <!--<Import Project="..\packages\Microsoft.TypeScript.MSBuild.1.8.4\tools\Microsoft.TypeScript.targets" Condition="Exists('..\packages\Microsoft.TypeScript.MSBuild.1.8.4\tools\Microsoft.TypeScript.targets')" />-->
+  <!--<Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />-->
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="BeforeBuild">
+    <TransformXml Source="Web.Base.config" Transform="Web.$(Configuration).config" Destination="Web.config" />
+  </Target>
+  <Import Project="..\packages\OctoPack.3.0.33\tools\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.0.33\tools\OctoPack.targets')" />
+  <Target Name="EnsureOctoPackImported" BeforeTargets="BeforeBuild" Condition="'$(OctoPackImported)' == ''">
+    <Error Condition="!Exists('..\packages\OctoPack.3.0.33\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="You are trying to build with OctoPack, but the NuGet targets file that OctoPack depends on is not available on this computer. This is probably because the OctoPack package has not been committed to source control, or NuGet Package Restore is not enabled. Please enable NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\OctoPack.3.0.33\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="OctoPack cannot be run because NuGet packages were restored prior to the build running, and the targets file was unavailable when the build started. Please build the project again to include these packages in the build. You may also need to make sure that your build server does not delete packages prior to each build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.4.0.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.4.0.1\build\Microsoft.Net.Compilers.props'))" />
+  </Target>
+</Project>

@@ -1,0 +1,182 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<form name="matchmakerSuggestForm"
+      ng-submit="suggestViewModel.suggest(elementDetailMappingViewModel.suggestText)" novalidate>
+    <div class="row">
+        <div class="col-md-12 form-group">
+            <div class="bodyText">
+                <label class="control-label">Source Data Standard Path:</label>
+                <span class="standard-a" ng-bind="suggestViewModel.element.ElementDetails.FullItemPath"></span>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div ng-show="suggestViewModel.suggestMappings.length > 0">
+    <div class="section-header clearfix">
+        <div class="title collapsed" data-toggle="collapse" data-target="#suggestedMappings"
+             ng-click="suggestViewModel.toggleSuggestedMappingsCaret()">
+            <div class="toggle-icon fa fa-2x"
+                 ng-class="{'fa-caret-down': suggestViewModel.showSuggestedMappings,
+                    'fa-caret-right': !suggestViewModel.showSuggestedMappings}">
+            </div>
+            <div class="toggle-text">
+                Suggested Mappings
+            </div>
+        </div>
+        <hr />
+    </div>
+
+    <div id="suggestedMappings" class="collapse in">
+        <div class="table-responsive matchmakerSuggest">
+            <table id="matchmakerSuggestMappingTable" class="table table-striped small">
+                <thead>
+                    <tr>
+                        <th style="display: none;"></th>
+                        <th>
+                            Element Groups
+                            <button data-toggle="collapse" data-target="#filterMappingElementGroups" ng-init="showMappingElementGroupFilter = false"
+                                    ng-click="showMappingElementGroupFilter = !showMappingElementGroupFilter">
+                                <i class="fa fa-filter" ng-class="{'filtered' : !suggestViewModel.allMappingElementGroups}"></i>
+                            </button>
+                            <div id="filterMappingElementGroups" class="collapse dropdiv">
+                                <label>
+                                    <input type="checkbox" ng-model="suggestViewModel.allMappingElementGroups"
+                                           ng-change="suggestViewModel.clearMappingElementGroups();suggestViewModel.applyMappingFilter()"
+                                           value="" />
+                                    All Element Groups
+                                </label>
+                                <div ng-repeat="elementGroup in suggestViewModel.mappingElementGroups | filter: '!Unknown'">
+                                    <label>
+                                        <input ng-model="mappingElementGroups[elementGroup.Id]" ng-change="suggestViewModel.applyMappingFilter()"
+                                               type="checkbox" value="{{elementGroup.Id}}" />
+                                        {{elementGroup.DisplayText}}
+                                    </label>
+                                </div>
+                            </div>
+                        </th>
+                        <th colspan="2"></th>
+                    </tr>
+                    <tr>
+                        <th style="display: none"></th>
+                        <th>Matching Target Elements</th>
+                        <th>Suggest Reason</th>
+                        <th>Suggest Rank</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="bodyText pull-right">
+                    <button class="btn btn-happy" ng-click="suggestViewModel.selectMapping()"
+                            ng-disabled="!suggestViewModel.isMappingTargetSelected">
+                        <i class="fa"></i>
+                        Select Mapping
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div ma-close-dropdown></div>
+    </div>
+</div>
+
+<div ng-show="suggestViewModel.suggestElements.length > 0">
+    <div class="section-header clearfix">
+        <div class="title collapsed" data-toggle="collapse" data-target="#suggestedElements"
+             ng-click="suggestViewModel.toggleSuggestedElementsCaret()">
+            <div class="toggle-icon fa fa-2x"
+                 ng-class="{'fa-caret-down': suggestViewModel.showSuggestedElements,
+                    'fa-caret-right': !suggestViewModel.showSuggestedElements}">
+            </div>
+            <div class="toggle-text">
+                Suggested Elements
+            </div>
+        </div>
+        <hr />
+    </div>
+
+    <div id="suggestedElements" class="collapse in">
+        <div class="table-responsive matchmakerSuggest">
+            <table id="matchmakerSuggestElementTable" class="table table-striped small">
+                <thead>
+                    <tr>
+                        <th style="display: none;"></th>
+                        <th class="small bold" colspan="4">
+                            Click anywhere in the row to select an element. Click again to deselect.
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="display: none;"></th>
+                        <th>
+                            Element Groups
+                            <button data-toggle="collapse" data-target="#filterElementElementGroups" ng-init="showElementElementGroupFilter = false"
+                                    ng-click="showElementElementGroupFilter = !showElementElementGroupFilter">
+                                <i class="fa fa-filter" ng-class="{'filtered' : !suggestViewModel.allElementElementGroups}"></i>
+                            </button>
+                            <div id="filterElementElementGroups" class="collapse dropdiv">
+                                <label>
+                                    <input type="checkbox" ng-model="suggestViewModel.allElementElementGroups"
+                                           ng-change="suggestViewModel.clearElementElementGroups();suggestViewModel.applyElementFilter()"
+                                           value="" />
+                                    All Element Groups
+                                </label>
+                                <div ng-repeat="elementGroup in suggestViewModel.elementElementGroups | filter: '!Unknown'">
+                                    <label>
+                                        <input ng-model="elementElementGroups[elementGroup.Id]" ng-change="suggestViewModel.applyElementFilter()"
+                                               type="checkbox" value="{{elementGroup.Id}}" />
+                                        {{elementGroup.DisplayText}}
+                                    </label>
+                                </div>
+                            </div>
+                        </th>
+                        <th colspan="2"></th>
+                    </tr>
+                    <tr>
+                        <th style="display: none"></th>
+                        <th>Matching Target Elements</th>
+                        <th>Suggest Reason</th>
+                        <th>Suggest Rank</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="bodyText pull-right">
+                    <button class="btn btn-happy" ng-click="suggestViewModel.selectElement()"
+                            ng-disabled="!suggestViewModel.isElementTargetSelected">
+                        <i class="fa"></i>
+                        Select Element(s)
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div ma-close-dropdown></div>
+    </div>
+</div>
+
+<div ng-show="suggestViewModel.suggestMappings.length + suggestViewModel.suggestElements.length == 0">
+    <h3>There are no suggestions for this mapping.</h3>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <hr />
+        <div class="bodyText pull-right">
+            <button class="btn btn-cancel" ng-click="suggestViewModel.close()">
+                <i class="fa"></i>
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+

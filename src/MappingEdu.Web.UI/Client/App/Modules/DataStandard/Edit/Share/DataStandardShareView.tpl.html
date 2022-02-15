@@ -1,0 +1,162 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<!--  TODO Add when Public Standards are Ready
+<div class="row">
+    <div class="col-md-8">
+        <div class="alert alert-info">
+            <input type="checkbox"/> <b>Pubic Project</b> (All users have view access when checked)
+        </div>
+    </div>
+</div> -->
+
+<div class="row">
+    <br/>
+    <div class="col-md-12" style="display: inline; padding-bottom: 10px">
+
+        <div class="underline-header">Shared With
+            <span class="pull-right">
+                <button class="btn btn-share"
+                        ng-click="dataStandardShareViewModel.share()"
+                        ng-if="dataStandardShareViewModel.me.IsAdministrator || dataStandardShareViewModel.me.Role == 99">
+                    <i class="fa"></i>
+                    Share
+                </button>
+                <button class="btn btn-public"
+                        ng-if="dataStandardShareViewModel.me.IsAdministrator && !dataStandardShareViewModel.dataStandard.IsPublic"
+                        data-toggle="modal" data-target="#makePublicModal" data-backdrop="static" data-keyboard="false">
+                    <i class="fa"></i>
+                    Make Public
+                </button>
+                <button class="btn btn-delete"
+                        ng-click="dataStandardShareViewModel.togglePublic()"
+                        ng-if="dataStandardShareViewModel.me.IsAdministrator && dataStandardShareViewModel.dataStandard.IsPublic">
+                    <i class="fa"></i>
+                    Remove Public Access
+                </button>
+                <!--<button class="btn btn-public"
+                        ng-if="dataStandardShareViewModel.me.IsAdministrator && !dataStandardShareViewModel.dataStandard.AreExtensionsPublic"
+                        data-toggle="modal" data-target="#makeExtensionPublicModal" data-backdrop="static" data-keyboard="false">
+                    <i class="fa"></i>
+                    Make Extensions Public
+                </button>
+                <button class="btn btn-delete"
+                        ng-click="dataStandardShareViewModel.togglePublicExtensions()"
+                        ng-if="dataStandardShareViewModel.me.IsAdministrator && dataStandardShareViewModel.dataStandard.AreExtensionsPublic">
+                    <i class="fa"></i>
+                    Remove Public Extensions Access
+                </button>-->
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover" datatable="ng" dt-options="dataStandardShareViewModel.dtOptions" dt-column-defs="dataStandardShareViewModel.columnDefs">
+            <thead>
+            <tr>
+                <th>User</th>
+                <th style="width: 125px;">Access Level</th>
+                <th ng-show="dataStandardShareViewModel.me.IsAdministrator || dataStandardShareViewModel.me.Role == 99" style="width: 50px">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="user in dataStandardShareViewModel.dataStandard.Users">
+                <td>
+                    <b>{{user.FirstName}} {{user.LastName}}</b> <span ng-if="user.Id == dataStandardShareViewModel.me.Id">(you)</span>
+                    <br/>
+                    {{user.Email}}
+                </td>
+                <td style="vertical-align: middle; text-align: center">
+                    <span ng-if="dataStandardShareViewModel.me.IsAdministrator || dataStandardShareViewModel.me.Role == 99">
+                            <select style="width: 125px; border: none; background: none"
+                                    ng-model="user.Role"
+                                    ng-change="dataStandardShareViewModel.updateUser(user)"
+                                    ng-disabled="user.Id == dataStandardShareViewModel.me.Id && !dataStandardShareViewModel.me.IsAdministrator"
+                                    ng-options="permission.value as permission.label for permission in dataStandardShareViewModel.permissonOptions"></select>
+                        </span>
+                    <span ng-show="!dataStandardShareViewModel.me.IsAdministrator && dataStandardShareViewModel.me.Role < 99">
+                            <span ng-if="user.Role == 1">Can View</span>
+                            <span ng-if="user.Role == 2">Can Edit</span>
+                            <span ng-if="user.Role == 99">Owner</span>
+                        </span>
+                </td>
+                <td ng-show="dataStandardShareViewModel.me.IsAdministrator || dataStandardShareViewModel.me.Role == 99" class="text-center" style="vertical-align: middle; text-align: center">
+                    <button ng-show="user.Id != dataStandardShareViewModel.me.Id"
+                            type="button" class="btn btn-delete"
+                            ma-confirm-action="dataStandardShareViewModel.removeUser(user, $index)">
+                        <i class="fa"></i>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="makePublicModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <span class="page-title">Public Data Standard</span>
+            </div>
+            <div class="modal-body">
+                <p>Making this Data Standard public will provide:</p>
+                <ul>
+                    <li>All users with access to view the entities, elements, and enumerations.</li>
+                    <li>All users with access to export the Data Standard.</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-cancel" data-dismiss="modal">
+                        <i class="fa"></i>
+                        Cancel
+                    </button>
+                    <button class="btn btn-public"
+                            ng-click="dataStandardShareViewModel.togglePublic()"
+                            data-dismiss="modal">
+                        <i class="fa"></i>
+                        Make Public
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="makeExtensionPublicModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <span class="page-title">Public Data Standard Extensions</span>
+            </div>
+            <div class="modal-body">
+                <p>Making Data Standard Extensions public will provide:</p>
+                <ul>
+                    <li>All users with access to view the extension Data Standard entities, elements, and enumerations.</li>
+                    <li>All users with access to view the Extension Report.</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-cancel" data-dismiss="modal">
+                        <i class="fa"></i>
+                        Cancel
+                    </button>
+                    <button class="btn btn-public"
+                            ng-click="dataStandardShareViewModel.togglePublicExtensions()"
+                            data-dismiss="modal">
+                        <i class="fa"></i>
+                        Make Extensions Public
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

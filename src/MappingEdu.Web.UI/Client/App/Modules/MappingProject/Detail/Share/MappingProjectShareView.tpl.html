@@ -1,0 +1,148 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<br/>
+<div class="underline-header">
+    Shared With
+    <span class="pull-right">
+        <button ng-if="mappingProjectShareViewModel.me.IsAdministrator || mappingProjectShareViewModel.me.Role == 99"
+                class="btn btn-share"
+                ng-click="mappingProjectShareViewModel.share()">
+            <i class="fa"></i>
+            Share
+        </button>
+        <button class="btn btn-public"
+                ng-if="mappingProjectShareViewModel.me.IsAdministrator && !mappingProjectShareViewModel.mappingProject.IsPublic"
+                data-toggle="modal" data-target="#makePublicModal" data-backdrop="static" data-keyboard="false">
+            <i class="fa"></i>
+            Make Public
+        </button>
+        <button class="btn btn-delete"
+                ng-click="mappingProjectShareViewModel.togglePublic()"
+                ng-if="mappingProjectShareViewModel.me.IsAdministrator && mappingProjectShareViewModel.mappingProject.IsPublic">
+            <i class="fa"></i>
+            Remove Public Access
+        </button>
+    </span>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover" datatable="ng" dt-options="mappingProjectShareViewModel.dtOptions" dt-column-defs="mappingProjectShareViewModel.columnDefs">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th style="width: 125px;">Access Level</th>
+                    <th ng-show="mappingProjectShareViewModel.me.IsAdministrator || mappingProjectShareViewModel.me.Role == 99" style="width: 50px">Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in mappingProjectShareViewModel.mappingProject.Users">
+                    <td>
+                        <b>{{user.FirstName}} {{user.LastName}}</b> <span ng-if="user.Id == mappingProjectShareViewModel.me.Id">(you)</span>
+                        <br />
+                        {{user.Email}}
+                    </td>
+                    <td style="vertical-align: middle; text-align: center">
+                        <span ng-if="mappingProjectShareViewModel.me.IsAdministrator || mappingProjectShareViewModel.me.Role == 99">
+                            <select style="width: 125px; border: none; background: none"
+                                    ng-model="user.Role"
+                                    ng-change="mappingProjectShareViewModel.updateUser(user)"
+                                    ng-disabled="user.Id == mappingProjectShareViewModel.me.Id && !mappingProjectShareViewModel.me.IsAdministrator"
+                                    ng-options="permission.value as permission.label for permission in mappingProjectShareViewModel.permissonOptions"></select>
+                        </span>
+                        <span ng-show="!mappingProjectShareViewModel.me.IsAdministrator && mappingProjectShareViewModel.me.Role < 99">
+                            <span ng-if="user.Role == 1">Can View</span>
+                            <span ng-if="user.Role == 2">Can Edit</span>
+                            <span ng-if="user.Role == 99">Owner</span>
+                        </span>
+                    </td>
+                    <td ng-show="mappingProjectShareViewModel.me.IsAdministrator || mappingProjectShareViewModel.me.Role == 99" class="text-center" style="vertical-align: middle; text-align: center">
+                        <button ng-show="user.Id != mappingProjectShareViewModel.me.Id"
+                                type="button" class="btn btn-delete"
+                                ma-confirm-action="mappingProjectShareViewModel.removeUser(user, $index)">
+                            <i class="fa"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="makePublicModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <span class="page-title">Public Mapping Project</span>
+            </div>
+            <div class="modal-body">
+                <p>Making this Mapping Project public will provide:</p>
+                <ul>
+                    <li>
+                        The guest account and registered users access to see all elements,
+                        enumerations, business logic, and mappings.
+                    </li>
+                    <li>
+                        Registered users with access to download reports, see workflow statuses,
+                        and view notes.
+                    </li>
+                    <li>
+                        All users with read-only access to the source and target Data Standards
+                        associated with this project. (Registered users with additional privileges
+                        on the Data Standards will keep those privileges.)
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-cancel" data-dismiss="modal">
+                        <i class="fa"></i>
+                        Cancel
+                    </button>
+                    <button class="btn btn-share"
+                            style="color: rgb(97, 188, 171)"
+                            onmouseover="this.style.borderColor = 'rgb(97, 188, 171)'"
+                            onmouseout="this.style.borderColor = 'transparent'"
+                            ng-click="mappingProjectShareViewModel.togglePublic()"
+                            data-dismiss="modal">
+                        <i class="fa"></i>
+                        Make Public
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="removeModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <span class="page-title">Removed From Mapping Project</span>
+            </div>
+            <div class="modal-body">
+                <p>Reminder! User will still have at least view access on:</p>
+                <ul>
+                    <li>
+                        {{mappingProjectShareViewModel.MappingProject.SourceDataStandard.SystemName}}
+                    </li>
+                    <li>
+                        {{mappingProjectShareViewModel.MappingProject.TargetDataStandard.SystemName}}
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-cancel" data-dismiss="modal">
+                        <i class="fa"></i>
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

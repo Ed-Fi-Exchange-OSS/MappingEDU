@@ -1,0 +1,121 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<br/>
+<div class="underline-header">Source Mappings</div>
+<div ng-if="elementDetailMappingViewModel.mappings.length === 0">
+    There are no mappings for this element.
+</div>
+
+<div ng-if="elementDetailMappingViewModel.mappings.length > 0">
+    <div class="col-md-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="width: 50px"></th>
+                    <th>Target</th>
+                    <th ma-role="user,admin">Status</th>
+                    <th>Business Logic</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat-start="mapping in elementDetailMappingViewModel.mappings" ng-click="mapping.Active = !mapping.Active" style="cursor: pointer" ng-class="{'active': mapping.Active}">
+                    <td class="text-center"><i class="fa" ng-class="{'fa-plus-circle is-closed': !mapping.Active,  'fa-minus-circle is-open': mapping.Active}"></i></td>
+                    <td><span ng-bind="mapping.MappingProject.TargetDataStandard.SystemName"></span> <span ng-bind="mapping.MappingProject.TargetDataStandard.SystemVersion"></span></td>
+                    <td ma-role="user,admin">{{mapping.WorkflowStatusType.DisplayText}}</td>
+                    <td><ma-mapping-detail mapping="mapping"></ma-mapping-detail></td>
+                </tr>
+                <tr ng-repeat-end ng-if="mapping.Active" style="background: white">
+                    <td colspan="4">
+                        <div class="row">
+                            <div class="col-md-7" ma-role="user,admin">
+                                <h3>
+                                    Mapping Status
+                                </h3>
+                                <div class="bodyText mapping-status-section">
+                                    <div ng-if="mapping.WorkflowStatusTypeId">
+                                        <label class="workflow-label">Workflow Status:</label>
+                                        <span ng-bind="mapping.WorkflowStatusType.DisplayText"></span>
+                                        <div class="status-note">
+                                            <label class="workflow-label">Status Note:</label>
+                                            <span ng-bind-html="elementDetailMappingViewModel.viewNote(mapping.StatusNote) | linkyWithHtml"></span>
+                                        </div>
+                                    </div>
+                                    <div ng-if="!mapping.WorkflowStatusTypeId">
+                                        Mapping status is not available until a mapping method has been selected and saved.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <h3>
+                                    Business Logic
+                                </h3>
+                                <div class="bodyText mapping-subsection">
+                                    <label>Mapping Method:</label>
+                                    <span ng-bind="mapping.MappingMethodType.Name"></span>
+                                    <div class="business-logic-readonly in" style="min-height: 46px; overflow-wrap: break-word;"
+                                         ma-preview-business-logic
+                                         business-logic="mapping.BusinessLogic"
+                                         read-only="true">
+                                    </div>
+                                </div>
+                                <div ng-if="mapping.EnumerationItemMappings.length > 0">
+                                    <h3>
+                                        Enumeration Item Mappings
+                                    </h3>
+                                    <div class="mapping-subsection">
+                                        <table id="enumerationMappingsDSTable" class="table table-bordered table-striped" datatable="ng">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 35%">Code Value</th>
+                                                    <th style="width: 35%">Mapping Logic</th>
+                                                    <th style="width: 30%">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="enumerationMapping in mapping.EnumerationItemMappings">
+                                                    <td>{{ enumerationMapping.SourceCodeValue }}</td>
+                                                    <td>{{ elementDetailMappingViewModel.getTargetPath(enumerationMapping.TargetSystemItem) }}.{{enumerationMapping.TargetCodeValue}}</td>
+                                                    <td><span ma-enum-display enum="{{elementDetailMappingViewModel.enumerationMappingStatusTypes}}" enum-id="{{enumerationMapping.EnumerationMappingStatusTypeId}}"></span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div ma-role="user,admin">
+                                    <h3>
+                                        Notes
+                                    </h3>
+                                    <div class="bodyText map-note-section">
+                                        <div class="row" ng-repeat="note in mapping.MapNotes" ng-if="mapping">
+                                            <div class="col-md-7">
+                                                <div class="map-note">
+                                                    <small>
+                                                        <b>{{note.CreateBy ? note.CreateBy : 'Unknown'}}</b> added a note
+                                                        <span ng-if="note.IsEdited"> - <span style="color: red">Edited</span></span> - {{note.CreateDate | date: 'dd/MMM/yy hh:mm a'}}
+                                                    </small>
+                                                    <span ng-bind="note.UpdateDateFormat"></span> - <span ng-bind-html="elementDetailMappingViewModel.viewNote(note.Notes) | linkyWithHtml"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" ng-if="mapping.MapNotes.length == 0">
+                                            <div class="col-md-7">
+                                                <div class="map-note">
+                                                    None
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

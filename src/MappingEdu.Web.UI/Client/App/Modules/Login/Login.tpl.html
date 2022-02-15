@@ -1,0 +1,41 @@
+<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+
+<div id="MainBody" class="container body-content">
+    <div class="col-md-6 col-md-offset-3">
+        <h1>Welcome to MappingEDU</h1>
+        <span class="alert" ng-show="error" style="color: red;">The username or password you have entered is invalid.</span>
+        <form name="loginForm" ng-submit="authenticate(false)" promise-btn novalidate>
+
+            <div class="form-group" ng-class="{'has-error': loginForm.username.$invalid && loginForm.username.$dirty, 'has-success': loginForm.username.$valid}">
+                <label for="username">Email:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-at"></i></span>
+                    <input type="email" id="username" class="form-control" ng-model="auth.username" name="username" required />
+                </div>
+                <div ng-messages="loginForm.username.$error" class="help-block">
+                    <div ng-message="required">E-mail address is required.</div>
+                    <div ng-message="email">You must enter a valid e-mail address.</div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error': loginForm.password.$invalid && loginForm.password.$dirty, 'has-success': loginForm.password.$valid}">
+                <label for="password">Password:</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                    <input type="password" id="password" class="form-control" ng-model="auth.password" name="password" required />
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary" ng-disabled="loginForm.$invalid">Sign In </button>
+                <a ui-sref="app.login.forgot-password" class="btn btn-edit">Forgot your Password?</a>
+            </div>
+        </form>
+    </div>
+</div>

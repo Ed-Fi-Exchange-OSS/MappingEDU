@@ -1,0 +1,43 @@
+﻿@import "variables.cosmo.bootswatch.less";
+
+// MapingEdu
+// Variables
+// --------------------------------------------------
+
+
+// Global values
+// --------------------------------------------------
+
+// Borders
+// -------------------------
+@border-line:   1px solid;
+@border:        @border-line @nav-tabs-border-color;
+
+.border-divider() {
+    padding-bottom:@padding-large-vertical;
+    border-bottom: @border;
+    margin-bottom: @padding-base-vertical;
+}
+
+
+// Colors
+// -------------------------
+@jstree-clicked: #FFA642;
+@text-color: @gray;
+
+// Fonts
+// -------------------------
+@font-size-base:    14px;
+@font-size-large:   ceil(@font-size-base * 1.25); // ~18px
+@font-size-xlarge:   ceil(@font-size-base * 1.7); // ~24px
+
+.hidden() {
+    display: none;
+}
+
+.searchWidth (@width){
+    width: -moz-calc(~"100% - " @width);
+    width: -webkit-calc(~"100% - " @width);
+    width: -o-calc(~"100% - " @width);
+    width: calc(~"100% - " @width);
+}

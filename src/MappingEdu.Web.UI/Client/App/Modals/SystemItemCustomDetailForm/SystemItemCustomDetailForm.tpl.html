@@ -1,0 +1,44 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="modal-header">
+    <span class="page-title">Edit Element System Details </span>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <form name="systemDetailsForm"
+              novalidate>
+            <div class="col-md-6 form-group" ma-show-errors
+                 ng-repeat="customDetail in systemItemCustomDetails">
+                <label class="control-label">{{customDetail.CustomDetailMetadata.DisplayName}}</label><br/>
+                <input class="form-control"
+                       type="text"
+                       ng-model="customDetail.Value"
+                       ng-if="!customDetail.CustomDetailMetadata.IsBoolean"
+                       set-focus/>
+
+                <switch class="green" ng-if="customDetail.CustomDetailMetadata.IsBoolean" ng-model="customDetail.boolValue" ng-init="customDetail.boolValue = customDetail.Value == '1'"></switch>
+
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <button type="button" class="btn btn-cancel"
+                        ng-click="cancel()">
+                    <i class="fa"></i>Cancel
+                </button>
+                <button type="submit" class="btn btn-save" ng-click="save(systemItemCustomDetails)" promise-btn>
+                    <i class="fa"></i>Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

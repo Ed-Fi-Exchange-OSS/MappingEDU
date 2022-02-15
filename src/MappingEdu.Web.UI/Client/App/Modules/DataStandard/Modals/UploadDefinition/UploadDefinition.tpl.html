@@ -1,0 +1,110 @@
+<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<form name="uploadElementGroupForm" novalidate>
+
+    <div class="modal-header">
+        Data Standard Upload
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <label class="control-label">
+                    File uploads must be properly formatted Excel files. Click
+
+                    <a id="downloadFileLink" analytics-on="click" analytics-event="Download" analytics-properties="{level: 'Warn'}"
+                       href="Templates/SystemImport_Master.xltx" type="vnd.ms-excel" target="_blank" style="font-weight: bold">
+                        Here
+                    </a>
+
+                    to download an Excel Template.
+                </label>
+                <input type="file"
+                       name="uploadFile"
+                       class="form-control"
+                       accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                       ngf-select=""
+                       ng-model="file"
+                       ngf-multiple="false"
+                       required/>
+            </div>
+            <div class="col-md-12 form-group" ng-show="me.IsAdministrator">
+                <label class="control-label">Update Project Reference Elements</label>
+                <div class="form-control">
+                    <switch class="green small-switch" ng-model="overrideData"></switch>&nbsp;&nbsp;
+                    <span ng-click="overrideData = !overrideData"><b>WARNING:</b> This could possibly change the context of some mappings</span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div id="termsOfUse" ng-bind-html="termsOfUse" style="position: relative; max-height: 200px; overflow-y: hidden; position: relative;"></div>
+            </div>
+            <div class="col-md-12 form-group">
+                <br />
+                <label>File Upload Status: &nbsp; &nbsp; </label><span>{{stylepercent}}</span>
+                <br />
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                         aria-valuemin="0" aria-valuemax="100" ng-style="{'width' : stylepercent}">
+                        <span class="sr-only">{{percent}}% Complete</span>
+                    </div>
+                </div>
+                <pre id="logMessage" class="bold" ng-if="!loading"><span ng-if="log">{{log}}</span><span ng-if="fileToken"><br/>Showing 20 out of {{totalLogs}} logs. Click <a href="/api/Import/{{fileToken}}/LogFile">Here</a> to download log file.</span></pre>
+                <pre ng-if="!log && percent && loading" class="bold">Importing/Updating Elements ... <i class="fa fa-spinner fa-spin"></i></pre>
+                
+                <div class="alert alert-danger" ng-if="errors.length > 0">
+                    <label>Errors:</label>
+                    <ul>
+                        <li ng-repeat="error in errors" ng-bind="error"></li>
+                    </ul>
+                </div>
+                <div class="alert alert-warning" ng-if="warnings.length > 0">
+                    <label>Warnings:</label>
+                    <ul>
+                        <li ng-repeat="warning in warnings track by $index" ng-bind="warning.Message"></li>
+                    </ul>
+                </div>
+                <div class="alert alert-info" ng-if="infos.length > 0">
+                    <label>Information:</label>
+                    <ul>
+                        <li ng-repeat="info in infos" ng-bind="info"></li>
+                    </ul>
+                </div>
+                <br />
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="pull-right">
+            <button type="button"
+                    class="btn btn-cancel"
+                    ng-if="!uploadSuccessful"
+                    ng-click="close()">
+                <i class="fa"></i>
+                Cancel
+            </button>
+            <a class="btn btn-happy btn-download" id="downloadFileLink" analytics-on="click" analytics-event="Download" analytics-properties="{level: 'Warn'}"
+               href="Templates/SystemImport_Master.xltx" type="vnd.ms-excel" target="_blank">
+                <i class="fa"></i> Download Template File
+            </a>
+            <button type="submit"
+                    ng-click="upload(file)" promise-btn
+                    id="submitFile"
+                    ng-disabled="uploadElementGroupForm.$invalid"
+                    class="btn btn-upload"
+                    ng-if="!uploadSuccessful">
+                <i class="fa"></i>Upload Definition
+            </button>
+            <button type="button"
+                    class="btn btn-cancel"
+                    ng-if="uploadSuccessful"
+                    ng-click="close()">
+                <i class="fa"></i>
+                Close
+            </button>
+        </div>
+    </div>
+</form>

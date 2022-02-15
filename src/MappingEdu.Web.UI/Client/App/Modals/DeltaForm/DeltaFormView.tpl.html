@@ -1,0 +1,127 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()">&times;</button>
+    <h4 class="modal-title">
+        {{(delta.PreviousVersionId || delta.NextVersionId) ? 'Edit' : 'Add' }} {{type}} Version from {{standard.SystemName}} ({{standard.SystemVersion}})
+    </h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <form name="form" novalidate>
+                <div class="col-md-12 form-group" ma-show-errors>
+                    <input class="hidden" ng-model="delta.OldSystemItemId" ng-required="delta.ItemChangeTypeId == 4 || delta.ItemChangeTypeId == 5"/>
+                    <input class="hidden" ng-model="delta.NewSystemItemId" ng-required="delta.ItemChangeTypeId == 4 || delta.ItemChangeTypeId == 5"/>
+                    <label class="control-label">Change Type</label>
+                    <select class="form-control"
+                            ng-model="delta.ItemChangeTypeId"
+                            ng-options="item.Id as item.DisplayText for item in itemChangeTypes"
+                            name="itemChangeType"
+                            required
+                            set-focus>
+                        <option value=""></option>
+                    </select>
+                    <div ng-messages="form.itemChangeType.$error" class="help-block">
+                        <div ng-message="required">Change Type is required.</div>
+                    </div>
+                </div>
+                <div class="col-md-12 form-group" ng-show="delta.ItemChangeTypeId == 4 || delta.ItemChangeTypeId == 5">
+                    <label class="control-label">{{type}} Version</label>
+                    <div>
+                        <span ng-hide="!delta.Segments || delta.Segments.length === 0" ng-bind-html="displayItem(delta.Segments)"></span>
+                        <span ng-if="!delta.Segments || delta.Segments.length === 0"><i>No item selected</i></span>
+                        <a role="button" class="btn" ng-click="showElements = !showElements">
+                            <i class="fa fa-search"></i>
+                        </a>
+                        <a role="button" class="btn btn-delete" ng-click="clear(delta)">
+                            <i class="fa"></i>
+                        </a>
+                    </div>
+                    <div class="" uib-collapse="!showElements">
+                        <span ng-show="loading">Loading search table <i class="fa fa-spinner fa-spin"></i></span>
+                        <br ng-show="!loading"/>
+                        <table class="table table-hover" id="elementListTable" ng-show="!loading">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Element Groups
+                                    <button data-toggle="collapse" data-target="#filterElementGroups" ng-init="showElementGroupFilter = false"
+                                            ng-click="showElementGroupFilter = !showElementGroupFilter">
+                                        <i class="fa fa-filter" ng-class="{'filtered' : !allElementGroups}"></i>
+                                    </button>
+                                    <div id="filterElementGroups" class="collapse dropdiv">
+                                        <label>
+                                            <input type="checkbox" ng-model="allElementGroups"
+                                                   ng-change="applyFilter();clearElementGroups()"
+                                                   value=""/>
+                                            All Element Groups
+                                        </label>
+                                        <div ng-repeat="elementGroup in elementGroups | filter: '!Unknown'">
+                                            <label>
+                                                <input ng-model="selectedElementGroups[elementGroup.SystemItemId]" ng-change="applyFilter();"
+                                                       type="checkbox" value="{{elementGroup.SystemItemId}}"/>
+                                                {{elementGroup.ItemName}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th>
+                                    Item Types
+                                    <button data-toggle="collapse" data-target="#filterItemTypes" ng-init="showItemTypesFilter = false"
+                                            ng-click="showItemTypesFilter = !showItemTypesFilter">
+                                        <i class="fa fa-filter" ng-class="{'filtered' : !allItemTypes}"></i>
+                                    </button>
+                                    <div id="filterItemTypes" class="collapse dropdiv">
+                                        <label>
+                                            <input type="checkbox" ng-model="allItemTypes"
+                                                   ng-change="applyFilter();clearItemTypes()"
+                                                   value=""/>
+                                            All Item Types
+                                        </label>
+                                        <div ng-repeat="itemType in itemTypes | filter: '!Unknown'">
+                                            <label>
+                                                <input ng-model="selectedItemTypes[itemType.Id]" ng-change="applyFilter();"
+                                                       type="checkbox" value="{{itemType.Id}}"/>
+                                                {{itemType.DisplayText}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th>Path</th>
+                                <th width="150px">Type</th>
+                                <th width="75px;"></th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12 form-group" ma-show-errors>
+                    <label class="control-label">Description</label>
+                    <textarea class="form-control"
+                              ng-model="delta.Description"
+                              name="description"
+                              rows="5"></textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="pull-right">
+        <button type="button" class="btn btn-cancel" ng-click="close()"><i class="fa"></i> Close</button>
+        <button type="submit" class="btn" ng-click="save(delta)" ng-disabled="form.$invalid" promise-btn ng-class="{'btn-add': !delta.PreviousVersionId && !delta.NextVersionId, 'btn-save': (delta.PreviousVersionId || delta.NextVersionId)}">
+            <i class="fa"></i> {{(delta.PreviousVersionId || delta.NextVersionId) ? 'Save' : 'Add'}}
+        </button>
+    </div>
+</div>

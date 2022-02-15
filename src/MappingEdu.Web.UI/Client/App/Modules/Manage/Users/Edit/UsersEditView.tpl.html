@@ -1,0 +1,105 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row">
+    <div class="col-md-12">
+        <span class="page-title">Edit User</span>
+    </div>
+</div>
+
+<div class="pull-right">
+    <a href="" ui-sref="app.manage.users"> Back to User Management</a>
+</div>
+
+<span ng-if="usersEditViewModel.user"></span>
+<h1>{{ usersEditViewModel.user.fullName() }}</h1>
+<hr/>
+
+<div class="row">
+    <div class="col-md-11" style="margin-top: -20px">
+        <h2>User Information</h2>
+    </div>
+    <div class="col-md-1" ng-if="usersEditViewModel.user.Roles[0] !='guest'">
+        <div class="pull-right">
+            <a class="btn btn-edit" data-toggle="modal" data-target="#editUser" data-backdrop="static"
+               data-keyboard="false">
+                <i class="fa"></i>Edit User
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div>
+            <h3>Name:</h3>
+            <p>{{ usersEditViewModel.user.fullName() }}</p>
+        </div>
+        <div>
+            <h3>Role:</h3>
+            <p>
+                <span ng-if="usersEditViewModel.user.IsAdministrator">Admin</span>
+                <span ng-if="!usersEditViewModel.user.IsAdministrator">
+                    <span ng-if="usersEditViewModel.user.Roles[0] == 'user'">User</span>
+                    <span ng-if="usersEditViewModel.user.Roles[0] =='guest'">Guest</span>
+                </span>
+            </p>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div>
+            <h3>Email Address:</h3>
+            <p>{{ usersEditViewModel.user.Email }}</p>
+        </div>
+        <br/>
+        <div ng-if="usersEditViewModel.user.Roles[0] !='guest'">
+            <a ng-show="usersEditViewModel.user.EmailConfirmed" class="btn btn-blue" ng-click="usersEditViewModel.resetPassword()" style="font-size: 19px; padding: 0px" promise-btn>
+                Reset Password
+            </a>
+            <a ng-show="!usersEditViewModel.user.EmailConfirmed" class="btn btn-blue" ng-click="usersEditViewModel.resendEmail()" style="font-size: 19px; padding: 0px" promise-btn>
+                Resend Activation Email
+            </a>
+        </div>
+        <div ng-if="usersEditViewModel.user.Roles[0] == 'guest'">
+            <a ng-show="usersEditViewModel.user.IsActive" class="btn btn-blue" ng-click="usersEditViewModel.toggleActive()" style="font-size: 19px; padding: 0px" promise-btn>
+                Deactivate Account
+            </a>
+            <a ng-show="!usersEditViewModel.user.IsActive" class="btn btn-blue" ng-click="usersEditViewModel.toggleActive()" style="font-size: 19px; padding: 0px" promise-btn>
+                Activate Account
+            </a>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs">
+            <li ng-class="{active:usersEditViewModel.onPage(tab.link)}"
+                ng-repeat="tab in usersEditViewModel.tabs">
+                <a ui-sref="{{tab.link}}">{{tab.label}}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div ng-if="!usersEditViewModel.user.IsGuest" ui-view="user-info"></div>
+<div ng-if="usersEditViewModel.user.IsGuest" ui-view="guest-info"></div>
+
+<div ui-view></div>
+
+<div id="editUser" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="page-title">Edit User</span>
+            </div>
+            <div class="modal-body">
+                <user-form user="usersEditViewModel.user"></user-form>
+            </div>
+        </div>
+    </div>
+</div>

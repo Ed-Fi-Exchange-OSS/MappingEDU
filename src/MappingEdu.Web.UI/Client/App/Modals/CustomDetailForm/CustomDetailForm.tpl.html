@@ -1,0 +1,48 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="modal-header">
+    <span class="page-title">{{customDetail.CustomDetailMetadataId ? 'Edit' : 'Add'}} Custom Detail</span>
+</div>
+<div class="modal-body">
+    <form name="systemDetailsForm"
+          novalidate>
+        <div class="row">
+            <div class="col-md-12 form-group" ma-show-errors>
+                <label class="control-label">Display Name</label>
+                <input class="form-control"
+                       type="text"
+                       ng-model="customDetail.DisplayName" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Is Boolean</label><br/>
+                <switch class="green" ng-model="customDetail.IsBoolean"></switch>
+            </div>
+            <div class="col-md-6">
+                <label>Is Core Detail</label><br/>
+                <switch class="green" ng-model="customDetail.IsCoreDetail"></switch>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <button type="button" class="btn btn-cancel"
+                        ng-click="cancel()">
+                    <i class="fa"></i>Cancel
+                </button>
+                <button type="submit" class="btn" ng-click="save(customDetail)" promise-btn ng-class="{'btn-add': !customDetail.CustomDetailMetadataId, 'btn-save': customDetail.CustomDetailMetadataId}">
+                    <i class="fa"></i>{{customDetail.CustomDetailMetadataId ? 'Save' : 'Add'}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

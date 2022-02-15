@@ -1,0 +1,64 @@
+<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<br />
+<div class="underline-header">Mapping Reports</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="underline-header" style="font-size: 1.4em">Mapping Review Report</div>
+        <p>
+            The Mapping Review Report is the main output from this system. It
+            exports all mappings between the source and target Data Standards
+            as well as a current status, notes, and so forth. You can run this
+            report any time. The report is generated in Microsoft Excel.
+        </p>
+        <div class="pull-right">
+            <button type="button" class="btn btn-happy btn-download" ng-click="mappingProjectReportsViewModel.getReport()">
+                <i class="fa"></i>
+                Create Report
+            </button>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <br class="visible-sm" />
+        <div class="underline-header" style="font-size: 1.4em">Target Standard Punchlist</div>
+        <p>
+            The Target Standard Punchlist provides a list of elements in the target Data Standard
+            with an indication of whether or not they have been mapped. This can be useful, for
+            example, when the target Standard is a report or data submission for which every
+            element needs to be mapped.
+        </p>
+        <div class="pull-right">
+            <button type="button" class="btn btn-happy btn-download" ng-click="mappingProjectReportsViewModel.getReport(true)">
+                <i class="fa"></i>
+                Create Report
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6" ng-show="mappingProjectDetailViewModel.mappingProject.SourceDataStandard.SystemName.toLowerCase().includes('ceds')">
+        <div class="underline-header" style="font-size: 1.4em">CEDS Export</div>
+        <p>
+            If you need this report, you probably already know what it is: the CEDS initiative
+            encourages standards bodies to map their data standards to CEDS elements. This export
+            is a file that can be uploaded to the mapping site at ceds.ed.gov. As you'd expect,
+            this special-purpose report only appears on Projects where CEDS is one of the Standards 
+            being mapped.
+        </p>
+        <div class="pull-right">
+            <button href="{{mappingProjectReportsViewModel.cedsExportUrl}}"
+                    class="btn btn-happy btn-download"
+                    ng-click="mappingProjectReportsViewModel.downloadCeds()"
+                    promise-btn>
+                <i class="fa"></i>
+                CEDS Export
+            </button>
+        </div>
+    </div>
+</div>

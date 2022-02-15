@@ -1,0 +1,50 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row">
+    <div class="col-md-12" style="margin-top: 20px">
+    </div>
+</div>
+<div class="row">
+    <form name="userAddForm">
+        <div class="col-md-10 form-group">
+            <ui-select ng-model="user.Id"
+                       theme="bootstrap"
+                       required>
+                <ui-select-match allow-clear="true" placeholder="Select a user...">{{$select.selected.FullName}}</ui-select-match>
+                <ui-select-choices repeat="user.Id as user in organizationUsersViewModel.users | filter: $select.search">
+                    <div ng-bind-html="user.FullName| highlight: $select.search"></div>
+                    <small>
+                        Email: <span ng-bind-html="''+user.Email | highlight: $select.search"></span>
+                    </small>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <button class="col-md-2 btn btn-happy" ng-click="organizationUsersViewModel.addUserToOrganization(user)" ng-disabled="userAddForm.$invalid" promise-btn>Add</button>
+    </form>
+</div>
+<table class="table table-striped table-bordered" datatable="ng" dt-options="organizationUsersViewModel.dtOptions">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th style="width: 50px">Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="user in organizationUsersViewModel.organizationUsers">
+            <td><a ui-sref="app.manage.users.edit({ id: '{{ user.Id }}' })">{{ user.FirstName }} {{ user.LastName }}</a></td>
+            <td ng-bind="user.Email"></td>
+            <td class="text-center">
+                <button type="button" class="btn btn-delete"
+                        ma-confirm-action="organizationUsersViewModel.deleteUser(user, $index)">
+                    <i class="fa"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,72 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="modal-header bold">
+    Entity to Entity Hinting
+</div>
+<div class="modal-body">
+    <p>
+        Use Entity Hinting to create 1-to-1 matches between analogous entities in the source and
+        target Data Standards. For example, when the 'Staff' entity in one Standard is equivalent
+        to the 'K12 Staff' entity in the other Standard, you can create that association here and
+        MappingEDU will provide better matches and suggestions. When Entity Hints are provided:
+    </p>
+    <ul>
+        <li> The Matchmaker Browse and Search will pre-filter to the target entity. </li>
+        <li> The Matchmaker Suggest feature will rank target entity matches higher. </li>
+    </ul>
+    <br />
+    <table id="entityToEntity" class="table table-responsive table-hover" datatable="ng" dt-options="dtOptions"
+           dt-column-defs="dtColumnDefs" style="width: 100%; table-layout: fixed; word-wrap: break-word">
+        <thead>
+            <tr>
+                <th>Source Entity</th>
+                <th>Target Entity</th>
+                <th style="width: 40px">Edit</th>
+                <th style="width: 50px">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="hint in hints">
+                <td>{{hint.SourceEntity.DomainItemPath}}</td>
+                <td>{{hint.TargetEntity.DomainItemPath}}</td>
+                <td class="text-center">
+                    <button class="btn btn-edit"
+                            ng-click="entityHintModal(hint, $index)">
+                        <i class="fa"></i>
+                    </button>
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-delete"
+                            ma-confirm-action="delete(hint, $index)">
+                        <i class="fa"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pull-right">
+        <button class="btn btn-add"
+                ng-click="entityHintModal()">
+            <i class="fa"></i>
+            Add
+        </button>
+    </div>
+    <br/>
+</div>
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="bodyText pull-right">
+                <button class="btn btn-cancel" ng-click="cancel(active.tab)">
+                    <i class="fa"></i>
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="modal-header bold">
+    Templates
+</div>
+<div class="modal-body">
+    <p>
+        Use templates for when business logic is being repeated on multiple elements. Once added there a side
+        panel on the business logic with a list of templates or access them by typing '#'.
+    </p>
+    <br />
+    <table id="templates" class="table table-responsive table-hover" datatable="ng" dt-options="dtOptions"
+           dt-column-defs="dtColumnDefs">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th style="width: 400px">Template</th>
+                <th style="width: 40px">Edit</th>
+                <th style="width: 50px">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="template in templates">
+                <td>{{template.Title}}</td>
+                <td style="overflow: hidden; text-overflow: ellipsis; overflow-x: hidden; white-space: nowrap; max-width: 400px;">{{template.Template}}</td>
+                <td class="text-center">
+                    <button class="btn btn-edit"
+                            ng-click="templateModal(template, $index)">
+                        <i class="fa"></i>
+                    </button>
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-delete"
+                            ma-confirm-action="delete(template, $index)">
+                        <i class="fa"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pull-right">
+        <button class="btn btn-add"
+                ng-click="templateModal()">
+            <i class="fa"></i>
+            Add
+        </button>
+    </div>
+    <br/>
+</div>
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="bodyText pull-right">
+                <button class="btn btn-cancel" ng-click="cancel(active.tab)">
+                    <i class="fa"></i>
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

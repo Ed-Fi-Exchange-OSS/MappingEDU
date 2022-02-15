@@ -1,0 +1,97 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="col-md-8">
+
+    <table class="table table-condensed smaller-table-headers mapping-summary-table" style="margin-top: 35px">
+        <thead>
+        <tr>
+
+            <!-- MAPPING METHODS COLUMN -->
+
+            <th class="summary-border-right"></th>
+
+            <!-- MAPPING STATUSES -->
+
+            <th ng-repeat="status in vm.statusLabels" class="text-center stats-cell"
+                ng-class="{'active-summary': vm.hover == $index}"
+                ng-mouseenter="vm.hover = $index"
+                ng-mouseleave="vm.hover = null">
+                <a href="{{vm.summaryDetail.Values[5][$index].Href}}">{{status}}</a>
+            </th>
+
+            <!-- TOTAL -->
+
+            <th class="text-center stats-cell" style="border-left: 1px solid lightgray;"
+                ng-mouseenter="vm.hover = 5"
+                ng-mouseleave="vm.hover = null"
+                ng-class="{'active-summary': vm.hover == 5}">
+                <a href="{{vm.summaryDetail.Values[5][5].Href}}">Total</a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <!-- VALUES -->
+
+        <tr ng-repeat="i in [0, 1, 3, 4, 5]" class="text-center">
+            <td class="summary-border-right bold">
+                <a href="{{vm.summaryDetail.Values[5][i].Href}}" ng-if="!$last">{{vm.methodLabels[i]}}</a>
+                <a href="{{vm.summaryDetail.Values[5][5].Href}}" ng-if="$last">Total</a>
+            </td>
+            <td ng-repeat="j in [0, 1, 2, 3, 4, 5]"
+                ng-style="{'border-left': $last ? '1px solid lightgray' : ''}"
+                ng-class="{'active-summary': vm.hover == $index}"
+                ng-mouseenter="vm.hover = $index"
+                ng-mouseleave="vm.hover = null"
+                class="text-center stats-cell">
+                <a href="{{vm.summaryDetail.Values[i][j].Href}}" ng-class="{'disabled': vm.summaryDetail.Values[i][j].Value === 'N/A'}">
+                    {{vm.summaryDetail.Values[i][j].Value}}
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- PIE CHART -->
+
+<div class="col-md-4" ng-if="vm.summaryDetail.Values">
+    <div class="text-center">
+        <div class="btn-group" uib-dropdown is-open="status.isopen">
+            <button id="single-button" type="button" class="btn btn-base" uib-dropdown-toggle>
+                <h3 style="margin: 0px; font-size: 1.5em">
+                    <span ng-if="pieChart == 'status'">Mapping Statuses</span>
+                    <span ng-if="pieChart == 'method'">Mapping Methods</span>
+                    <span class="caret"></span>
+                </h3>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
+                <li role="menuitem" ng-class="{'active': pieChart == 'status'}"><a href="" ng-click="vm.changePieChart('status')">Mapping Statuses</a></li>
+                <li role="menuitem" ng-class="{'active': pieChart == 'method'}"><a href="" ng-click="vm.changePieChart('method')">Mapping Methods</a></li>
+            </ul>
+        </div>
+    </div>
+    <br />
+    <canvas ng-if="pieChart == 'status'"
+            id="pie"
+            chart-legend="true"
+            chart-options="vm.options"
+            class="chart chart-pie"
+            chart-data="vm.summaryDetail.StatusValues"
+            chart-labels="vm.statusLabels"
+            chart-colours="vm.statusColors"></canvas>
+
+    <canvas ng-if="pieChart == 'method'"
+            id="pie"
+            chart-legend="true"
+            chart-options="vm.options"
+            class="chart chart-pie"
+            chart-data="vm.summaryDetail.MethodValues"
+            chart-labels="vm.methodLabelsWithoutInclusion"
+            chart-colours="vm.methodColors"></canvas>
+</div>

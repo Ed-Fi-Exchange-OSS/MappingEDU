@@ -1,0 +1,76 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <span class="page-title">Edit Organization</span>
+    </div>
+</div>
+
+<div class="pull-right">
+    <a href="" ui-sref="app.manage.organizations"> Back to Organization Management</a>
+</div>
+
+<h1>{{organizationEditViewModel.organization.Name}}</h1>
+<hr/>
+
+<div class="row">
+    <div class="col-md-11" style="margin-top: -20px">
+        <h2>Organization Information</h2>
+    </div>
+    <div class="col-md-1">
+        <div class="pull-right">
+            <a class="btn btn-edit" data-toggle="modal" data-target="#editOrganization" data-backdrop="static"
+               data-keyboard="false">
+                <i class="fa"></i>Edit Organization
+            </a>
+        </div>
+    </div>
+</div>
+<div>
+    <h3>Name:</h3>
+    <p>{{ organizationEditViewModel.organization.Name }}</p>
+</div>
+<div>
+    <h3>Domains:</h3>
+    <p>
+        <span ng-repeat="domain in organizationEditViewModel.organization.Domains">
+            {{domain}}<span ng-if="!$last">, </span>
+        </span>
+    </p>
+</div>
+<div>
+    <h3>Description:</h3>
+    <p>{{ organizationEditViewModel.organization.Description }}</p>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs">
+            <li ng-class="{active:organizationEditViewModel.onPage(tab.link)}"
+                ng-repeat="tab in organizationEditViewModel.tabs">
+                <a ui-sref="{{tab.link}}">{{tab.label}}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div ui-view></div>
+
+<div id="editOrganization" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="page-title">Edit Organization</span>
+            </div>
+            <div class="modal-body" ng-if="organizationEditViewModel.organization.Id">
+                <organization-form organization="organizationEditViewModel.organization"></organization-form>
+            </div>
+        </div>
+    </div>
+</div>

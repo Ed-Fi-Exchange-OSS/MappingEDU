@@ -1,0 +1,157 @@
+<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="underline-header">
+    Business Logic
+    <span class="bodyText">
+        : <i class="fa fa-magic" ng-if="vm.mapping.IsAutoMapped" uib-tooltip="Mapping was created through Mapping Helper"></i>
+        {{(vm.mapping.MappingMethodType.Name) ? (vm.mapping.MappingMethodType.Name == 'Enter Mapping Business Logic' ? 'Mapped' : vm.mapping.MappingMethodType.Name) : 'None' }},
+    </span>
+    <span class="bodyText" ma-role="user,admin">
+        {{(vm.mapping.WorkflowStatusType.Name) ? vm.mapping.WorkflowStatusType.Name : 'Unmapped'}}
+    </span>
+
+    <div class="pull-right" style="font-size: 14px" ng-if="!vm.readOnly && vm.mapping.SystemItemMapId">
+        <b>Created:</b> {{vm.mapping.CreateBy}} ({{vm.mapping.CreateDate | date: 'dd/MMM/yy' }})
+        <b>Updated:</b> {{vm.mapping.UpdateBy}} ({{vm.mapping.UpdateDate | date: 'dd/MMM/yy' }})
+    </div>
+</div>
+
+<div class="row" style="position: relative" dw-loading="saving" dw-loading-options="{text: 'Saving...'}">
+    <div class="col-md-7">
+        <form name="form.elementDetailMappingForm"
+              ng-submit="vm.save(mapping)" novalidate>
+            <div class="row" ma-role="user,admin">
+                <div class="col-md-12 form-group" ma-show-errors>
+                    <label class="control-label">Mapping Method:</label>
+                    <select name="mappingMethod" class="form-control" required
+                            ng-change="vm.save()"
+                            ng-model="vm.mappingMethodTypeId"
+                            ng-options="item.Id as item.DisplayText for item in vm.mappingMethodTypes"
+                            ng-disabled="readOnly">
+                        <option value=""></option>
+                    </select>
+                    <div ng-messages="form.elementDetailMappingForm.mappingMethod.$error" class="help-block">
+                        <div ng-message="required">Mapping Method is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="control-label" ng-bind="vm.businessLogicLabel"></label>
+
+                        <div style="position: relative" ng-show="vm.showBusinessOptions">
+                            <textarea id="businessLogic" class="form-control textbox-control business-logic" style="min-height: 250px; padding-right: 37px"
+                                      ng-model="vm.businessLogic"
+                                      ma-focus-if="vm.showBusinessOptions"
+                                      msd-elastic="\n"
+                                      ng-focus="vm.isSideOptionsOpen = false"
+                                      ng-readonly="vm.mapping.MappingMethodTypeId === 4"
+                                      mentio
+                                      mentio-id="'businesslogic'"
+                                      mentio-trigger-char="'['"
+                                      mentio-items="vm.typedSystemItems"
+                                      mentio-search="vm.getTypedSystemItems(term)"
+                                      mentio-select="vm.selectTypedItem(item)"
+                                      mentio-suppress-trailing-space="true"
+                                      mentio-is-business-logic="true"></textarea>
+
+                            <mentio-menu mentio-for="'businesslogic'"
+                                         mentio-trigger-char="'.'"
+                                         mentio-items="vm.typedSystemItems"
+                                         mentio-search="vm.getTypedSystemItems(term)"
+                                         mentio-select="vm.selectTypedItem(item)"
+                                         mentio-is-business-logic="true"></mentio-menu>
+
+                            <mentio-menu mentio-for="'businesslogic'"
+                                         mentio-trigger-char="'#'"
+                                         mentio-items="vm.typedTemplates"
+                                         mentio-search="vm.getTypedTemplates(term)"
+                                         mentio-select="vm.selectTemplate(item)"
+                                         mentio-is-business-logic="true"></mentio-menu>
+
+                            <div ng-hide="vm.mapping.MappingMethodTypeId === 4">
+                                <div class="mapping-side-options business-logic" ma-project-access project-id="vm.mappingProject.MappingProjectId" access="Edit">
+                                    <div class="pull-right business-logic">
+                                        <button class="btn btn-xs btn-textbox-options business-logic" uib-tooltip="{{vm.isSideOptionsOpen ? '' : 'Templates'}}"
+                                                ng-click="vm.toggleSideOptions($event)">
+                                            <i class="fa business-logic"
+                                               ng-class="{'fa-angle-double-left': !vm.isSideOptionsOpen, 'fa-angle-double-right': vm.isSideOptionsOpen}"></i>
+                                        </button>
+                                    </div>
+                                    <div class="business-logic" id="template-options" style="width: 200px;" uib-collapse="!vm.isSideOptionsOpen" horizontal>
+                                        <span class="business-logic"><b class="business-logic">Templates:</b></span><br />
+                                        <div class="template-option business-logic" ng-repeat="template in vm.templates track by template.MappingProjectTemplateId" ng-click="vm.addTemplate(template)">
+                                            <i class="fa fa-file-code-o business-logic"></i>
+                                            {{template.Title}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <span ma-project-access project-id="vm.mappingProject.MappingProjectId" access="Edit">
+                                    <ma-textbox-options show-options="vm.showBusinessOptions"
+                                                        on-save="vm.save"
+                                                        on-cancel="vm.cancel"
+                                                        keep-open="vm.matchmakerOpen"
+                                                        clickable="business-logic"></ma-textbox-options>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- FOR USERS -->
+                        <div id="users-preview"
+                             ma-preview-business-logic
+                             ma-disable-animation
+                             business-logic="vm.businessLogic"
+                             ng-click="vm.showBusinessOptions = true"
+                             ng-if="!vm.showBusinessOptions && !vm.readOnly"
+                             class="form-control business-logic" style="min-height: 100px; cursor: pointer; overflow-wrap: break-word;">
+                        </div>
+
+                        <!-- FOR GUEST -->
+                        <div id="guest-preview"
+                             ma-preview-business-logic
+                             business-logic="vm.mapping.BusinessLogic"
+                             ng-if="vm.readOnly"
+                             class="form-control" style="min-height: 100px; overflow-wrap: break-word;">
+                        </div>
+
+                        <div class="pull-left business-logic" ma-project-access project-id="vm.mappingProject.MappingProjectId" access="Edit"
+                             ng-hide="vm.mapping.MappingMethodTypeId === 4">
+                            <button type="button" class="btn btn-matchmaker business-logic" ng-click="vm.showMatchmakerModal()"
+                                    analytics-on="click" analytics-event="Open Matchmaker" analytics-properties="{level: 'Debug'}">
+                                <i class="fa business-logic"></i>
+                                Open Matchmaker
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row" ng-if="vm.mapping.MappingMethodTypeId === 4">
+                    <div class="col-md-12 form-group">
+                        <label class="control-label">Omission Reason</label>
+                        <div style="position: relative">
+
+                            <textarea id="omissionReason" class="form-control textbox-control omission-reason" style="min-height: 100px;"
+                                      ng-disabled="vm.readOnly"
+                                      ng-model="vm.omissionReason"
+                                      ng-focus="vm.showOptions = true"></textarea>
+
+                            <span ma-project-access project-id="vm.mappingProject.MappingProejctId" access="Edit">
+                                <ma-textbox-options show-options="vm.showOptions"
+                                                    on-save="vm.save"
+                                                    on-cancel="vm.cancel"
+                                                    clickable="omission-reason"></ma-textbox-options>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+</form>
+    </div>
+    <br />
+</div>

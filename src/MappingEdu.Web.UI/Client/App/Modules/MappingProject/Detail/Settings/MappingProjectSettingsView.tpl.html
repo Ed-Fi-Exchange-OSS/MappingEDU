@@ -1,0 +1,69 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<br/>
+<div class="underline-header">Mapping Project Settings</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="underline-header" style="font-size: 1.4em">
+            Entity Hinting
+        </div>
+        <p>
+            Use Entity Hinting to create 1-to-1 matches between analogous entities in the source and
+            target Data Standards. For example, when the 'Staff' entity in one Standard is equivalent
+            to the 'K12 Staff' entity in the other Standard, you can create that association here and
+            MappingEDU will provide better matches and suggestions. When Entity Hints are provided:
+        </p>
+        <br/>
+        <div class="pull-right">
+            <button class="btn btn-add"
+                    ng-click="mappingProjectSettingsViewModel.entityHintModal()">
+                <i class="fa"></i>
+                Add/Edit Hints
+            </button>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="underline-header" style="font-size: 1.4em">
+            Project Synonyms
+        </div>
+        <p>
+            Use Synonyms to create a thesaurus for your Mapping Project. For example, if 'Begin Date' in
+            one Standard means the same thing as 'Start Date' in another Standard, or if 'Student' in one
+            Standard is the same concept as 'K12 Student' in another Standard, you can create those Synonym
+            entries here. Adding Synonyms helps to improve suggestions offered by the Suggest tab in the
+            Matchmaker.
+        </p>
+        <div class="pull-right">
+            <button class="btn btn-add"
+                    ng-click="mappingProjectSettingsViewModel.synonymModal()">
+                <i class="fa"></i>
+                Add/Edit Synonyms
+            </button>
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="underline-header" style="font-size: 1.4em">
+            Templates
+        </div>
+        <p>
+            Use templates for when business logic is being repeated on multiple elements. Once added there a side 
+            panel on the business logic with a list of templates or access them by typing '#'.
+        </p>
+        <div class="pull-right">
+            <button class="btn btn-add"
+                    ng-click="mappingProjectSettingsViewModel.templateModal()">
+                <i class="fa"></i>
+                Add/Edit Templates
+            </button>
+        </div>
+    </div>
+</div>

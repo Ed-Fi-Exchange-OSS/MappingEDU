@@ -1,0 +1,53 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+<div class="mapping-header" ng-if="!summary">
+   
+     <div class="row">
+         <div class="col-md-8">
+             <h1>
+                 <a class="title-hover" href="{{dashboardHref(mappingProject)}}">{{mappingProject.ProjectName}}</a>
+             </h1>
+         </div>
+         <div class="col-md-4" ng-show="mappingProject.IsActive && editable">
+             <span class="pull-right" ng-if="mappingProject" ma-project-access project-id="mappingProject.MappingProjectId" access="Edit">
+                 <a class="btn btn-edit" data-toggle="modal" data-target="#editProjectModal" data-backdrop="static" data-keyboard="false">
+                    <i class="fa"></i>Edit Project
+                </a>
+            </span>
+         </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <ma-favorite model="mappingProject"></ma-favorite>
+            <b>Mapping:</b>
+            <a class="standard-a standard-a-hover" href="{{standardHref(mappingProject.SourceDataStandard)}}" ma-data-standard-fullname standard="mappingProject.SourceDataStandard" style="font-weight: normal"></a>
+            <i class="fa fa-chevron-right" style="vertical-align: middle"></i>
+            <a class="standard-b standard-b-hover" href="{{standardHref(mappingProject.TargetDataStandard)}}" ma-data-standard-fullname standard="mappingProject.TargetDataStandard" style="font-weight: normal"></a>
+            <b style="padding-left: 20px;">Project Status:</b>
+            <span ng-bind="mappingProject.ProjectStatusTypeName"></span>
+            <b style="padding-left: 20px;">Access:</b>
+            <span ng-bind="getAccess(mappingProject)"></span>
+        </div>
+    </div>
+
+</div>
+
+<div ng-if="summary">
+    <div class="header-summary">
+        <label>Mapping Project: </label>
+        <a class="title-hover" href="{{dashboardHref(mappingProject)}}">{{mappingProject.ProjectName}}</a>
+        <span>:</span>
+        <a class="standard-a" href="{{standardHref(mappingProject.SourceDataStandard)}}" ma-data-standard-fullname standard="mappingProject.SourceDataStandard" style="font-weight: normal"></a>
+        <i class="fa fa-chevron-right" style="vertical-align: middle"></i>
+        <a class="standard-b standard-b-hover" href="{{standardHref(mappingProject.TargetDataStandard)}}" ma-data-standard-fullname standard="mappingProject.TargetDataStandard" style="font-weight: normal"></a>
+        <span class="project-status">Project Status:</span>
+        <span ng-bind="mappingProject.ProjectStatusTypeName" class="project-status-value"></span>
+    </div>
+</div>

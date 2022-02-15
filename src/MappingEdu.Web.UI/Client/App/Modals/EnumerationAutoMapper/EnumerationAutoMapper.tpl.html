@@ -1,0 +1,42 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()">&times;</button>
+    <h4 class="modal-title">Enumeration Mapping Helper</h4>
+</div>
+<div class="modal-body">
+    <table id="enumerationMappingsTable" class="table table-bordered table-striped" datatable="ng">
+        <thead>
+        <tr>
+            <th style="width: 50px">Select</th>
+            <th>Source Enumeration Item</th>
+            <th>Source Enumeration Item</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="enumeration in enumerations">
+            <td class="text-center"><switch class="green small-switch" ng-model="enumeration.ApproveMapping"></switch></td>
+            <td>
+                {{enumeration.CodeValue}}<br/>
+                <small>{{enumeration.ShortDescription}}</small>
+            </td>
+            <td>
+                {{enumeration.TargetSystemEnumerationItem.CodeValue}}<br />
+                <small>{{enumeration.TargetSystemEnumerationItem.ShortDescription}}</small>
+            </td>
+            <td><span ma-enum-display enum="{{elementDetailMappingViewModel.enumerationMappingStatusTypes}}" enum-id="{{enumeration.Mapping.EnumerationMappingStatusTypeId}}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-add" ng-click="save()"><i class="fa"></i>Add</button>
+    <button type="button" class="btn btn-cancel" ng-click="close()"><i class="fa"></i>Cancel</button>
+</div>

@@ -1,0 +1,102 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+
+<div class="modal-header">
+    <span class="page-title">Clone Data Standard</span>
+</div>
+<div class="modal-body">
+    <div ma-handle-errors error-data="dataStandardViewModel.errorData"></div>
+    <div class="row" ng-if="!similarVersioning">
+        <form name="dataStandardForm" novalidate>
+
+            <div class="col-md-10 col-md-offset-1 form-group" ma-show-errors>
+                <label class="control-label">Data Standard Clone Name</label>
+                <input type="text" name="systemName" class="form-control" ng-model="standard.SystemName" required ng-maxlength="50" set-focus/>
+                <div ng-messages="dataStandardForm.systemName.$error" class="help-block">
+                    <div ng-message="required">Data Standard Name is required.</div>
+                    <div ng-message="maxlength">Data Standard Name is too long.</div>
+                </div>
+            </div>
+
+            <div class="col-md-5 col-md-offset-1 form-group" ma-show-errors>
+                <label class="control-label">Clone Version</label>
+                <input type="text" name="systemVersion" class="form-control" ng-model="standard.SystemVersion" required ng-maxlength="50"/>
+                <div ng-messages="dataStandardForm.systemVersion.$error" class="help-block">
+                    <div ng-message="required">Version is required.</div>
+                    <div ng-message="maxlength">Version is too long.</div>
+                </div>
+            </div>
+            <div class="col-md-5 form-group">
+                <label class="control-label">Previous Data Standard Version</> <i>(Optional)</i></label>
+                <ui-select ng-model="standard.PreviousDataStandardId"
+                           theme="bootstrap">
+                    <ui-select-match allow-clear="true" placeholder="Select a source standard...">{{$select.selected.SystemName}} ({{$select.selected.SystemVersion}})</ui-select-match>
+                    <ui-select-choices repeat="standard.DataStandardId as standard in dataStandards | filter: $select.search">
+                        <div ng-bind-html="standard.SystemName | highlight: $select.search"></div>
+                        <small>Version: <span ng-bind-html="''+ standard.SystemVersion | highlight: $select.search"></span></small>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+
+            <div class="col-md-10 col-md-offset-1 form-group" ng-if="hasExtensions">
+                <label class="control-label">Clone with Extension Standards?</label>&nbsp;<switch class="green small-switch" ng-model="standard.WithExtensions"></switch>
+            </div>
+        </form>
+    </div>
+    <div class="row" ng-if="similarVersioning">
+        <div class="col-md-12 text-center">
+            We detected similar versioning (element and entity additions or changes) between
+        </div>
+        <br/>
+        <br />
+        <div class="col-md-12 text-center">
+            <span class="path-segment">{{clonedFrom.PreviousDataStandard.SystemName}} ({{clonedFrom.PreviousDataStandard.SystemVersion}})</span>
+            <i class="fa fa-arrow-right"></i>
+            <span class="path-segment">{{clonedFrom.SystemName}} ({{clonedFrom.SystemVersion}})</span>
+        </div>
+        <br/>
+        <br />
+        <div class="col-md-12 text-center">
+            Would you like to apply the same versioning to
+        </div>
+        <br/>
+        <br />
+        <div class="col-md-12 text-center">
+            <span class="path-segment">{{clonedStandard.PreviousDataStandard.SystemName}} ({{clonedStandard.PreviousDataStandard.SystemVersion}})</span>
+            <i class="fa fa-arrow-right"></i>
+            <span class="path-segment">{{clonedStandard.SystemName}} ({{clonedStandard.SystemVersion}})</span>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="col-md-12 btn-group" ng-if="!similarVersioning">
+        <div class="pull-right">
+            <button type="button" class="btn btn-cancel" ng-click="cancel()">
+                <i class="fa"></i>
+                Cancel
+            </button>
+            <button type="submit" class="btn btn-clone" ng-click="clone(standard)" promise-btn>
+                <i class="fa"></i>
+                Clone
+            </button>
+        </div>
+    </div>
+    <div class="col-md-12 btn-group" ng-if="similarVersioning">
+        <div class="pull-right">
+            <button type="button" class="btn btn-cancel" ng-click="cancel()">
+                <i class="fa"></i>
+                Don't Apply Versioning
+            </button>
+            <button type="submit" class="btn btn-add" ng-click="deltaCopy(clonedStandard)" promise-btn>
+                <i class="fa"></i>
+                Apply Versioning
+            </button>
+        </div>
+    </div>
+</div>

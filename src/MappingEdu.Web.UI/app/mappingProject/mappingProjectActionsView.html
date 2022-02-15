@@ -1,0 +1,157 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div ng-show="mappingProjectDetailViewModel.mappingProject.IsActive">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Overview</h2>
+            <p>
+                This page provides access to the functions that affect this entire project.
+            </p>
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Mapping Project Functions</h2>
+            <p>
+                Click the button below to permanently delete this entire mapping project.
+            </p>
+            <div ma-handle-errors error-data="mappingProjectActionsViewModel.errorData">
+            </div>
+            <button type="button"
+                    class="btn btn-lg btn-delete"
+                    ma-confirm-action="mappingProjectActionsViewModel
+                    .deleteMappingProject(mappingProjectDetailViewModel.mappingProject)"
+                    modal="true">
+                <i class="fa"></i>
+                Delete Mapping Project
+            </button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                Click the button below to mark all mappings with a status of Ready for Review as accepted.
+                This will change the status of every Ready for Review mapping to "Approved".  Mappings in
+                other statuses will not be affected.
+            </p>
+            <button type="button"
+                    class="btn btn-lg btn-happy"
+                    ma-confirm-action="mappingProjectActionsViewModel
+                    .approveReadyForReview(mappingProjectDetailViewModel.mappingProject)"
+                    title="Approve all Mappings?"
+                    modal="true"
+                    ng-show="!mappingProjectActionsViewModel.showApproveMsg">
+                <i class="fa"></i>
+                Approve all Mappings Ready for Review
+            </button>
+            <div class="alert alert-success" ng-show="mappingProjectActionsViewModel.showApproveMsg">
+                <button type="button" class="close" ng-click="mappingProjectActionsViewModel.showApproveMsg = false">
+                    <span>&times;</span>
+                </button>
+                {{ mappingProjectActionsViewModel.approveAllMsg }}
+            </div>
+        </div>
+    </div>
+    <br />
+
+    
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                Click the button below to clone this entire mapping project.
+            </p>
+
+            <!--ma-confirm-action="mappingProjectActionsViewModel.cloneProject(mappingProjectDetailViewModel.mappingProject)"
+                title="Are you sure you want to clone this project?"
+                modal="true"-->
+
+            <button type="button" class="btn btn-lg btn-add" ng-show="!mappingProjectActionsViewModel.showCloneMessage"
+                    data-toggle="modal" data-target="#cloneProjectModal" data-backdrop="static" data-keyboard="false">
+                <i class="fa"></i>
+                Clone Project
+            </button>
+            <div class="alert alert-success" ng-show="mappingProjectActionsViewModel.showCloneMessage">
+                <button type="button" class="close" ng-click="mappingProjectActionsViewModel.showCloneMessage = false">
+                    <span>&times;</span>
+                </button>
+                {{ mappingProjectActionsViewModel.cloneProjectMessage }}
+            </div>
+        </div>
+    </div>
+
+
+    <div id="cloneProjectModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="page-title">Clone Mapping Project</span>
+                </div>
+                <div class="modal-body">
+                    <ma-clone-mapping-project modal="true"
+                                              mapping-project="mappingProjectDetailViewModel.mappingProject"
+                                              clone-callback="mappingProjectActionsViewModel.cloneCallback" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <br />
+    <div class="row">
+        <div class="col-md-12" ng-show="mappingProjectDetailViewModel.mappingProject.ProjectStatusTypeName === 'Active'">
+            <p>
+                Click the button below to close this project.  You will be prompted to close the project
+                once all of the elements and enumerations are mapped and approved.  You can use this button
+                to close the project at any time.
+            </p>
+            <button type="button"
+                    class="btn btn-lg btn-close"
+                    ma-confirm-action="mappingProjectActionsViewModel.closeProject(mappingProjectDetailViewModel.mappingProject)"
+                    title="Close Project?"
+                    modal="true"
+                    ng-show="!mappingProjectActionsViewModel.showOpenedMsg">
+                <i class="fa"></i>
+                Close this Project
+            </button>
+            <div class="alert alert-success" ng-show="mappingProjectActionsViewModel.showOpenedMsg">
+                <button type="button" class="close" ng-click="mappingProjectActionsViewModel.showOpenedMsg = false">
+                    <span>&times;</span>
+                </button>
+                {{ mappingProjectActionsViewModel.openedMsg }}
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="mappingProjectDetailViewModel.mappingProject.ProjectStatusTypeName === 'Closed'">
+            <p>
+                Click the button below to re-open this project.
+            </p>
+            <button type="button"
+                    class="btn btn-lg btn-open"
+                    ma-confirm-action="mappingProjectActionsViewModel.reopenProject(mappingProjectDetailViewModel.mappingProject)"
+                    title="Re-open Project?"
+                    modal="true"
+                    ng-show="!mappingProjectActionsViewModel.showClosedMsg">
+                <i class="fa"></i>
+                Re-open this Project
+            </button>
+            <div class="alert alert-success" ng-show="mappingProjectActionsViewModel.showClosedMsg">
+                <button type="button" class="close" ng-click="mappingProjectActionsViewModel.showClosedMsg = false">
+                    <span>&times;</span>
+                </button>
+                {{ mappingProjectActionsViewModel.closedMsg }}
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-show="!mappingProjectDetailViewModel.mappingProject.IsActive">
+    <p>
+        <h2 class="text-danger" ng-show="!mappingProjectActionsViewModel.deleteSuccessful">Project {{mappingProjectDetailViewModel.mappingProject.ProjectName}} has been deleted.</h2>
+    </p>
+    <a ui-sref="home">Go to Home Page</a>
+</div>

@@ -1,0 +1,92 @@
+<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+<div class="row" ng-class="{'col-md-10 col-md-offset-1': !user.Id}" style="padding-left: 20px; padding-right: 20px">
+    <form name="userForm" novalidate>
+        <div class="row">
+
+            <!-- FIRST NAME -->
+            <div class="col-md-6 form-group" ma-show-errors>
+                <label class="control-label">First Name</label>
+                <input class="form-control"
+                       type="text"
+                       ng-model="userFormViewModel.user.FirstName"
+                       name="firstName"
+                       required
+                       ng-maxlength="50"
+                       set-focus />
+                <div ng-messages="userForm.firstName.$error" class="help-block">
+                    <div ng-message="required">First Name is required.</div>
+                    <div ng-message="maxlength">First Name is too long.</div>
+                </div>
+            </div>
+
+            <!-- LAST NAME -->
+
+            <div class="form-group col-md-6" ma-show-errors>
+                <label class="control-label">Last Name</label>
+                <input class="form-control"
+                       type="text"
+                       ng-model="userFormViewModel.user.LastName"
+                       name="lastName"
+                       required
+                       ng-maxlength="50" />
+                <div ng-messages="userForm.lastName.$error" class="help-block">
+                    <div ng-message="required">Last Name is required.</div>
+                    <div ng-message="maxlength">Last Name is too long.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <!-- EMAIL -->
+
+            <div class="col-md-6 form-group" ng-class="{'has-error': userForm.email.$invalid, 'has-success': userForm.email.$valid}">
+                <label class="control-label">Email Address</label>
+                <input class="form-control"
+                       current="userFormViewModel.currentEmail"
+                       ng-model="userFormViewModel.user.Email"
+                       name="email"
+                       required
+                       type="email" />
+                <div ng-messages="userForm.email.$error" class="help-block">
+                    <div ng-message="email">email is invalid.</div>
+                    <div ng-message="required">email is required.</div>
+                    <div ng-message="isAvailable">email is already in use.</div>
+                </div>
+            </div>
+
+            <!-- IS ADMIN -->
+            <div ng-show="!userFormViewModel.isCurrentUser" class="col-md-6 form-group" ma-show-errors>
+                <label class="control-label">Is Admin</label>
+                <br />
+                <switch class="green small" name="isAdmin" ng-model="userFormViewModel.user.IsAdministrator"></switch>
+            </div>
+
+        </div>
+
+        <div class="col-md-12 btn-toolbar row">
+            <div class="pull-right">
+                <button type="button" class="btn btn-cancel" data-dismiss="modal" ng-class="{'btn-lg': !user.Id}"
+                        ng-click="userFormViewModel.cancel()">
+                    <i class="fa"></i>
+                    Cancel
+                </button>
+                <button ng-if="!user.Id" ng-disabled="userForm.$invalid" type="submit" class="btn btn-happy btn-lg" ng-click="userFormViewModel.save()" promise-btn>
+                    <i class="fa"></i>
+                    Save
+                </button>
+                <button ng-if="user.Id" ng-disabled="userForm.$invalid" type="submit" class="btn btn-happy" ng-click="userFormViewModel.save()" data-dismiss="modal">
+                    <i class="fa"></i>
+                    Save
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

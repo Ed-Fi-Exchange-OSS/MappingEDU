@@ -1,0 +1,42 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row">
+    <form name="mappingProjectForm"
+          novalidate>
+        <ma-loading view-model="mappingProjectCloneViewModel"></ma-loading>
+        <div ma-handle-errors error-data="mappingProjectCloneViewModel.errorData">
+        </div>
+    <input type="hidden" ng-model="mappingProject.MappingProjectId" />
+        <div class="col-md-12 form-group">
+            <label class="control-label">Source Project Name</label>
+            <label class="form-control">{{mappingProject.ProjectName}}</label>
+        </div>
+        <div class="col-md-12 form-group" ma-show-errors>
+            <label class="control-label">Clone Project Name</label>
+            <input class="form-control" type="text" name="newCloneName" required
+                   ng-model="clone.CloneProjectName" ng-maxlength="50" />
+            <div ng-messages="mappingProjectForm.newCloneName.$error" class="help-block">
+                <div ng-message="required">New project name is required.</div>
+                <div ng-message="maxlength">New project name is too long.</div>
+            </div>
+        </div>
+        <div class="col-md-12 btn-toolbar row">
+            <div class="pull-right">
+                <button type="button" class="btn btn-cancel" ng-class="{'btn-lg': !modal}"
+                        ng-click="cancelClone()">
+                    <i class="fa"></i>
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-clone" ng-class="{'btn-lg': !modal}" ng-click="cloneProject(clone)" promise-btn>
+                    <i class="fa"></i>
+                    Clone
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

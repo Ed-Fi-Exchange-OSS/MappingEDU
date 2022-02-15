@@ -1,0 +1,207 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="modal-header">
+    <span class="page-title">{{extension.MappedSystemExtensionId ? 'Update' : 'Link'}} Extension</span>
+</div>
+<div class="modal-body">
+    <form name="form" class="validate" role="form" novalidate>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group" ng-class="{'has-error': form.extensionStandard.$invalid && form.extensionStandard.$dirty, 'has-success': form.extensionStandard.$valid}">
+                    <label class="control-label">Extension Standard</label>
+                    <ui-select ng-model="extension.ExtensionMappedSystemId"
+                               required
+                               ng-disabled="extension.MappedSystemExtensionId"
+                               name="extensionStandard"
+                               ng-change="getExtensionDetail()"
+                               theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="Select a extension standard...">{{$select.selected.SystemName}} ({{$select.selected.SystemVersion}})</ui-select-match>
+                        <ui-select-choices repeat="standard.DataStandardId as standard in standards | filter: $select.search">
+                            <div ng-bind-html="standard.SystemName | highlight: $select.search"></div>
+                            <small>Version: <span ng-bind-html="''+ standard.SystemVersion | highlight: $select.search"></span></small>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group" ng-class="{'has-error': form.shortName.$invalid && form.shortName.$dirty, 'has-success': form.shortName.$valid}">
+                    <label class="control-label">
+                        Short Name
+                        <i uib-popover="A short descriptive short to represent the Extension Standard for the reports. (Max Length: 5)" popover-trigger="'mouseenter'"
+                           popover-placement="bottom"
+                           class="fa fa-info-circle"></i>
+                    </label>
+                    <input type="text" name="shortName" class="form-control" ng-model="extension.ShortName" maxlength="5" required />
+                </div>
+            </div>
+        </div>
+        <div uib-collapse="!extension.ExtensionMappedSystemId">
+            <div ng-if="extension.MappedSystemExtensionId">
+                Below are the totals for differences between the Core and
+                Extension Standard.
+                <br />
+                <br />
+                New extensions and the number of unlinked differences.
+            </div>
+            <div style="border-radius: 10px; border: 1px #ddd solid; overflow: hidden">
+                <table class="table table-condensed" style="margin-bottom: 0px; background-color: #f6f6f6">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="text-center" style="width: 100px">Total</th>
+                            <th class="text-center" style="width: 100px">Download</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Extensions
+                                <i class="fa fa-info-circle"
+                                   uib-popover="Elements that are marked for extension"
+                                   popover-trigger="'mouseenter'"
+                                   popover-placement="right"></i>
+                            </td>
+                            <td class="text-center">
+                                {{loading ? '' : extensionDetailModel.MarkedExtensionCount}}
+                                <span ng-show="loading"><i class="fa fa-spin fa-circle-o-notch "></i></span>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Differences not Marked as Extended
+                                <i class="fa fa-info-circle"
+                                   uib-popover="Elements that were not found in the Core Standard and are not marked for extension in the extension standard"
+                                   popover-trigger="'mouseenter'"
+                                   popover-placement="right"></i>
+                            </td>
+                            <td class="text-center">
+                                {{loading ? '' : extensionDetailModel.NotMarkedExtensionCount}}
+                                <span ng-show="loading"><i class="fa fa-spin fa-circle-o-notch "></i></span>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr class="total-row" style="background-color: #f6f6f6; border-top-color: #ddd">
+                            <td>{{extension.MappedSystemExtensionId ? 'Unadded Differences' : 'All'}}</td>
+                            <td class="text-center">
+                                {{loading ? '' : extensionDetailModel.MarkedExtensionCount + extensionDetailModel.NotMarkedExtensionCount}}
+                                <span ng-show="loading"><i class="fa fa-spin fa-circle-o-notch "></i></span>
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-download" ng-click="downloadExtensionDifferences('new')" ng-disabled="loading || downloading" promise-btn>
+                                    <i class="fa"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <div ng-if="extension.MappedSystemExtensionId" style="border-radius: 10px; border: 1px #ddd solid; overflow: hidden">
+                <div>
+                    Updated and removed elements since last linked.
+                </div>
+                <table class="table table-condensed" style="margin-bottom: 0px; background-color: #f6f6f6;">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th class="text-center" style="width: 100px">Total</th>
+                        <th class="text-center" style="width: 100px">Download</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            Updated
+                            <i class="fa fa-info-circle"
+                               uib-popover="Extension elements that have been changed"
+                               popover-trigger="'mouseenter'"
+                               popover-placement="right"></i>
+                        </td>
+                        <td class="text-center">
+                            {{loading ? '' : extensionDetailModel.UpdatedCount}}
+                            <span ng-show="loading"><i class="fa fa-spin fa-circle-o-notch "></i></span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Removed
+                            <i class="fa fa-info-circle"
+                               uib-popover="Extension elements that are no longer found in the extension standard"
+                               popover-trigger="'mouseenter'"
+                               popover-placement="right"></i>
+                        </td>
+                        <td class="text-center">
+                            {{loading ? '' : extensionDetailModel.ToBeRemovedCount}}
+                            <span ng-show="loading"><i class="fa fa-spin fa-circle-o-notch "></i></span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="total-row" style="background-color: #f6f6f6; border-top-color: #ddd">
+                        <td>Changes</td>
+                        <td class="text-center">
+                            {{loading ? '' : extensionDetailModel.UpdatedCount + extensionDetailModel.ToBeRemovedCount}}
+                            <span ng-show="loading"><i class="fa fa-spin fa-circle-o-notch "></i></span>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-download" ng-click="downloadExtensionDifferences('changes')" ng-disabled="loading || downloading" promise-btn>
+                                <i class="fa"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--<table class="table table-condensed" style="margin-bottom: 0px; background-color: #ddd">
+                    <thead>
+                    <tr>
+                        <th style="border-bottom: black 2px solid"></th>
+                        <th class="text-center" style="width: 100px; border-bottom: black 2px solid">Total</th>
+                        <th class="text-center" style="width: 100px; border-bottom: black 2px solid">Download</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="total-row">
+                        <td>All</td>
+                        <td class="text-center">
+                            {{loading ? '' : extensionDetailModel.UpdatedCount + extensionDetailModel.ToBeRemovedCount + extensionDetailModel.MarkedExtensionCount + extensionDetailModel.NotMarkedExtensionCount}}
+                            <span ng-show="loading"><i class="fa fa-spin fa-circle-o-notch "></i></span>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-download" ng-click="downloadExtensionDifferences('all')" ng-disabled="loading || downloading" promise-btn>
+                                <i class="fa"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>-->
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="pull-left" style="vertical-align: middle">
+        <label style="padding-top: 7px" class="control-label">Include Differences Not Marked as Extended?</label>&nbsp;<switch class="green small-switch" ng-model="extension.ImportAll"></switch>
+    </div>
+    <div class="pull-right">
+        <button type="button" class="btn btn-cancel" ng-click="cancel()">
+            <i class="fa"></i>
+            Cancel
+        </button>
+        <button ng-if="!extension.MappedSystemExtensionId" type="submit" class="btn btn-extension" ng-click="link()" promise-btn
+                ng-disabled="loading || form.$invalid || !(extensionDetailModel.MarkedExtensionCount + extensionDetailModel.NotMarkedExtensionCount)">
+            <i class="fa"></i>
+            Link
+        </button>
+        <button ng-if="extension.MappedSystemExtensionId" type="submit" class="btn btn-update" ng-click="link()" promise-btn
+                ng-disabled="loading || form.$invalid">
+            <i class="fa"></i>
+            Update
+        </button>
+    </div>
+</div>

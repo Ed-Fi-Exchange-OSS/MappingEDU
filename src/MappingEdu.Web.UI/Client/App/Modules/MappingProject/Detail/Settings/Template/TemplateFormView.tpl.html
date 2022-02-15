@@ -1,0 +1,80 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+<div class="modal-header">
+    Template Form
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                Use templates for when business logic is being repeated on multiple elements. Once added there a side
+                panel on the business logic with a list of templates or access them by typing '#'.
+            </p>
+        </div>
+    </div>
+    <br/>
+    <form name="templateForm">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group" ng-class="{'has-error': templateForm.titlte.$invalid && templateForm.titlte.$dirty, 'has-success': templateForm.titlte.$valid}">
+                    <label for="titlte">Title</label><br/>
+                    <input type="text" id="titlte" class="form-control" ng-model="template.Title" name="source" required/>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group" ng-class="{'has-error': templateForm.template.$invalid && templateForm.template.$dirty, 'has-success': templateForm.template.$valid}">
+                    <label for="template">Template</label><br/>
+
+                    <div ng-show="template.edit" style="position: relative" class="fade" ng-class="{in: template.edit}">
+                        <textarea id="businessLogic" class="form-control textbox-control" style="min-height: 250px; padding-right: 37px"
+                                  ng-model="template.Template"
+                                  msd-elastic="\n"
+                                  ma-focus-if="template.edit"
+                                  ng-focus="template.edit=true"
+                                  ng-blur="template.edit = false"
+                                  mentio
+                                  mentio-id="'businesslogic'"
+                                  mentio-trigger-char="'['"
+                                  mentio-items="typedSystemItems"
+                                  mentio-search="getTypedSystemItems(term)"
+                                  mentio-select="selectTypedItem(item)"
+                                  mentio-suppress-trailing-space="true"
+                                  mentio-is-business-logic="true"></textarea>
+
+                        <mentio-menu mentio-for="'businesslogic'"
+                                     mentio-trigger-char="'.'"
+                                     mentio-items="typedSystemItems"
+                                     mentio-search="getTypedSystemItems(term)"
+                                     mentio-select="selectTypedItem(item)"
+                                     mentio-is-business-logic="true"></mentio-menu>
+                    </div>
+
+                    <div id="users-preview"
+                         ma-preview-business-logic
+                         business-logic="template.Template"
+                         ng-click="template.edit=true"
+                         ng-class="{in: !template.edit}"
+                         ng-if="!template.edit"
+                         class="form-control" style="min-height: 100px; cursor: pointer; overflow-wrap: break-word;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="pull-right">
+        <button type="button" class="btn btn-cancel" ng-click="close()">
+            <i class="fa"></i> Close
+        </button>
+        <button type="submit" class="btn" ng-class="{'btn-add': !template.MappingProjectTemplateId, 'btn-save': template.MappingProjectTemplateId}" ng-click="save()" ng-disabled="templateForm.$invalid" promise-btn>
+            <i class="fa"></i> {{template.MappingProjectTemplateId ? 'Save' : 'Add'}}
+        </button>
+    </div>
+</div>

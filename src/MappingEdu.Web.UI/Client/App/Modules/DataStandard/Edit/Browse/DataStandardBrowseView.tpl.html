@@ -1,0 +1,20 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<ma-container-fluid></ma-container-fluid>
+<ma-browse-data-standard standard-id="dataStandardBrowseModel.dataStandardId"
+                         selected-item="dataStandardBrowseModel.selectedItem"
+                         domain-id="dataStandardBrowseModel.domainId"></ma-browse-data-standard>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="bodyText pull-right">
+            <a ng-if="dataStandardBrowseModel.selectedItem.ItemType" href="{{dataStandardBrowseModel.selectedItem.sref}}" class="btn btn-primary">View {{dataStandardBrowseModel.selectedItem.ItemType.DisplayText}}</a>
+        </div>
+    </div>
+</div>

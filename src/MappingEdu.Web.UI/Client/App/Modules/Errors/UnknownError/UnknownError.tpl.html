@@ -1,0 +1,41 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="page-header">
+    <h1 class="anim-slide-left anim-fade">
+        {{error.status ? error.status : 'Unknown'}} Error
+    </h1>
+</div>
+
+<div class="panel panel-danger panel-dark panel-body-colorful widget-profile widget-profile-centered">
+    <div class="panel-heading">
+        <div style="display: inline-block" class="widget-profile-bg-icon"><i class="fa fa-user-secret"></i></div>
+        <div style="display: inline-block" class="widget-profile-header">
+            <span>{{error.statusText ? error.statusText : 'Unknown'}} Error</span><br>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="widget-profile-text" style="padding: 0;" ng-bind-html="error.data ? error.data : 'Unknown error has occurred'"> </div>
+        <br/>
+        <div class="widget-profile-text" style="padding: 0;" ng-if="error.to">
+            Attempted Url: {{error.to.href}}
+            <br/>
+            <br />
+        </div>
+        <a class="btn btn-blue" ui-sref="app.home">
+            <i class="fa fa-home"></i>
+            Home
+        </a>
+        <a ng-if="error.from.state.name" class="btn btn-blue" href="{{error.from.href}}">
+            <i class="fa fa-arrow-circle-left"></i>
+            Back
+        </a>
+
+    </div>
+</div>
+
+<!-- end: app.errors.accessdenied -->

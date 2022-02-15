@@ -1,0 +1,25 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<br />
+
+<div class="underline-header">Element Usage</div>
+<ul class="list-unstyled">
+    <li ng-repeat="element in enumerationUsageViewModel.usage">
+        <ma-element-path ng-if="enumerationUsageViewModel.mappingProjectId"
+                         segments="element.PathSegments"
+                         context-id="enumerationUsageViewModel.mappingProjectId" context="mappingProject" last-segment-is-element="true"
+                         depth="20">
+        </ma-element-path>
+        <ma-element-path ng-if="enumerationUsageViewModel.dataStandardId "
+                         segments="element.PathSegments"
+                         context-id="enumerationUsageViewModel.dataStandardId" context="dataStandard" last-segment-is-element="true"
+                         depth="20">
+        </ma-element-path>
+
+    </li>
+</ul>

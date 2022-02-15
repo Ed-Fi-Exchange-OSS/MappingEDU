@@ -1,0 +1,163 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<ma-loading view-model="mappingProjectDashboardViewModel"></ma-loading>
+<br />
+<div class="underline-header">Dashboard</div>
+
+<!-- USER, ADMIN -->
+<div ma-role="user,admin">
+    <div class="row">
+        <div class="col-md-5">
+            <h3>Work Queue</h3>
+            <table class="table-condensed" style="width: 100%">
+                <tbody>
+                <tr ng-repeat="workItem in mappingProjectDashboardViewModel.dashboard.WorkQueue" uib-tooltip="{{(workItem.Count == 0) ? 'There are no items in this filter' : ''}}" tooltip-placement="left">
+                    <td>
+                        <a class="btn btn-xs btn-edit" style="margin-left: -11px" href="{{mappingProjectDashboardViewModel.reviewQueueSref(workItem)}}" ng-disabled="workItem.Count == 0">{{workItem.GroupName}} ({{workItem.Count}})</a>
+                    </td>
+                    <td style="width: 50px">
+                        <a href="{{mappingProjectDashboardViewModel.reviewQueueSref(workItem)}}" class="btn btn-xs btn-happy btn-list" role="button" ng-disabled="workItem.Count == 0">
+                            <i class="fa"></i>List
+                        </a>
+                    </td>
+                    <td ma-role="user,admin" ma-project-access project-id="mappingProjectDetailViewModel.id" access="Edit">
+                        <a href="{{mappingProjectDashboardViewModel.elementSref(workItem, true)}}" class="btn btn-xs btn-resume btn-happy" role="button" ng-disabled="workItem.Count == 0">
+                            <i class="fa"></i>Resume Mapping
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-offset-1 col-md-5" style="position: relative; min-height: 157px" dw-loading="dashboard_filters" dw-loading-options="{text: 'Loading Filters...'}">
+            <h3>Your Saved Filters</h3>
+            <div>
+                <table class="table-condensed">
+                    <tbody>
+                        <tr ng-repeat="filter in mappingProjectDashboardViewModel.filters | limitTo: mappingProjectDashboardViewModel.filters.length > 3 ? 2 : 3" uib-tooltip="{{(filter.Total == 0) ? 'There are no items in this filter' : ''}}" tooltip-placement="left">
+                            <td style="width: 100%">
+                                <a class="btn btn-xs btn-edit" style="margin-left: -11px" href="{{mappingProjectDashboardViewModel.reviewQueueSref(filter, true)}}" ng-disabled="filter.Total == 0">{{filter.Name}} ({{filter.Total}})</a>
+                            </td>
+                            <td style="width: 50px">
+                                <a href="{{mappingProjectDashboardViewModel.reviewQueueSref(filter, true)}}" class="btn btn-xs btn-happy btn-list" role="button" ng-disabled="filter.Total == 0">
+                                    <i class="fa"></i>List
+                                </a>
+                            </td>
+                            <td style="-moz-min-width: 162px; -ms-min-width: 162px; -o-min-width: 162px; -webkit-min-width: 162px; min-width: 162px">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-if="mappingProjectDashboardViewModel.filters.length > 2" uib-collapse="!mappingProjectDashboardViewModel.allFiltersVisible">
+                <table class="table-condensed">
+                    <tbody>
+                    <tr ng-repeat="filter in mappingProjectDashboardViewModel.filters" ng-show="$index > 1">
+                        <td style="width: 100%">
+                            <a class="btn btn-xs btn-edit" style="margin-left: -11px" href="{{mappingProjectDashboardViewModel.reviewQueueSref(filter, true)}}" ng-disabled="filter.Total == 0">{{filter.Name}} ({{filter.Total}})</a>
+                        </td>
+                        <td style="width: 50px">
+                            <a href="{{mappingProjectDashboardViewModel.reviewQueueSref(filter, true)}}" class="btn btn-xs btn-happy btn-list" role="button" ng-disabled="filter.Total == 0">
+                                <i class="fa"></i>List
+                            </a>
+                        </td>
+                        <td style="-moz-min-width: 162px; -ms-min-width: 162px; -o-min-width: 162px; -webkit-min-width: 162px; min-width: 162px">
+                            <div></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-if="mappingProjectDashboardViewModel.filters.length > 3" style="width: 100%">
+                <table class="table-condensed"  style="width: 100%">
+                    <tbody>
+                        <tr>
+                            <td colspan="2" class="text-center" style="width: 100%">
+                                <a class="btn btn-link" role="button" ng-click="mappingProjectDashboardViewModel.allFiltersVisible = !mappingProjectDashboardViewModel.allFiltersVisible">
+                                    Show {{ !mappingProjectDashboardViewModel.allFiltersVisible ? 'More' : 'Fewer'}} Filters
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-5">
+            <h3>Incomplete Mappings: By Element Group</h3>
+            <table class="table-condensed" style="width: 100%">
+                <tbody>
+                <tr ng-repeat="incomplete in mappingProjectDashboardViewModel.dashboard.ElementGroups" uib-tooltip="{{(incomplete.Count == 0) ? 'There are no items in this filter' : ''}}" tooltip-placement="left">
+                    <td>
+                        <a class="btn btn-xs btn-edit" ng-disabled="incomplete.Count == 0" style="margin-left: -11px; text-align: left" href="{{mappingProjectDashboardViewModel.reviewQueueSref(incomplete)}}">
+                            <span style="max-width: 200px; white-space: normal;">{{incomplete.GroupName}} ({{incomplete.Count}})</span>
+                        </a>
+                    </td>
+                    <td style="width: 50px">
+                        <a href="{{mappingProjectDashboardViewModel.reviewQueueSref(incomplete)}}" class="btn btn-xs btn-happy btn-list" role="button" ng-disabled="incomplete.Count == 0">
+                            <i class="fa"></i>List
+                        </a>
+                    </td>
+                    <td ma-role="user,admin" ma-project-access project-id="mappingProjectDetailViewModel.id" access="Edit">
+                        <a href="{{mappingProjectDashboardViewModel.elementSref(incomplete, true)}}"  class="btn btn-xs btn-resume btn-happy" role="button" ng-disabled="incomplete.Count == 0" uib-tooltip="{{(incomplete.Count == 0) ? 'There are no items in this filter' : ''}}">
+                            <i class="fa"></i>Resume Mapping
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-offset-1 col-md-5">
+            <h3>All Mappings: By Status</h3>
+            <table class="table-condensed">
+                <tbody>
+                <tr ng-repeat="mapping in mappingProjectDashboardViewModel.dashboard.Statuses" uib-tooltip="{{(mapping.Count == 0) ? 'There are no items in this filter' : ''}}" tooltip-placement="left">
+                    <td style="width: 100%">
+                        <a class="btn btn-xs btn-edit" style="margin-left: -11px" href="{{mappingProjectDashboardViewModel.reviewQueueSref(mapping)}}" ng-disabled="mapping.Count == 0">{{mapping.GroupName}} ({{mapping.Count}})</a>
+                    </td>
+                    <td style="width: 50px">
+                        <a href="{{mappingProjectDashboardViewModel.reviewQueueSref(mapping)}}" class="btn btn-xs btn-happy btn-list" role="button" ng-disabled="mapping.Count == 0">
+                            <i class="fa"></i>List
+                        </a>
+                    </td>
+                    <td ma-role="user,admin" ma-project-access project-id="mappingProjectDetailViewModel.id" access="Edit">
+                        <a href="{{mappingProjectDashboardViewModel.elementSref(mapping, true)}}" class="btn btn-xs btn-resume btn-happy" role="button" ng-disabled="mapping.Count == 0">
+                            <i class="fa"></i>Resume Mapping
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div ma-role="guest">
+    <div class="row">
+        <div class="col-md-5">
+            <h3>All Mappings</h3>
+            <table class="table-condensed" style="width: 100%">
+                <tbody>
+                <tr>
+                    <td style="width: 100%">
+                        <a class="btn btn-xs btn-edit" style="margin-left: -11px" href="{{mappingProjectDashboardViewModel.reviewQueueSref(mappingProjectDashboardViewModel.dashboard.Statuses[0])}}" ng-disabled="mapping.Count == 0">Mapping Queue ({{mappingProjectDashboardViewModel.dashboard.Statuses[0].Count}})</a>
+                    </td>
+                    <td style="width: 50px">
+                        <a href="{{mappingProjectDashboardViewModel.elementSref(mappingProjectDashboardViewModel.dashboard.Statuses[0])}}" class="btn btn-xs btn-happy btn-list" role="button" ng-disabled="mapping.Count == 0">
+                            <i class="fa"></i>List
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

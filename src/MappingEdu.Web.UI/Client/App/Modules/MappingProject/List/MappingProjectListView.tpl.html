@@ -1,0 +1,58 @@
+<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row" style="margin-top: -10px">
+    <div class="col-md-10">
+        <h1>Mapping Project List</h1>
+    </div>
+    <div class="col-md-2" ma-role="user,admin">
+        <a style="margin-top: 20px" class="btn btn-edit pull-right" ui-sref="app.mapping-project.create">
+            <i class="fa"></i>Create Project
+        </a>
+    </div>
+</div>
+<ma-container-fluid></ma-container-fluid>
+<table class="table table-hover" datatable="ng" dt-options="mappingProjectListViewModel.dtOptions">
+    <thead>
+        <tr>
+            <th style="width: 1%" ma-role="user,admin"></th>
+            <th style="width: 35%">Mapping Project</th>
+            <th style="width: 9%">Status</th>
+            <th style="width: 10%">Source</th>
+            <th style="width: 10%">Target</th>
+            <th style="width: 12.5%" ma-role="user,admin">Access Level</th>
+            <th style="width: 12.5%" ma-role="user,admin">Last Modified By You</th>
+            <th style="width: 12.5%" ma-role="user,admin">Created By</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="project in mappingProjectListViewModel.projects">
+            <td class="text-center" ma-role="user,admin">
+                <span class="hidden">{{project.Flagged}}</span>
+                <ma-favorite model="project"></ma-favorite>
+            </td>
+            <td>
+                <a href="" ng-click="mappingProjectListViewModel.editProject(project)">{{project.ProjectName}}</a> <i ng-if="project.IsPublic" class="fa fa-globe"></i>
+                <br/>
+                <span>{{project.Description}}</span>
+            </td>
+            <td ng-bind="project.ProjectStatusTypeName"></td>
+            <td><a href="" ng-click="mappingProjectListViewModel.editStandard(project.SourceDataStandard)">{{project.SourceDataStandard.SystemName}} ({{project.SourceDataStandard.SystemVersion}})</a></td>
+            <td><a href="" ng-click="mappingProjectListViewModel.editStandard(project.TargetDataStandard)">{{project.TargetDataStandard.SystemName}} ({{project.TargetDataStandard.SystemVersion}})</a></td>
+            <td ma-role="user,admin">
+                <span ng-bind="mappingProjectListViewModel.getAccess(project)"></span>
+            </td>
+            <td ma-role="user,admin">
+                <span class="hidden">{{project.UserUpdateDate}}</span>
+                <span ng-show="project.UserUpdateDate != '0001-01-01T00:00:00'">{{project.UserUpdateDate | date : 'MMM d, y h:mm a' }}</span>
+            </td>
+            <td ma-role="user,admin">
+                <span>{{project.CreateBy}}</span>
+            </td>
+        </tr>
+    </tbody>
+</table>

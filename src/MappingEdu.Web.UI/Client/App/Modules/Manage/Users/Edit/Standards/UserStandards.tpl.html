@@ -1,0 +1,76 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row">
+    <div class="col-md-12" style="margin-top: 20px">
+    </div>
+</div>
+<div class="row">
+    <form name="standardShareForm">
+        <div class="col-md-7 form-group">
+            <ui-select ng-model="standard.Id"
+                       theme="bootstrap"
+                       name="standard"
+                       required>
+                <ui-select-match allow-clear="true" placeholder="Select a standard...">{{$select.selected.SystemName}} ({{$select.selected.SystemVersion}})</ui-select-match>
+                <ui-select-choices repeat="standard.DataStandardId as standard in userStandardsViewModel.standards | filter: $select.search">
+                    <div ng-bind-html="standard.SystemName | highlight: $select.search"></div>
+                    <small>Version: <span ng-bind-html="''+ standard.SystemVersion | highlight: $select.search"></span></small>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <div class="col-md-3 form-group">
+            <select class="form-control"
+                    name="role"
+                    ng-model="standard.Role"
+                    ng-options="permission.value as permission.label for permission in userStandardsViewModel.permissonOptions"
+                    required></select>
+        </div>
+        <button class="col-md-2 btn btn-share" ng-click="userStandardsViewModel.addUserToStandard(usersEditViewModel.user.Email, standard)" ng-disabled="standardShareForm.$invalid" promise-btn><i class="fa"></i> Share</button>
+    </form>
+</div>
+<table class="table table-hover" datatable="ng" dt-options="userStandardsViewModel.dtOptions">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Version</th>
+            <th style="width: 125px;">Access Level</th>
+            <th style="width: 50px">Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="standard in userStandardsViewModel.userStandards">
+            <td><a ui-sref="app.data-standard.edit.groups({ dataStandardId: '{{ standard.Id }}' })" ng-bind="standard.Name"></a></td>
+            <td ng-bind="standard.Version"></td>
+            <td>
+                <select style="width: 125px; border: none; background:none"
+                        ng-model="standard.Role"
+                        ng-change="userStandardsViewModel.updateStandardRole(usersEditViewModel.user.Email, standard)"
+                        ng-options="permission.value as permission.label for permission in userStandardsViewModel.permissonOptions"></select>
+            </td>
+            <td class="text-center">
+                <button type="button" class="btn btn-delete"
+                        ma-confirm-action="userStandardsViewModel.removeStandardRole(standard, usersEditViewModel.user, $index)">
+                    <i class="fa"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div id="editUser" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="page-title">Edit User</span>
+            </div>
+            <div class="modal-body">
+                <user-form user="userStandardsViewModel.user"></user-form>
+            </div>
+        </div>
+    </div>
+</div>

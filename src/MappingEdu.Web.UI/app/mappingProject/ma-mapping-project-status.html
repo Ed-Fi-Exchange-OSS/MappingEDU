@@ -1,0 +1,21 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row" ng-show="mappingProjectStatusViewModel.isReadyForClose">
+    <div class="col-md-12">
+        <div class="alert alert-info">
+            <b>Congratulations!</b>  This source data standard has been completely mapped to the target data standard.
+            <button class="btn btn-lg btn-close" ng-click="mappingProjectStatusViewModel.closeProject()"><i class="fa"></i>Close this Project!</button>
+        </div>
+    </div>
+</div>
+<div class="alert alert-success" ng-show="mappingProjectStatusViewModel.showClosedMsg">
+    <button type="button" class="close" ng-click="mappingProjectStatusViewModel.showClosedMsg = false">
+        <span>&times;</span>
+    </button>
+    {{ mappingProjectStatusViewModel.closedMsg }}
+</div>

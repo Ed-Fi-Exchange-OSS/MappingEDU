@@ -1,0 +1,9 @@
+application.js
+application.js.map
+
+client.js
+client.js.map
+app/**/*.js
+app/**/*.map
+common/**/*.js
+common/**/*.map

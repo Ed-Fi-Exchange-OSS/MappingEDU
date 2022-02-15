@@ -1,0 +1,16 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<span ma-role="user,admin" class="starhover">
+    <input type="checkbox"
+           class="star"
+           id="star_{{random}}"
+           ng-model="model.Flagged"
+           ng-disabled="model.disabled"
+           ng-change="toggle()">
+    <label style="margin-top: 5px" class="star" for="star_{{random}}"></label>
+</span>

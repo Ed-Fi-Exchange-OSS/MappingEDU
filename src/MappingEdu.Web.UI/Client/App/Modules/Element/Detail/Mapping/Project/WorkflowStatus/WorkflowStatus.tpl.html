@@ -1,0 +1,81 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div ma-role="user,admin">
+    <div class="underline-header">
+        Mapping Status
+        <span class="bodyText">
+            : {{(vm.mapping.WorkflowStatusType.Name) ? vm.mapping.WorkflowStatusType.Name : 'Unmapped'}}
+        </span>
+    </div>
+    <div class="row" ng-if="vm.mapping.SystemItemMapId">
+        <div class="col-md-7">
+            <div class="bodyText mapping-status-section">
+                <div class="workflow-header">
+                    <div class="mapping">Mapping</div>
+                    <div class="review">Review</div>
+                    <div class="approval">Approval</div>
+                    <div class="flag">Flag</div>
+                </div>
+                <label class="workflow-label">Workflow Status:</label>
+                <ma-workflow-status mapping="vm.mapping"
+                                    read-only="readOnly"
+                                    mapping-project-id="vm.mappingProjectId">
+                </ma-workflow-status>
+                <div class="status-note" style="position: relative">
+                    <label class="workflow-label">Status Note: </label>
+                    <form name="workflowForm" class="validate" role="form" novalidate>
+                        <div ng-show="!vm.editMode || readOnly" ng-click="vm.editNote($event)" ng-mouseenter="active=true" ng-mouseleave="active=false" ng-class="{'editable-text': !readOnly}"
+                             style="margin-left: 160px; padding: 0 5px; width: 450px; min-height: 20px">
+                            <span style="z-index: 10" class="pull-right">
+                                <i class="fa fa-pencil edit-pencil" ng-show="active == true && !readOnly"></i>
+                            </span>
+                            <div style="width: 100%;" ng-bind-html="vm.viewStatusNote(vm.mapping.StatusNote) | linkyWithHtml"></div>
+                        </div>
+                        <div ng-show="vm.editMode && !readOnly">
+                            <textarea name="statusNote"
+                                      msd-elastic="\n"
+                                      class="form-control textbox-control workflow-status-note"
+                                      ng-model="vm.statusNote"
+                                      ma-focus-if="vm.editMode"
+                                      mentio
+                                      mentio-trigger-char="'@'"
+                                      mentio-items="users"
+                                      mentio-select="userSelect(item)"
+                                      mentio-template-url="/users.tpl"
+                                      mentio-typed-term="typedTerm"></textarea>
+
+                            <ma-textbox-options show-options="vm.editMode"
+                                                on-save="vm.updateNote"
+                                                on-cancel="vm.cancelNote"
+                                                clickable="workflow-status-note"></ma-textbox-options>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="!vm.mapping.SystemItemMapId">
+        <div class="col-md-7">
+            <div class="bodyText mapping-status-section">
+                <span ng-if="!vm.mapping.WorkflowStatusTypeId">
+                    Mapping status cannot be changed until a mapping method has been selected and saved.
+                </span>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>
+
+<script type="text/ng-template" id="/users.tpl" ng-show="!listMode">
+    <ul class="list-group user-search">
+        <li mentio-menu-item="person" ng-repeat="person in items" class="list-group-item">
+            <span class="text-primary" ng-bind-html="person.FirstName + ' ' + person.LastName + ' ' | mentioHighlight:typedTerm:'menu-highlighted' | unsafe"></span>
+            <em class="text-muted" ng-bind="person.Email"></em>
+        </li>
+    </ul>
+</script>

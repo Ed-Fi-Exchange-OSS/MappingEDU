@@ -1,0 +1,135 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<script type="text/javascript">
+    function downloadFile() {
+        window.location = Application.Urls.DownloadFile + "Templates/SystemImport_Master.xltx";
+    }
+</script>
+<div class="row">
+    <div class="col-md-12">
+        <h2>Element Group</h2>
+        <p>
+            <button type="button" class="btn btn-lg btn-upload btn-happy" data-toggle="modal"
+                    data-target="#uploadElementGroup" data-backdrop="static" data-keyboard="false">
+                <i class="fa"></i>Upload Element Group
+            </button>
+            <button type="button" class="btn btn-lg btn-add btn-happy"
+                    ng-click="dataStandardElementGroupsViewModel.create()" data-toggle="modal"
+                    data-backdrop="static" data-keyboard="false" data-target="#editElementGroup">
+                <i class="fa"></i>Add Element Group
+            </button>
+            <a class="btn btn-lg btn-happy btn-download" id="downloadFileLink" analytics-on="click" analytics-event="Download" analytics-properties="{level: 'Warn'}"
+               href="JavaScript:downloadFile()" type="vnd.ms-excel" target="_blank">
+                <i class="fa"></i> Download Template File
+            </a>
+        </p>
+    </div>
+</div>
+<input type="hidden" ng-model="dataStandardElementGroupsViewModel.currentElementGroup" />
+<div ma-handle-errors error-data="dataStandardElementGroupsViewModel.errorData">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <tbody>
+                <tr ng-repeat="element in dataStandardElementGroupsViewModel.elementGroups">
+                    <td>
+                        <a ng-if="element.SystemItemId" ui-sref="{{ element.elementGroupDetailSref }}">{{element.ItemName}}</a>
+                        <a ng-if="!element.SystemItemId" ui-sref="{{element.itemNameSref}}">{{element.ItemName}}</a>
+                        <br />
+                        <span>{{element.Definition}}</span>
+                    </td>
+                    <td>
+                        <a role="button" class="btn btn-happy btn-list" ui-sref="{{element.itemNameSref}}">
+                            <i class="fa"></i>List
+                        </a>
+                    </td>
+                    <td>
+                        <button ng-disabled="!element.SystemItemId" type="button" class="btn btn-happy btn-edit"
+                                ng-click="dataStandardElementGroupsViewModel.edit(element)"
+                                data-toggle="modal" data-backdrop="static" data-keyboard="false"
+                                data-target="#editElementGroup">
+                            <i class="fa"></i>Edit
+                        </button>
+                    </td>
+                    <td>
+                        <button ng-disabled="!element.SystemItemId" type="button" class="btn btn-delete"
+                                ma-confirm-action="dataStandardElementGroupsViewModel.delete(element)">
+                            <i class="fa"></i>Delete
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="uploadElementGroup" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="page-title">Upload New Element Group</span>
+            </div>
+            <div class="modal-body">
+                <ma-upload-element-group standard="dataStandardElementGroupsViewModel.dataStandard">
+                </ma-upload-element-group>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="editElementGroup" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="page-title">{{dataStandardElementGroupsViewModel.editModalTitle}}</span>
+            </div>
+            <div class="modal-body">
+                <div modal="modalEditElementGroup">
+                    <div ma-handle-errors error-data="dataStandardElementGroupsViewModel.errorData">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <form name="editElementGroupForm" ng-submit="dataStandardElementGroupsViewModel.save(dataStandardElementGroupsViewModel.currentElementGroup)" novalidate>
+                                <input type="hidden" ng-model="dataStandardElementGroupsViewModel.currentElementGroup.SystemItemId" />
+                                <div class="form-group" ma-show-errors>
+                                    <label class="control-label">Element Group Name</label>
+                                    <input type="text" name="itemName" class="form-control" id="itemName"
+                                           ng-model="dataStandardElementGroupsViewModel.currentElementGroup.ItemName" required
+                                           ng-maxlength="255" modal-set-focus="dataStandardElementGroupsViewModel.editSetFocus" />
+                                    <div ng-messages="editElementGroupForm.itemName.$error" class="help-block">
+                                        <div ng-message="required">Element Group Name is required.</div>
+                                        <div ng-message="maxlength">Element Group Name is too long.</div>
+                                    </div>
+                                </div>
+                                <div class="form-group" ma-show-errors>
+                                    <label class="control-label">Definition</label>
+                                    <textarea name="definition" class="form-control" type="text"
+                                              ng-model="dataStandardElementGroupsViewModel.currentElementGroup.Definition"
+                                              ng-maxlength="1500"></textarea>
+                                    <div ng-messages="editElementGroupForm.definition.$error" class="help-block">
+                                        <div ng-message="maxlength">Definition is too long.</div>
+                                    </div>
+                                </div>
+                                <div class="btn-toolbar row">
+                                    <div class="pull-right">
+                                        <button type="button" class="btn btn-cancel"
+                                                ng-click="dataStandardElementGroupsViewModel.cancel()">
+                                            <i class="fa"></i>Cancel
+                                        </button>
+                                        <button type="submit" class="btn btn-happy">
+                                            <i class="fa"></i>Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

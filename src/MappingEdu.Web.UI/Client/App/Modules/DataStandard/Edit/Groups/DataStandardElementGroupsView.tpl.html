@@ -1,0 +1,77 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<script type="text/javascript">
+    function downloadFile() {
+        window.location = "Templates/SystemImport_Master.xltx";
+    }
+</script>
+
+<div class="row">
+    <div class="col-md-12">
+        <br/>
+        <div class="underline-header">
+            Element Groups
+            <span class="pull-right" ma-standard-access standard-id="dataStandardDetailViewModel.dataStandard.DataStandardId" access="Edit">
+                <button type="button" class="btn btn-add" ng-click="dataStandardElementGroupsViewModel.create()">
+                    <i class="fa"></i>Add Element Group
+                </button>
+            </span>
+        </div>
+        <div>
+            <p>
+                Element groups are an optional, top-level organization for Data Standards entered into MappingEDU. These
+                are typically not part of the formal specification, but rather a logical grouping useful for data mapping
+                purposes. For example, a state with many separate data collections might organize each collection file to 
+                be mapped as an element group, a vendor might organize API endpoints into Element Groups, and so forth.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <tbody>
+            <tr ng-repeat="group in dataStandardElementGroupsViewModel.elementGroups">
+                <!-- DETAILS -->
+                <td>
+                    <a ng-if="group.SystemItemId" ui-sref="{{group.elementGroupDetailSref}}">{{group.ItemName}}</a>
+                    <a ng-if="!group.SystemItemId" ui-sref="{{group.itemNameSref}}">{{group.ItemName}}</a>
+                    <br/>
+                    <span>{{group.Definition}}</span>
+                </td>
+                <!-- BROWSE -->
+                <td style="width: 50px">
+                    <a role="button" class="btn btn-browse" ui-sref="{{group.browseSref}}">
+                        <i class="fa"></i>Browse
+                    </a>
+                </td>
+                <!-- LIST -->
+                <td style="width: 50px">
+                    <a role="button" class="btn btn-list" ui-sref="{{group.itemNameSref}}">
+                        <i class="fa"></i>List
+                    </a>
+                </td>
+                <!-- EDIT MODAL -->
+                <td ma-standard-access standard-id="dataStandardDetailViewModel.dataStandard.DataStandardId" access="Edit" style="width: 50px">
+                    <button ng-disabled="!group.SystemItemId" type="button" class="btn btn-edit"
+                            ng-click="dataStandardElementGroupsViewModel.edit(group)">
+                        <i class="fa"></i>Edit
+                    </button>
+                </td>
+                <td ma-standard-access standard-id="dataStandardDetailViewModel.dataStandard.DataStandardId" access="Edit" style="width: 50px">
+                    <button ng-disabled="!group.SystemItemId" type="button" class="btn btn-delete"
+                            ma-confirm-action="dataStandardElementGroupsViewModel.delete(group, $index)">
+                        <i class="fa"></i>Delete
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

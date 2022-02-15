@@ -1,0 +1,48 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<br/>
+<mapping-business-logic mapping="elementDetailMappingViewModel.mapping"
+                        mapping-project="elementDetailMappingViewModel.mappingProject"
+                        read-only="elementDetailMappingViewModel.readOnly" 
+                        system-item="elementDetailMappingViewModel.systemItem"
+                        enumerations="elementDetailMappingViewModel.enumerations"
+                        templates="elementDetailMappingViewModel.templates">
+</mapping-business-logic>
+
+<mapping-enumeration ng-show="elementDetailMappingViewModel.systemItem.ItemTypeId === 5 && elementDetailMappingViewModel.mapping.SystemItemMapId"
+                     mapping="elementDetailMappingViewModel.mapping"
+                     enumerations="elementDetailMappingViewModel.enumerations"
+                     system-item="elementDetailMappingViewModel.systemItem"
+                     read-only="elementDetailMappingViewModel.readOnly" 
+                     mapping-project-id="elementDetailMappingViewModel.mappingProjectId">
+</mapping-enumeration>
+
+<br/>
+
+<mapping-workflow-status mapping="elementDetailMappingViewModel.mapping"
+                         read-only="elementDetailMappingViewModel.readOnly" 
+                         mapping-project-id="elementDetailMappingViewModel.mappingProjectId">
+</mapping-workflow-status>
+
+<div ma-role="user,admin">
+    <div class="underline-header">Notes</div>
+    <div class="row" ng-if="!elementDetailMappingViewModel.mapping.SystemItemMapId">
+        <div class="col-md-7">
+            Notes cannot be added until a mapping method has been selected and saved.
+        </div>
+    </div>
+    <div class="row" ng-if="elementDetailMappingViewModel.mapping.SystemItemMapId">
+        <div class="col-md-7">
+            <ma-system-item-notes mapping-project-id="elementDetailMappingViewModel.mappingProjectId"
+                                  notes="elementDetailMappingViewModel.mapping.MapNotes"
+                                  system-item-map-id="elementDetailMappingViewModel.mapping.SystemItemMapId"
+                                  read-only="elementDetailMappingViewModel.readOnly"></ma-system-item-notes>
+        </div>
+    </div>
+
+</div>

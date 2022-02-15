@@ -1,0 +1,55 @@
+﻿
+<div class="row" ng-class="{'col-md-10 col-md-offset-1': !organization.Id}">
+    <form name="organizationForm" novalidate>
+        <div class="col-md-6 form-group" ma-show-errors>
+            <label class="control-label">Name</label>
+            <input class="form-control"
+                   type="text"
+                   ng-model="organizationFormViewModel.organization.Name"
+                   name="name"
+                   required
+                   ng-maxlength="50"
+                   set-focus />
+            <div ng-messages="organizationForm.name.$error" class="help-block">
+                <div ng-message="required">Name is required.</div>
+                <div ng-message="maxlength">Name is too long.</div>
+            </div>
+        </div>
+
+        <div class="col-md-6 form-group" ma-show-errors>
+            <label class="control-label">Domains</label>
+            <input class="form-control"
+                   type="text"
+                   ng-model="organizationFormViewModel.organization.StringDomains"
+                   name="domains" />
+        </div>
+
+        <div class="col-md-12 form-group" ma-show-errors>
+            <label class="control-label">Description</label>
+            <textarea class="form-control"
+                      type="text"
+                      ng-model="organizationFormViewModel.organization.Description"
+                      name="description"
+                      rows="2"
+                      style="resize: none"></textarea>
+        </div>
+
+        <div class="col-md-12 btn-toolbar row">
+            <div class="pull-right">
+                <button type="button" class="btn btn-cancel" ng-class="{'btn-lg': !organization.Id}"
+                        ng-click="organizationFormViewModel.cancel()" data-dismiss="modal">
+                    <i class="fa"></i>
+                    Cancel
+                </button>
+                <button ng-if="!organization.Id" ng-disabled="organizationForm.$invalid" type="submit" ng-click="organizationFormViewModel.save()" promise-btn class="btn btn-happy btn-lg">
+                    <i class="fa"></i>
+                    Save
+                </button>
+                <button ng-if="organization.Id" ng-disabled="organizationForm.$invalid" type="submit" ng-click="organizationFormViewModel.save()" class="btn btn-happy" data-dismiss="modal">
+                    <i class="fa"></i>
+                    Save
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

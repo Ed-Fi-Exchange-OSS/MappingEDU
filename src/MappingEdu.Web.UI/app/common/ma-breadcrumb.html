@@ -1,0 +1,26 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<ol class="breadcrumb">
+    <li ng-repeat="link in links" ng-if="!$last">
+        <a ng-if="!link.Children" ui-sref="{{link.sref}}">{{link.text}}</a>
+        <div ng-if="link.Children" class="dropdown pull-right">
+            <a class="dropdown-toggle" role="button" data-toggle="dropdown">{{link.text}} <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li ng-repeat="child in link.Children">
+                    <a ui-sref="{{child.sref}}">{{child.text}}</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <li ng-if="links.length > 1" class="active">
+        {{links[links.length - 1].text}}
+    </li>
+    <li ng-if="links.length === 1">
+        <a ui-sref="{{links[0].sref}}">{{links[0].text}}</a>  
+    </li>
+</ol>

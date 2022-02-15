@@ -1,0 +1,61 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()">&times;</button>
+    <h4 class="modal-title">Share {{type}}</h4>
+</div>
+<div class="modal-body">
+    <div ng-show="type == 'Project'" class="alert alert-warning alert-dismissible">
+        <b>Important: </b> Sharing this Mapping Project will also provide the user with
+        view-only access to the source and target Data Standards. By sharing this Project,
+        you are confirming that the Project and its associated Standards are not considered 
+        proprietary or confidential by their owners.
+    </div>
+    <form name="shareForm"
+          novalidate>
+        <div class="row">
+            <div class="col-md-8 form-group" ng-class="{'has-error': (selected.Users.length < 1 || !emailValid) && shareForm.users.$dirty, 'has-success': selected.Users.length > 0 && emailValid && shareForm.users.$dirty}">
+                <label class="control-label" name="role">Users<a ng-if="searchingForEmail" class="is-loading"><span class="btn-spinner"></span></a></label>
+                <ui-select ng-model="selected.Users"
+                           theme="bootstrap"
+                           name="users"
+                           required
+                           multiple>
+                    <ui-select-match placeholder="Type email to find user..">
+                        <i class="fa fa-user"></i> {{$item.FirstName}} {{$item.LastName}} &lt;{{$item.Email}}&gt;
+                    </ui-select-match>
+                    <ui-select-choices repeat="user in usersByEmail | filter: $select.search"
+                                       refresh="isEmail($select.search, shareForm)"
+                                       refresh-delay="500">
+                        <div ng-bind-html="user.FirstName + ' ' + user.LastName| highlight: $select.search"></div>
+                        <small>
+                            Email: <span ng-bind-html="''+user.Email | highlight: $select.search"></span>
+                        </small>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="col-md-4 form-group" ng-class="{'has-error': shareForm.role.$invalid && shareForm.role.$dirty, 'has-success': shareForm.role.$valid}">
+                <label class="control-label" name="role">Access Level</label>
+                <select class="form-control"
+                        name="role"
+                        ng-model="selected.Role"
+                        ng-options="permission.value as permission.label for permission in permissonOptions"
+                        required></select>
+            </div>
+        </div>
+    </form>
+
+    <div id="termsOfUse" ng-bind-html="termsOfUse" style="position: relative; max-height: 200px; overflow-y: hidden; position: relative;"></div>
+</div>
+<div class="modal-footer">
+    <div class="pull-right">
+        <button type="button" class="btn btn-cancel" ng-click="close()"><i class="fa"></i> Close</button>
+        <button type="submit" class="btn btn-share" ng-disabled="shareForm.$invalid || selected.Users.length == 0 || !emailValid" ng-click="share(selected, shareForm)" promise-btn><i class="fa"></i> Share</button>
+    </div>
+</div>

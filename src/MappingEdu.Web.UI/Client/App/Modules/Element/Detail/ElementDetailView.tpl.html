@@ -1,0 +1,117 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<!--<div class="container "style="position: fixed; background-color: white; z-index: 10; margin-top: -30px; padding-top: 10px;">-->
+<div id="element-info" class="navbar navbar-fixed-top" style="margin-top: 50px; z-index: 1;">
+    <div class="container" style="background-color: white">
+        <div class="row" style="padding-top: 11px">
+            <div class="col-md-9">
+                <span class="page-title" ng-bind="elementDetailViewModel.pageTitle"></span>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div ng-if="elementDetailViewModel.mappingProjectId">
+                            <ma-mapping-project-header mapping-project="elementDetailViewModel.mappingProject" summary="true"></ma-mapping-project-header>
+                            <ma-mapping-project-status mapping-project="elementDetailViewModel.mappingProject"></ma-mapping-project-status>
+                        </div>
+                        <div ng-if="elementDetailViewModel.dataStandardId" class="header-summary">
+                            <label>Data Standard:</label> <span ma-data-standard-fullname standard="elementDetailViewModel.dataStandard"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="pull-right" style="background-color: white; padding: 10px 0px;">
+                    <span><a ma-go-back></a></span>&nbsp;
+                    <span style="font-weight: bold">
+                        <span ng-bind="elementDetailViewModel.current + 1"></span> of
+                        <span ng-bind="elementDetailViewModel.list.length"></span>
+                        <button ng-disabled="elementDetailViewModel.current == 0" class="btn btn-base" ng-click="elementDetailViewModel.previous()">
+                            <i class="fa fa-caret-left" style="font-size: 1.8em"></i>
+                        </button>
+                        <button ng-disabled="elementDetailViewModel.current + 1 == elementDetailViewModel.list.length" class="btn btn-base" ng-click="elementDetailViewModel.next()">
+                            <i class="fa fa-caret-right" style="font-size: 1.8em"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="underline-header" style="margin-bottom: 5px">
+                    <div class="row">
+                        <div class="col-sm-9 col-md-11" ng-bind="elementDetailViewModel.element.ItemName" style="font-weight: bold; font-size: 1em"></div>
+                        <div class="col-sm-3 col-md-1" style="z-index: 1; position: relative" ng-if="elementDetailViewModel.dataStandardId">
+                            <span class="pull-right" ma-standard-access standard-id="elementDetailViewModel.dataStandardId" access="Edit">
+                                <a class="btn btn-edit" ng-click="elementDetailViewModel.edit()">
+                                    <i class="fa"></i> Edit Element
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 col-md-1">
+                <label>Path: </label>
+            </div>
+            <div class="col-sm-8 col-md-9">
+                <ma-element-path ng-if="elementDetailViewModel.mappingProjectId && elementDetailViewModel.element"
+                                 segments="elementDetailViewModel.element.PathSegments"
+                                 control="elementDetailViewModel.element"
+                                 context-id="elementDetailViewModel.mappingProjectId" context="mappingProject" last-segment-is-element="true" depth="20">
+                </ma-element-path>
+                <ma-element-path ng-if="elementDetailViewModel.dataStandardId && elementDetailViewModel.element"
+                                 segments="elementDetailViewModel.element.PathSegments"
+                                 context-id="elementDetailViewModel.dataStandardId" context="dataStandard" last-segment-is-element="true"
+                                 control="elementDetailViewModel.element" depth="20">
+                </ma-element-path>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 col-md-1">
+                <label>Definition:</label>
+            </div>
+            <div class="col-sm-8 col-md-9">
+                <span ng-bind="elementDetailViewModel.element.Definition" style="overflow-wrap: break-word;"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-style="elementDetailViewModel.tabStyle">
+    <div class="col-sm-2 col-md-1">
+        <label>Type:</label>
+    </div>
+    <div class="col-sm-8 col-md-9">
+        <span ng-bind="elementDetailViewModel.element.ItemType.Name"></span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2 col-md-1">
+        <label>Length:</label>
+    </div>
+    <div class="col-sm-8 col-md-9">
+        <span ng-bind="elementDetailViewModel.element.FieldLength"></span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12" style="z-index: 0">
+        <ul class="nav nav-tabs" ng-if="elementDetailViewModel.showTabs()" s>
+            <li ng-class="{active:elementDetailViewModel.onPage(tab.link)}"
+                ng-repeat="tab in elementDetailViewModel.tabs"
+                style="z-index: 3; position: relative">
+                <a ui-sref="{{ tab.link }}" ng-bind="tab.label">Tab</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<ma-loading view-model="elementDetailViewModel"></ma-loading>
+<div ui-view></div>
+

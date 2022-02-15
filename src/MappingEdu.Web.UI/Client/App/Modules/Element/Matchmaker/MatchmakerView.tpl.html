@@ -1,0 +1,97 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="modal-header bold">
+    {{project.TargetDataStandard.SystemName}} ({{project.TargetDataStandard.SystemVersion}}) - Select Mapping Target
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12 form-group">
+            <div class="bodyText">
+                <label class="control-label" style="width: 150px">Source Path:</label>
+                <div style="display: inline-block">
+                    <span Class="path-segment">{{project.SourceDataStandard.SystemName}} ({{project.SourceDataStandard.SystemVersion}})</span>
+                    <i class="fa fa-caret-right separator" style="margin-left: -5px; margin-right: 0px; padding: 0px;"></i>
+                    <ma-element-path segments="element.PathSegments"
+                                     context-id="mappingProject.mappingProjectId" context="mappingProject" last-segment-is-element="true"
+                                     depth="4" view-only="true">
+                    </ma-element-path>
+                </div>
+                <br/>
+                <label class="control-label" style="width: 150px">Source Definition:</label>
+                <div style="display: inline-block;" ng-bind="element.Definition"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs mapping-header" role="tablist">
+                <li role="presentation" ng-class="{active: active.tab == 'browse'}" ng-click="setTab('browse'); browseOnOpen()">
+                    <a role="tab" analytics-on analytics-event="Matchmaker Browse Tab Clicked" style="cursor: pointer">Browse</a>
+                </li>
+                <li role="presentation" ng-class="{active: active.tab == 'search'}" ng-click="setTab('search')">
+                    <a role="tab" analytics-on analytics-event="Matchmaker Search Tab Clicked" style="cursor: pointer">Search</a>
+                </li>
+                <li role="presentation" ng-class="{active: active.tab == 'suggest'}" ng-click="setTab('suggest')">
+                    <a role="tab" analytics-on analytics-event="Matchmaker Suggest Tab Clicked" style="cursor: pointer">Suggest</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade in active" role="tabpanel" ng-show="active.tab == 'browse'">
+                    <ma-browse-data-standard standard-id="project.TargetDataStandard.DataStandardId"
+                                             selected-item="selectedBrowseItem"
+                                             browse-element="browseElement"
+                                             on-open="browseOnOpen">
+                    </ma-browse-data-standard>
+                </div>
+                <div class="tab-pane fade in active" role="tabpanel" ng-show="active.tab == 'search'">
+                    <ma-matchmaker-search standard-id="project.TargetDataStandard.DataStandardId"
+                                          item-type-id="element.ItemTypeId"
+                                          element-groups="elementGroups"
+                                          entities="entities"
+                                          project="project"
+                                          selected-items="selectedSearchItems"
+                                          close="select('search')"
+                                          browse-element="browseElement"></ma-matchmaker-search>
+                </div>
+                <div class="tab-pane fade in active" role="tabpanel" ng-show="active.tab == 'suggest'">
+                    <ma-matchmaker-suggest standard-id="project.TargetDataStandard.DataStandardId"
+                                           item-type-id="element.ItemTypeId"
+                                           system-item-id="element.SystemItemId"
+                                           element-groups="elementGroups"
+                                           project="project"
+                                           selected-items="selectedSuggestItems"
+                                           selected-mapping="selectedSuggestMapping"
+                                           browse-element="browseElement"
+                                           close="select('suggest')"></ma-matchmaker-suggest>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="bodyText pull-right">
+                <button class="btn btn-select" ng-click="select(active.tab)"
+                        ng-disabled="isDisabled(active.tab)">
+                    <i class="fa"></i>
+                    Select Element{{selected(active.tab)}}
+                </button>
+                <button class="btn btn-select" ng-if="active.tab == 'suggest'" ng-click="select(active.tab, true)"
+                        ng-disabled="isDisabled(active.tab, true)">
+                    <i class="fa"></i>
+                    Select Mapping
+                </button>
+                <button class="btn btn-cancel" ng-click="cancel(active.tab)">
+                    <i class="fa"></i>
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

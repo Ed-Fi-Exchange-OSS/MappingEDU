@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4CF79BEE-37A7-45CC-ABC0-40D7215DFB5B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MappingEdu.Service.Model</RootNamespace>
+    <AssemblyName>MappingEdu.Service.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.14.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.14\lib\net45\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Admin\ConfigurationStatus.cs" />
+    <Compile Include="Admin\SystemConstantModel.cs" />
+    <Compile Include="AutoMap\AutoMapModels.cs" />
+    <Compile Include="BriefElement\BriefElementViewModel.cs" />
+    <Compile Include="Common\DisplayEnumerationElement.cs" />
+    <Compile Include="DataStandard\DataStandardCloneModel.cs" />
+    <Compile Include="DataStandard\DataStandardCreateModel.cs" />
+    <Compile Include="DataStandard\DataStandardEditModel.cs" />
+    <Compile Include="DataStandard\DataStandardNameViewModel.cs" />
+    <Compile Include="DataStandard\DataStandardViewModel.cs" />
+    <Compile Include="Datatables\BaseDatatablesModel.cs" />
+    <Compile Include="Domain\DomainCreateModel.cs" />
+    <Compile Include="Domain\DomainEditModel.cs" />
+    <Compile Include="Domain\DomainViewModel.cs" />
+    <Compile Include="ElementDetails\ElementDetailsCreateModel.cs" />
+    <Compile Include="ElementDetails\ElementDetailsEditModel.cs" />
+    <Compile Include="ElementDetails\ElementDetailsSearchModel.cs" />
+    <Compile Include="ElementDetails\ElementDetailsViewModel.cs" />
+    <Compile Include="ElementList\ElementListViewModel.cs" />
+    <Compile Include="Element\ElementViewModel.cs" />
+    <Compile Include="EntityHints\EntityMappingEditModel.cs" />
+    <Compile Include="EntityHints\EntityMappingViewModel.cs" />
+    <Compile Include="Entity\EntityCreateModel.cs" />
+    <Compile Include="Entity\EntityViewModel.cs" />
+    <Compile Include="Entity\NewEntityViewModel.cs" />
+    <Compile Include="EnumerationItemMapping\EnumerationItemMappingCreateModel.cs" />
+    <Compile Include="EnumerationItemMapping\EnumerationItemMappingEditModel.cs" />
+    <Compile Include="EnumerationItemMapping\EnumerationItemMappingViewModel.cs" />
+    <Compile Include="EnumerationItem\EnumerationItemCreateModel.cs" />
+    <Compile Include="EnumerationItem\EnumerationItemEditModel.cs" />
+    <Compile Include="EnumerationItem\EnumerationItemViewModel.cs" />
+    <Compile Include="Enumeration\EnumerationCreateModel.cs" />
+    <Compile Include="Enumeration\EnumerationViewModel.cs" />
+    <Compile Include="Home\HomeViewModel.cs" />
+    <Compile Include="Import\XSDImportModels.cs" />
+    <Compile Include="Import\ImportResultModel.cs" />
+    <Compile Include="Import\ImportSchemaModel.cs" />
+    <Compile Include="Logging\LoggingCreateModel.cs" />
+    <Compile Include="Logging\LoggingViewModel.cs" />
+    <Compile Include="MapNote\MapNoteCreateModel.cs" />
+    <Compile Include="MapNote\MapNoteEditModel.cs" />
+    <Compile Include="MapNote\MapNoteViewModel.cs" />
+    <Compile Include="MappedSystemExtension\MappedSystemExtensionSystemItemModel.cs" />
+    <Compile Include="MappedSystemExtension\MappedSystemExtensionModel.cs" />
+    <Compile Include="MappedSystem\MappedSystemDetailsCreateModel.cs" />
+    <Compile Include="MappedSystem\MappedSystemUserAddModel.cs" />
+    <Compile Include="MappedSystem\MappedSystemUserModel.cs" />
+    <Compile Include="MappedSystem\MappedSystemViewModel.cs" />
+    <Compile Include="MappingProject\ApproveAllSystemItemMapsViewModel.cs" />
+    <Compile Include="MappingProject\DataStandardMappingProjectsViewModel.cs" />
+    <Compile Include="MappingProject\MappingProjectCloneModel.cs" />
+    <Compile Include="MappingProject\MappingProjectCreateModel.cs" />
+    <Compile Include="MappingProject\MappingProjectQueueFilterModel.cs" />
+    <Compile Include="MappingProject\MappingProjectTemplateModel.cs" />
+    <Compile Include="MappingProject\MappingProjectSummaryViewModel.cs" />
+    <Compile Include="MappingProject\MappingProjectDashboardViewModel.cs" />
+    <Compile Include="MappingProject\MappingProjectEditModel.cs" />
+    <Compile Include="MappingProject\MappingProjectElementViewModel.cs" />
+    <Compile Include="MappingProject\MappingProjectReportsViewModel.cs" />
+    <Compile Include="MappingProject\MappingProjectReviewQueueViewModel.cs" />
+    <Compile Include="MappingProject\MappingProjectStatusViewModel.cs" />
+    <Compile Include="MappingProject\MappingProjectUserAddModel.cs" />
+    <Compile Include="MappingProject\MappingProjectUserModel.cs" />
+    <Compile Include="MappingProject\MappingProjectHintModel.cs" />
+    <Compile Include="MappingProject\MappingProjectViewModel.cs" />
+    <Compile Include="Membership\OrganizationUserCreateModel.cs" />
+    <Compile Include="Membership\CurrentUserModel.cs" />
+    <Compile Include="Membership\UserNameViewModel.cs" />
+    <Compile Include="Membership\UserRegistrationResultModel.cs" />
+    <Compile Include="Membership\UserPasswordResetModel.cs" />
+    <Compile Include="Membership\UserMappedSystemModel.cs" />
+    <Compile Include="Membership\UserMappingProjectModel.cs" />
+    <Compile Include="Membership\UserOrganizationModel.cs" />
+    <Compile Include="Membership\OrganizationUserModel.cs" />
+    <Compile Include="Membership\CurrentUserUpdateModel.cs" />
+    <Compile Include="Migration\MigrationStatusModel.cs" />
+    <Compile Include="NewSystemItem\NewSystemItemCreateModel.cs" />
+    <Compile Include="NewSystemItem\NewSystemItemViewModel.cs" />
+    <Compile Include="NextVersionDelta\NextVersionDeltaCreateModel.cs" />
+    <Compile Include="NextVersionDelta\NextVersionDeltaEditModel.cs" />
+    <Compile Include="NextVersionDelta\NextVersionDeltaViewModel.cs" />
+    <Compile Include="Note\NoteCreateModel.cs" />
+    <Compile Include="Note\NoteEditModel.cs" />
+    <Compile Include="Note\NoteViewModel.cs" />
+    <Compile Include="SystemItem\SystemItemViewModel.cs" />
+    <Compile Include="SystemItem\SystemItemEditModel.cs" />
+    <Compile Include="SystemItem\SystemItemCreateModel.cs" />
+    <Compile Include="UserNotification\UserNotificationElement.cs" />
+    <Compile Include="UserNotification\UserNotificationViewModel.cs" />
+    <Compile Include="PreviousVersionDelta\PreviousVersionDeltaCreateModel.cs" />
+    <Compile Include="PreviousVersionDelta\PreviousVersionDeltaEditModel.cs" />
+    <Compile Include="PreviousVersionDelta\PreviousVersionDeltaViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\VersionInfo.cs" />
+    <Compile Include="Membership\OrganizationCreateModel.cs" />
+    <Compile Include="Membership\OrganizationModel.cs" />
+    <Compile Include="Membership\OrganizationUpdateModel.cs" />
+    <Compile Include="Membership\UserCreateModel.cs" />
+    <Compile Include="Membership\UserModel.cs" />
+    <Compile Include="Membership\UserUpdateModel.cs" />
+    <Compile Include="SystemItem\SystemItemTypeaheadViewModel.cs" />
+    <Compile Include="SystemItemBulk\SystemItemBulkModel.cs" />
+    <Compile Include="SystemItemCustomDetail\CustomDetailMetadataCreateModel.cs" />
+    <Compile Include="SystemItemCustomDetail\CustomDetailMetadataEditModel.cs" />
+    <Compile Include="SystemItemCustomDetail\CustomDetailMetadataViewModel.cs" />
+    <Compile Include="SystemItemCustomDetail\SystemItemCustomDetailCreateModel.cs" />
+    <Compile Include="SystemItemCustomDetail\SystemItemCustomDetailEditModel.cs" />
+    <Compile Include="SystemItemCustomDetail\SystemItemCustomDetailsGroupEditModel.cs" />
+    <Compile Include="SystemItemCustomDetail\SystemItemCustomDetailsGroupViewModel.cs" />
+    <Compile Include="SystemItemCustomDetail\SystemItemCustomDetailViewModel.cs" />
+    <Compile Include="SystemItemDefinition\SystemItemDefinitionEditModel.cs" />
+    <Compile Include="SystemItemDefinition\SystemItemDefinitionViewModel.cs" />
+    <Compile Include="SystemItemEnumeration\SystemItemEnumerationViewModel.cs" />
+    <Compile Include="SystemItemMapping\SystemItemMappingBriefViewModel.cs" />
+    <Compile Include="SystemItemMapping\SystemItemMappingCreateModel.cs" />
+    <Compile Include="SystemItemMapping\SystemItemMappingEditModel.cs" />
+    <Compile Include="SystemItemMapping\SystemItemMappingViewModel.cs" />
+    <Compile Include="SystemItemMapping\TargetEnumerationItemViewModel.cs" />
+    <Compile Include="SystemItemName\SystemItemNameEditModel.cs" />
+    <Compile Include="SystemItemName\SystemItemNameViewModel.cs" />
+    <Compile Include="SystemItemSelector\MappedSystemViewModel.cs" />
+    <Compile Include="SystemItemTree\SystemItemTreeViewModel.cs" />
+    <Compile Include="ViewOptions\AddDialogOptions.cs" />
+    <Compile Include="ViewOptions\ErrorPanelBindingOptions.cs" />
+    <Compile Include="ViewOptions\Options.cs" />
+    <Compile Include="ViewOptions\SectionHeaderOptions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MappingEdu.Common\MappingEdu.Common.csproj">
+      <Project>{956c2fb1-df12-4b5f-b39d-f30292ad8a43}</Project>
+      <Name>MappingEdu.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MappingEdu.Core.Domain\MappingEdu.Core.Domain.csproj">
+      <Project>{d1838d22-6c0d-4368-a662-51c925953c57}</Project>
+      <Name>MappingEdu.Core.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

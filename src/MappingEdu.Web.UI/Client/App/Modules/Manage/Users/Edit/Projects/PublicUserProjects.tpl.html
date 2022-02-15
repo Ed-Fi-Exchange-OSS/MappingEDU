@@ -1,0 +1,78 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row">
+    <div class="col-md-11" style="margin-top: 20px">
+    </div>
+</div>
+<form name="projectShareForm">
+    <div class="row">
+        <div class="col-md-10 form-group">
+            <ui-select ng-model="selected.project"
+                       theme="bootstrap"
+                       required>
+                <ui-select-match allow-clear="true" placeholder="Select a project...">{{$select.selected.ProjectName}}</ui-select-match>
+                <ui-select-choices repeat="project in userProjectsViewModel.projects | filter: {IsPublic: false} | filter: $select.search">
+                    <div ng-bind-html="project.ProjectName | highlight: $select.search"></div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <small>Source: <span ng-bind-html="''+project.SourceDataStandard.SystemName + ' (' + project.SourceDataStandard.SystemVersion + ')' | highlight: $select.search"></span></small>
+                        </div>
+                        <div class="col-md-5">
+                            <small>Target: <span ng-bind-html="''+project.TargetDataStandard.SystemName + ' (' + project.TargetDataStandard.SystemVersion + ')' | highlight: $select.search"></span></small>
+                        </div>
+                    </div>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <button class="col-md-2 btn btn-public" ng-click="userProjectsViewModel.togglePublic(selected.project)" ng-disabled="projectShareForm.$invalid" promise-btn><i class="fa"></i> Make Public</button>
+    </div>
+</form>
+<div clas="row">
+    <div class="col-md-10">
+        <div class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <p>Making this Mapping Project public will provide:</p>
+            <ul>
+                <li>
+                    The guest account and registered users access to see all elements,
+                    enumerations, business logic, and mappings.
+                </li>
+                <li>
+                    Registered users with access to download reports, see workflow statuses,
+                    and view notes.
+                </li>
+                <li>
+                    All users with read-only access to the source and target Data Standards
+                    associated with this project. (Registered users with additional privileges
+                    on the Data Standards will keep those privileges.)
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<table class="table table-hover" datatable="ng" dt-options="userProjectsViewModel.dtOptions" dt-instance="userProjectsViewModel.instance">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th style="width: 50px">Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="project in userProjectsViewModel.projects | filter:{IsPublic: true}">
+            <td><a ui-sref="app.mapping-project.detail.dashboard({ id: '{{ project.MappingProjectId }}' })" ng-bind="project.ProjectName"></a></td>
+            <td ng-bind="project.Description"></td>
+            <td class="text-center">
+                <button type="button" class="btn btn-delete"
+                        ma-confirm-action="userProjectsViewModel.togglePublic(project)">
+                    <i class="fa"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

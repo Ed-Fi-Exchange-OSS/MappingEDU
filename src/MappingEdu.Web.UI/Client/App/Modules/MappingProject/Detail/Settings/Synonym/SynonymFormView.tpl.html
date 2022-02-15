@@ -1,0 +1,58 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+
+<div class="modal-header">
+    Synonym Form
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                Use Synonyms to create a thesaurus for your Mapping Project. For example, if
+                'Begin Date' in one Standard means the same thing as 'Start Date' in another Standard,
+                or if 'Student' in one Standard is the same concept as 'K12 Student' in another
+                Standard, you can create those Synonym entries here. Adding Synonyms helps to improve
+                suggestions offered by the Suggest tab in the Matchmaker.
+            </p>
+            <ul>
+                <li>To add a Synonym, add a term from the source Standard and an equivalent term from the target Standard.</li>
+                <li>Make sure to enter text exactly how in appears in the Standard definitions.</li>
+                <li>The Synonyms you enter only apply to this Project.</li>
+            </ul>
+
+        </div>
+    </div>
+    <br/>
+    <form name="synonymForm">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group" ng-class="{'has-error': synonymForm.source.$invalid && synonymForm.source.$dirty, 'has-success': synonymForm.source.$valid}">
+                    <label for="source">Source Word</label><br/>
+                    <input type="text" id="source" class="form-control" ng-model="synonym.SourceWord" name="source" required/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group" ng-class="{'has-error': synonymForm.target.$invalid && synonymForm.target.$dirty, 'has-success': synonymForm.target.$valid}">
+                    <label for="target">Target Word</label><br/>
+                    <input type="text" id="target" class="form-control" ng-model="synonym.TargetWord" name="target" required/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="pull-right">
+        <button type="button" class="btn btn-cancel" ng-click="close()">
+            <i class="fa"></i> Close
+        </button>
+        <button type="submit" class="btn" ng-class="{'btn-add': !synonym.MappingProjectSynonymId, 'btn-save': synonym.MappingProjectSynonymId}" ng-click="save()" ng-disabled="synonymForm.$invalid">
+            <i class="fa"></i> {{synonym.MappingProjectSynonymId ? 'Save' : 'Add'}}
+        </button>
+    </div>
+</div>

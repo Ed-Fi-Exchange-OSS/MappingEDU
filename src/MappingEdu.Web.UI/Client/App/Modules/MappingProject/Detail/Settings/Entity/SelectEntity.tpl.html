@@ -1,0 +1,134 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="modal-header bold">
+    Entity to Entity Hinting
+</div>
+<div class="modal-body">
+    <table class="table table-borderless" style="width: 100%; table-layout: fixed; word-wrap: break-word;">
+        <tbody>
+            <tr>
+                <th style="width: 50%;" ng-style="{'active': sourceOpen}">
+                    Source Entity
+                    <button class="btn btn-add" ng-click="toggleDropdown(true); onOpenSource()">
+                        <span ng-show="sourceOpen">Selecting</span>
+                        <span ng-show="!sourceOpen">Select</span>
+                    </button>
+                </th>
+                <th style="width: 50%;" ng-style="{'background': targetOpen}">
+                    Target Entity
+                    <button class="btn btn-add" ng-click="toggleDropdown(); onOpenTarget()">
+                        <span ng-show="targetOpen">Selecting</span>
+                        <span ng-show="!targetOpen">Select</span>
+                    </button>
+                </th>
+            </tr>
+            <tr>
+                <td ng-class="{'active': sourceOpen}">{{hint.SourceEntity ? hint.SourceEntity.DomainItemPath : 'Select a Source Entity...'}}</td>
+                <td ng-class="{'active': targetOpen}">{{hint.TargetEntity ? hint.TargetEntity.DomainItemPath : 'Select a Target Entity...'}}</td>
+            </tr>
+
+        </tbody>
+    </table>
+    <div class="collapse row" id="source-entity">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs mapping-header" role="tablist">
+                <li role="presentation" ng-class="{active: active.sourceTab == 'browse'}" ng-click="setTab('browse', true)">
+                    <a role="tab" style="cursor: pointer">Browse</a>
+                </li>
+                <li role="presentation" ng-class="{active: active.sourceTab == 'search'}" ng-click="setTab('search', true)">
+                    <a role="tab" style="cursor: pointer">Search</a>
+                </li>
+            </ul>
+            <div>
+                Selecting <span class="standard-a">Source</span> Entity
+            </div><br />
+            <div class="tab-content">
+                <div class="tab-pane fade in active" role="tabpanel" ng-show="active.sourceTab == 'browse'">
+                    <ma-browse-data-standard standard-id="project.SourceDataStandardId"
+                                             selected-item="selectedBrowseSourceItem"
+                                             on-open="onOpenSource"
+                                             browse-element="sourceBrowseElement">
+                    </ma-browse-data-standard>
+                </div>
+                <div class="tab-pane fade in active" role="tabpanel" ng-show="active.sourceTab == 'search'">
+                    <ma-matchmaker-search standard-id="project.SourceDataStandardId"
+                                          item-type-id="2"
+                                          element-groups="sourceElementGroups"
+                                          selected-items="selectedSourceItems"
+                                          browse-element="sourceBrowseElement"
+                                          only-one="true"></ma-matchmaker-search>
+                </div>
+                <div class="pull-right">
+                    <button class="btn btn-select" ng-click="selectBrowseElement(active.sourceTab, true)"
+                            ng-disabled="isSelectDisabled(active.sourceTab, true)">
+                        <i class="fa"></i>
+                        Select Entity
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="collapse row" id="target-entity">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs mapping-header" role="tablist">
+                <li role="presentation" ng-class="{active: active.targetTab == 'browse'}" ng-click="setTab('browse')">
+                    <a role="tab" style="cursor: pointer">Browse</a>
+                </li>
+                <li role="presentation" ng-class="{active: active.targetTab == 'search'}" ng-click="setTab('search')">
+                    <a role="tab" style="cursor: pointer">Search</a>
+                </li>
+            </ul>
+            <div>
+                Selecting <span class="standard-b">Target</span> Entity
+            </div><br />
+            <div class="tab-content">
+                <div class="tab-pane fade in active" role="tabpanel" ng-show="active.targetTab == 'browse'">
+                    <ma-browse-data-standard standard-id="project.TargetDataStandardId"
+                                             selected-item="selectedBrowseTargetItem"
+                                             on-open="onOpenTarget"
+                                             browse-element="targetBrowseElement">
+                    </ma-browse-data-standard>
+                </div>
+                <div class="tab-pane fade in active" role="tabpanel" ng-show="active.targetTab == 'search'">
+                    <ma-matchmaker-search standard-id="project.TargetDataStandardId"
+                                          item-type-id="2"
+                                          element-groups="targetElementGroups"
+                                          selected-items="selectedTargetItems"
+                                          browse-element="targetBrowseElement"
+                                          only-one="true"></ma-matchmaker-search>
+                </div>
+                <div class="pull-right">
+                    <button class="btn btn-select" ng-click="selectBrowseElement(active.targetTab)"
+                            ng-disabled="isSelectDisabled(active.targetTab)">
+                        <i class="fa"></i>
+                        Select Entity
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="bodyText pull-right">
+                <button class="btn btn-cancel" ng-click="cancel(active.tab)">
+                    <i class="fa"></i>
+                    Cancel
+                </button>
+                <div style="display: inline-block" tooltip="{{disabledMessage}}">
+                    <button class="btn" ng-class="{'btn-add': !hint.EntityHintId, 'btn-save': hint.EntityHintId}" ng-click="select()"
+                            ng-disabled="isDisabled()">
+                        <i class="fa"></i>
+                        {{hint.EntityHintId ? 'Save' : 'Add'}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

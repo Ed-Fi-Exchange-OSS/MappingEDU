@@ -1,0 +1,78 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<br />
+<ma-loading view-model="mappingProjectMappingSummaryViewModel"></ma-loading>
+<div class="underline-header">
+    {{mappingProjectMappingSummaryViewModel.showDetails ? mappingProjectMappingSummaryViewModel.selectedSummaryDetail.ItemName : 'Summary' }}
+    <div class="pull-right">
+        <div style="display: inline-block" class="pull-right">
+            <div class="btn-group" uib-dropdown is-open="itemType.isopen">
+                <button type="button" class="btn btn-base" uib-dropdown-toggle>
+                    Item View:
+                    <span ng-if="mappingProjectMappingSummaryViewModel.itemType == 4">Elements</span>
+                    <span ng-if="mappingProjectMappingSummaryViewModel.itemType == 5">Enumerations</span>
+                    <span ng-if="mappingProjectMappingSummaryViewModel.itemType == undefined">Elements/Enumerations</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
+                    <li role="menuitem" ng-class="{'active': mappingProjectMappingSummaryViewModel.itemType == 4}"><a href="" ng-click="mappingProjectMappingSummaryViewModel.changeItemType(4)">Elements</a></li>
+                    <li role="menuitem" ng-class="{'active': mappingProjectMappingSummaryViewModel.itemType == 5}"><a href="" ng-click="mappingProjectMappingSummaryViewModel.changeItemType(5)">Enumerations</a></li>
+                    <li class="divider"></li>
+                    <li role="menuitem" ng-class="{'active': mappingProjectMappingSummaryViewModel.itemType == undefinded}"><a href="" ng-click="mappingProjectMappingSummaryViewModel.changeItemType(undefinded)">Both</a></li>
+                </ul>
+            </div>
+            <div class="btn-group" uib-dropdown is-open="status.isopen" ng-if="!mappingProjectMappingSummaryViewModel.showDetails">
+                <button type="button" class="btn btn-base" uib-dropdown-toggle>
+                    View:
+                    <span ng-if="mappingProjectMappingSummaryViewModel.mappingFilter == 'status'">Mapping Status Summary</span>
+                    <span ng-if="mappingProjectMappingSummaryViewModel.mappingFilter == 'method'">Mapping Method Summary</span>
+                    <span ng-if="mappingProjectMappingSummaryViewModel.mappingFilter == 'full'">Full Summary</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
+                    <li role="menuitem" ng-class="{'active': mappingProjectMappingSummaryViewModel.mappingFilter == 'status'}"><a href="" ng-click="mappingProjectMappingSummaryViewModel.changeMappingFilter('status')">Mapping Status Summary</a></li>
+                    <li role="menuitem" ng-class="{'active': mappingProjectMappingSummaryViewModel.mappingFilter == 'method'}"><a href="" ng-click="mappingProjectMappingSummaryViewModel.changeMappingFilter('method')">Mapping Method Summary</a></li>
+                    <li class="divider"></li>
+                    <li role="menuitem" ng-class="{'active': mappingProjectMappingSummaryViewModel.mappingFilter == 'full'}"><a href="" ng-click="mappingProjectMappingSummaryViewModel.changeMappingFilter('full')">Full Summary</a></li>
+                </ul>
+            </div>
+            <div class="btn-group" ng-if="mappingProjectMappingSummaryViewModel.showDetails">
+                <button class="btn btn-base" ng-click="mappingProjectMappingSummaryViewModel.showDetails = false; mappingProjectMappingSummaryViewModel.saveFilter()">Back</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="margin-top: -16px" ng-if="mappingProjectMappingSummaryViewModel.selectedSummaryDetail.Parent && mappingProjectMappingSummaryViewModel.showDetails">
+    {{mappingProjectMappingSummaryViewModel.selectedSummaryDetail.Parent.ItemName}}
+</div>
+<div id="summary-table">
+
+    <full-summary ng-if="!mappingProjectMappingSummaryViewModel.showDetails && mappingProjectMappingSummaryViewModel.mappingFilter === 'full'"
+                  loading="mappingProjectMappingSummaryViewModel.loading"
+                  summary="mappingProjectMappingSummaryViewModel.summary"
+                  item-type="mappingProjectMappingSummaryViewModel.itemType"
+                  header-hrefs="mappingProjectMappingSummaryViewModel.headerHrefs"
+                  show-more-details="mappingProjectMappingSummaryViewModel.showMoreDetails"></full-summary>
+    <method-summary ng-if="!mappingProjectMappingSummaryViewModel.showDetails && mappingProjectMappingSummaryViewModel.mappingFilter === 'method'"
+                    loading="mappingProjectMappingSummaryViewModel.loading"
+                    summary="mappingProjectMappingSummaryViewModel.summary"
+                    item-type="mappingProjectMappingSummaryViewModel.itemType"
+                    header-hrefs="mappingProjectMappingSummaryViewModel.headerHrefs"
+                    show-more-details="mappingProjectMappingSummaryViewModel.showMoreDetails"></method-summary>
+    <status-summary ng-if="!mappingProjectMappingSummaryViewModel.showDetails && mappingProjectMappingSummaryViewModel.mappingFilter === 'status'"
+                    loading="mappingProjectMappingSummaryViewModel.loading"
+                    summary="mappingProjectMappingSummaryViewModel.summary"
+                    item-type="mappingProjectMappingSummaryViewModel.itemType"
+                    header-hrefs="mappingProjectMappingSummaryViewModel.headerHrefs"
+                    show-more-details="mappingProjectMappingSummaryViewModel.showMoreDetails"></status-summary>
+    <detail-summary ng-if="mappingProjectMappingSummaryViewModel.showDetails"
+                    loading="mappingProjectMappingSummaryViewModel.loading"
+                    summary-detail="mappingProjectMappingSummaryViewModel.selectedSummaryDetail"
+                    item-type="mappingProjectMappingSummaryViewModel.itemType"
+                    pie-chart="mappingProjectMappingSummaryViewModel.pieChart"></detail-summary>
+</div>

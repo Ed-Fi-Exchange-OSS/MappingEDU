@@ -1,0 +1,51 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="underline-header" ng-show="vm.mapping.SystemItemMapId">Enumeration Item Mappings <a name="enumerations"></a>
+    <div class="pull-right" ma-project-access project-id="vm.mappingProjectId" access="Edit">
+        <button type="button" class="btn btn-map" ng-click="vm.runEnumerationAutoMapper()">
+            <i class="fa"></i>
+            Run Mapping Helper
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table id="enumerationMappingsTable" class="table table-bordered table-striped" datatable="ng" dt-options="vm.enumerationsTableOptions" dt-column-defs="vm.enumerationsTableColumnDefs">
+            <thead>
+                <tr>
+                    <th>Source Enumeration Item</th>
+                    <th>Mapping Logic</th>
+                    <th>Status</th>
+                    <th style="width: 30px">Edit</th>
+                    <th style="width: 45px">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="enumeration in vm.enumerations">
+                    <td>
+                        {{enumeration.CodeValue}}<br />
+                        <small>{{enumeration.ShortDescription}}</small>
+                    </td>
+                    <td ng-if="enumeration.Mapping.SystemEnumerationItemMapId">{{vm.getTargetPath(enumeration.Mapping.TargetSystemItem) }}.{{enumeration.Mapping.TargetCodeValue}}</td>
+                    <td ng-if="!enumeration.Mapping.SystemEnumerationItemMapId" class="alert-warning"><span>Not currently mapped</span></td>
+                    <td><span ma-enum-display enum="{{vm.enumerationMappingStatusTypes}}" enum-id="{{enumeration.Mapping.EnumerationMappingStatusTypeId}}"></span></td>
+                    <td class="text-center">
+                        <a class="btn" ng-class="{'btn-edit': enumeration.Mapping.SystemEnumerationItemMapId, 'btn-add': !enumeration.Mapping.SystemEnumerationItemMapId}" ng-click="vm.edit(enumeration)">
+                            <i class="fa"></i>
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a ng-if="enumeration.Mapping.SystemEnumerationItemMapId" class="btn btn-delete" ma-confirm-action="vm.delete(enumeration)">
+                            <i class="fa"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

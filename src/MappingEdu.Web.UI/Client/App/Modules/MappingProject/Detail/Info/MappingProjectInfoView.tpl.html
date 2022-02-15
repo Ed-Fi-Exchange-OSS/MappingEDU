@@ -1,0 +1,53 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row col-md-12">
+    <br/>
+    <div class="underline-header">Overview</div>
+    <table class="table table-borderless">
+        <tbody>
+        <tr>
+            <th style="width: 150px">Project Name:</th>
+            <td>{{ mappingProjectDetailViewModel.mappingProject.ProjectName }}</td>
+        </tr>
+        <tr>
+            <th>Project Status:</th>
+            <td>{{ mappingProjectDetailViewModel.mappingProject.ProjectStatusTypeName }}</td>
+        </tr>
+        <tr>
+            <th style="vertical-align: middle">Mapping:</th>
+            <td>
+                <a class="standard-a standard-a-hover" href="{{standardHref( mappingProjectDetailViewModel.mappingProject.SourceDataStandard)}}" ma-data-standard-fullname standard="mappingProjectDetailViewModel.mappingProject.SourceDataStandard" style="font-weight: normal"></a>
+                <i class="fa fa-chevron-right" style="vertical-align: middle"></i>
+                <a class="standard-b standard-b-hover" href="{{standardHref( mappingProjectDetailViewModel.mappingProject.TargetDataStandard)}}" ma-data-standard-fullname standard="mappingProjectDetailViewModel.mappingProject.TargetDataStandard" style="font-weight: normal"></a>
+            </td>
+        </tr>
+        <tr>
+            <th>Description:</th>
+            <td>{{ mappingProjectDetailViewModel.mappingProject.Description }}</td>
+        </tr>
+        <tr>
+            <th>Project Creator:</th>
+            <td>{{creator}}</td>
+        </tr>
+        <tr>
+            <th>Project Owner<span ng-if="owners.length != 1">s</span>:</th>
+            <td>
+                <div ng-repeat="owner in owners">{{owner}}</div>
+            </td>
+        </tr>
+        <tr ma-role="user,admin">
+            <th>Created On:</th>
+            <td>{{ mappingProjectDetailViewModel.mappingProject.CreateDate | date: 'EEEE, MMMM d, yyyy h:mm:ss a' }}</td>
+        </tr>
+        <tr ng-if="mappingProjectDetailViewModel.mappingProject.CreateDate != mappingProjectDetailViewModel.mappingProject.UpdateDate" ma-role="user,admin">
+            <th>Updated On:</th>
+            <td>{{ mappingProjectDetailViewModel.mappingProject.UpdateDate | date: 'EEEE, MMMM d, yyyy h:mm:ss a' }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

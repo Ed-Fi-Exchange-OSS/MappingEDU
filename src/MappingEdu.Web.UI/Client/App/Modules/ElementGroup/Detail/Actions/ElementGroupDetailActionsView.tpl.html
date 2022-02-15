@@ -1,0 +1,44 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div ng-if="elementDetailActionsViewModel.dataStandardId">
+    <br/>
+    <div class="underline-header">Delete</div>
+    <div id="delete" class="collapse in">
+        <button class="btn btn-delete btn-lg" ma-confirm-action="elementDetailActionsViewModel.delete()" modal="true">
+            <i class="fa"></i>Delete
+        </button>
+    </div>
+</div>
+<div ng-if="elementDetailActionsViewModel.mappingProjectId">
+    <div class="row">
+        <div class="col-md-6">
+            <br />
+            <div class="underline-header" style="font-size: 1.4em">Bulk Update</div>
+            <p>
+                Click to bulk update mappings in this element group. Change existing mappings workflow
+                statuses or change the mapping method and status of unmapped elements.
+            </p>
+            <div class="alert alert-success" ng-show="elementDetailActionsViewModel.showResultsMsg">
+                <button type="button" class="close" ng-click="elementDetailActionsViewModel.showResultsMsg = false">
+                    <span>&times;</span>
+                </button>
+                Updated {{ elementDetailActionsViewModel.resultsCount }} Mappings
+            </div>
+            <div class="pull-right">
+                <button type="button"
+                        class="btn btn-bulk-update"
+                        modal="true"
+                        ng-click="elementDetailActionsViewModel.modifyMappings()"
+                        ng-show="!elementDetailActionsViewModel.showResultsMsg">
+                    <i class="fa"></i>
+                    Bulk Update
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

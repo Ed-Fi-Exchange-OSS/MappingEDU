@@ -1,0 +1,28 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="modal-header">
+    <span class="page-title">Delete Extension</span>
+</div>
+<div class="modal-body">
+    <b>Warning!</b> Removing an extension will also remove all attached items.<br/><br/>
+    Are you sure?
+</div>
+<div class="modal-footer">
+    <div class="col-md-12 btn-group">
+        <div class="pull-right">
+            <button type="button" class="btn btn-cancel" ng-click="cancel()">
+                <i class="fa"></i>
+                Cancel
+            </button>
+            <button type="submit" class="btn btn-delete" ng-click="delete()" promise-btn>
+                <i class="fa"></i>
+                Delete
+            </button>
+        </div>
+    </div>
+</div>

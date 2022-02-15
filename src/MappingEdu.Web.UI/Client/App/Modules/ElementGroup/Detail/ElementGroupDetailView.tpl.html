@@ -1,0 +1,56 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+<div class="row">
+    <div class="col-md-12">
+        <span class="page-title">{{elementGroupDetailViewModel.pageTitle}}</span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <ma-mapping-project-header mapping-project="elementGroupDetailViewModel.mappingProject" ng-if="elementGroupDetailViewModel.mappingProjectId" summary="true"></ma-mapping-project-header>
+        <div ng-if="elementGroupDetailViewModel.dataStandardId != elementGroupDetailViewModel.emptyGuid" class="header-summary">
+            <span ma-data-standard-fullname standard="elementGroupDetailViewModel.dataStandard"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <h1>{{elementGroupDetailViewModel.elementGroup.ItemName}}</h1>
+    </div>
+    <div class="col-md-4" ng-if="elementGroupDetailViewModel.dataStandardId">
+        <span class="pull-right" ma-standard-access standard-id="elementGroupDetailViewModel.dataStandardId" access="Edit">
+            <a class="btn btn-edit" ng-click="elementGroupDetailViewModel.edit(elementGroupDetailViewModel.elementGroup)" data-toggle="modal" data-target="#elementGroupModal"
+               ng-if="elementGroupDetailViewModel.dataStandardId != elementGroupDetailViewModel.emptyGuid"
+               data-backdrop="static" data-keyboard="false">
+                <i class="fa"></i> Edit Element Group
+            </a>
+        </span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <label>Definition:</label> <span class="bodyText">{{elementGroupDetailViewModel.elementGroup.Definition}}</span>
+    </div>
+</div>
+
+<div class="row" ng-if="elementGroupDetailViewModel.tabs.length > 1">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs" ng-if="elementGroupDetailViewModel.showTabs()">
+            <li ng-class="{active:elementGroupDetailViewModel.onPage(tab.link)}"
+                ng-repeat="tab in elementGroupDetailViewModel.tabs">
+                <a ui-sref="{{ tab.link }}">{{ tab.label }}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div ui-view></div>

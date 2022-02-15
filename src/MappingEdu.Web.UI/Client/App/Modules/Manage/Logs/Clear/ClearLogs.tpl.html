@@ -1,0 +1,54 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+<div class="modal-header">
+    <h4 class="modal-title">Clear Logs</h4>
+</div>
+<div class="modal-body">
+    <div>
+        Once the logs are deleted they will not be retrievable.
+        Enter a date to delete all before the specified
+        date. Also enter your password to confirm deletion.
+    </div>
+    <br />
+    <form name="form" novalidate="">
+        <div class="row">
+            <div class="col-md-10 col-lg-offset-1">
+                <label class="control-label">Clear Logs Before: </label>
+                <div class="input-group">
+                    <input type="text"
+                           class="form-control"
+                           uib-datepicker-popup="MMM dd, yyyy"
+                           ng-model="model.DeleteDate"
+                           is-open="startOpen"
+                           max-date="today"
+                           close-text="Close"
+                           required />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="startOpen = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-10 col-lg-offset-1">
+                <label class="control-label">Password</label>
+                <input type="password"
+                       class="form-control"
+                       ng-model="model.Password"
+                       required />
+            </div>
+        </div>
+        <br />
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-delete" ng-click="clear()" promise-btn><i class="fa"></i> Clear</button>
+    <button type="button" class="btn btn-cancel" ng-click="close()"><i class="fa"></i> Close</button>
+</div>

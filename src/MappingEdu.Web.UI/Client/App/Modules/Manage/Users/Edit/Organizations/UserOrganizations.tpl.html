@@ -1,0 +1,57 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row">
+    <div class="col-md-12" style="margin-top: 20px">
+    </div>
+</div>
+<div class="row">
+    <form name="organizationAddForm">
+        <div class="col-md-10 form-group">
+            <ui-select ng-model="organization.Id"
+                       theme="bootstrap"
+                       required>
+                <ui-select-match allow-clear="true" placeholder="Select an organization...">{{$select.selected.Name}}</ui-select-match>
+                <ui-select-choices repeat="organization.Id as organization in userOrganizationsViewModel.organizations | filter: $select.search">
+                    <div ng-bind-html="organization.Name | highlight: $select.search"></div>
+                    <small>Domain(s):
+                        <span ng-repeat="domain in organization.Domains">
+                            <span ng-if="!$last" ng-bind-html="''+domain+', ' | highlight: $select.search"></span>
+                            <span ng-if="$last" ng-bind-html="''+domain | highlight: $select.search"></span>
+                        </span>
+                    </small>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <button class="col-md-2 btn btn-blue" ng-click="userOrganizationsViewModel.addUserToOrganization(organization)" ng-disabled="organizationAddForm.$invalid" promise-btn><i class="fa fa-plus"></i> Add</button>
+    </form>
+</div>
+<table class="table table-hover" datatable="ng" dt-options="userOrganizationsViewModel.dtOptions">
+    <thead>
+        <tr>
+            <th>Organization</th>
+            <th>Domain</th>
+            <th style="width: 50px">Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="organization in userOrganizationsViewModel.userOrganizations">
+            <td><a ui-sref="app.manage.organizations.edit({ id: '{{ organization.Id }}' })" ng-bind="organization.Name"></a></td>
+            <td>
+                <span ng-repeat="domain in organization.Domains">
+                    {{domain}}<span ng-if="!$last">, </span>
+                </span>
+            </td>
+            <td class="text-center">
+                <button type="button" class="btn btn-delete"
+                        ma-confirm-action="userOrganizationsViewModel.deleteOrganization(organization, $index)">
+                    <i class="fa"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

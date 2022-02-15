@@ -1,0 +1,64 @@
+<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1 form-group">
+        <h2>Create New Data Standard</h2>
+        <p>
+            Give your new Data Standard a name and a version number. If this is a new, updated,
+            or expanded version of a Standard already loaded on this site, you can select the 
+            previous version. Selecting a previous Data Standard helps the system suggest mappings for you.
+        </p>
+    </div>
+</div>
+
+<div ma-handle-errors error-data="dataStandardViewModel.errorData"></div>
+
+<div class="row">
+    <form name="dataStandardForm" ng-submit="dataStandardViewModel.save(standard)" novalidate>
+        <input type="hidden" ng-model="standard.DataStandardId" />
+        <div class="col-md-10 col-md-offset-1 form-group" ma-show-errors>
+            <label class="control-label">Data Standard Name</label>
+            <input type="text" name="systemName" class="form-control" ng-model="standard.SystemName" required ng-maxlength="50" set-focus />
+            <div ng-messages="dataStandardForm.systemName.$error" class="help-block">
+                <div ng-message="required">Data Standard Name is required.</div>
+                <div ng-message="maxlength">Data Standard Name is too long.</div>
+            </div>
+        </div>
+        <div class="col-md-5 col-md-offset-1 form-group" ma-show-errors>
+            <label class="control-label">Version</label>
+            <input type="text" name="systemVersion" class="form-control" ng-model="standard.SystemVersion" required ng-maxlength="50" />
+            <div ng-messages="dataStandardForm.systemVersion.$error" class="help-block">
+                <div ng-message="required">Version is required.</div>
+                <div ng-message="maxlength">Version is too long.</div>
+            </div>
+        </div>
+        <div class="col-md-5 form-group">
+            <label class="control-label">Previous Data Standard Version</> <i>(Optional)</i></label>
+            <ui-select ng-model="standard.PreviousDataStandardId"
+                       theme="bootstrap">
+                <ui-select-match allow-clear="true" placeholder="Select a source standard...">{{$select.selected.SystemName}} ({{$select.selected.SystemVersion}})</ui-select-match>
+                <ui-select-choices repeat="standard.DataStandardId as standard in dataStandardViewModel.dataStandards | filter: $select.search">
+                    <div ng-bind-html="standard.SystemName | highlight: $select.search"></div>
+                    <small>Version: <span ng-bind-html="''+ standard.SystemVersion | highlight: $select.search"></span></small>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <div class="col-md-10 col-md-offset-1 btn-group">
+            <div class="pull-right">
+                <button type="button" class="btn btn-cancel" ng-class="{'btn-lg' : !modal}" ng-click="dataStandardViewModel.cancel(standard)">
+                    <i class="fa"></i>
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-add" ng-class="{'btn-lg' : !modal}">
+                    <i class="fa"></i>
+                    Add
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,106 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<style>
+    .user-search .list-group-item.active {
+        color: #fff;
+        background-color: #428bca;
+        border-color: #428bca;
+    }
+
+    .user-search .list-group-item.active .text-muted {
+        color: #ccc;
+    }
+
+    .user-search .list-group-item.active .text-primary {
+        color: #fff;
+    }
+
+    .user-search .list-group-item {
+        padding: 5px;
+    }
+
+    .user-search .user-photo {
+        max-width: 30px;
+        max-height: 30px;
+        border-radius: 15px;
+    }
+</style>
+
+<script type="text/ng-template" id="/users.tpl">
+    <ul class="list-group user-search">
+        <li mentio-menu-item="person" ng-repeat="person in items" class="list-group-item">
+            <span class="text-primary" ng-bind-html="person.FirstName + ' ' + person.LastName + ' '| mentioHighlight:typedTerm:'menu-highlighted' | unsafe"></span>
+            <em class="text-muted" ng-bind="person.Email"></em>
+        </li>
+    </ul>
+</script>
+
+<div class="row" ng-repeat="note in notes" style="position: relative" dw-loading="saving-note{{$index}}" dw-loading-options="{text: 'Saving...'}">
+    <div class="col-md-12 editable-text" ng-style="{'cursor': (edit != $index && !readOnly && note.CreateById == me.Id) ? 'pointer' : 'default'}" ng-mouseenter="activeNote = $index" ng-mouseleave="activeNote = null">
+        <div ng-show="editIndex != $index" ng-click="edit(note, $index, $event)">
+            <div>
+                <small><b>{{note.CreateBy ? note.CreateBy : 'Unknown'}}</b> added a note
+                    <span ng-if="note.IsEdited"> - <span style="color: red">Edited</span></span> - {{note.CreateDate | date: 'dd/MMM/yy hh:mm a'}}</small>
+                <div class="pull-right" ng-show="activeNote == $index" ng-if="!readOnly && note.CreateById == me.Id">
+                    <i class="fa fa-pencil edit-pencil"></i>
+                    <i class="fa fa-trash edit-trash" ma-confirm-action="delete(note, $index)"></i>
+                </div>
+            </div>
+            <div style="width: 100%;" ng-bind-html="viewNotes(note) | linkyWithHtml"></div>
+        </div>
+        <div ng-show="editIndex == $index" style="position: relative">
+            <textarea class="form-control textbox-control system-note-{{$index}}"
+                      ng-model="note.EditNotes"
+                      ma-focus-if="editIndex == $index"
+                      msd-elastic="\n"
+
+                      mentio
+                      mentio-trigger-char="'@'"
+                      mentio-items="users"
+                      mentio-select="userSelect(item)"
+                      mentio-template-url="/users.tpl"
+                      mentio-typed-term="typedTerm"></textarea>
+
+            <ma-textbox-options show-options="editIndex == $index"
+                                model="note"
+                                on-cancel="cancel"
+                                on-save="save"
+                                deleted="note.Deleted"
+                                clickable="system-note-{{$index}}"></ma-textbox-options>
+        </div>
+    </div>
+</div>
+
+<div class="row" dw-loading="adding-note" dw-loading-options="{text: 'Saving...'}" ng-show="!readOnly">
+    <div class="col-md-12">
+        <div ng-show="!adding">
+            <button class="btn btn-add" ng-click="add()">
+                <i class="fa"></i> Add Note
+            </button>
+        </div>
+        <div ng-show="adding" style="position: relative">
+            <textarea class="form-control textbox-control system-note-add"
+                      ng-model="addNote.EditNotes"
+                      ma-focus-if="adding"
+                      msd-elastic="\n"
+
+                      mentio
+                      mentio-trigger-char="'@'"
+                      mentio-items="users"
+                      mentio-select="userSelect(item)"
+                      mentio-template-url="/users.tpl"
+                      mentio-typed-term="typedTerm"></textarea>
+
+            <ma-textbox-options show-options="adding"
+                                model="addNote"
+                                on-cancel="cancel"
+                                on-save="save"
+                                clickable="system-note-add"></ma-textbox-options>
+        </div>
+    </div>
+</div>

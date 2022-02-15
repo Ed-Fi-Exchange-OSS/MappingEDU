@@ -1,0 +1,136 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+<ul id="suggest-context-menu" class="dropdown-menu" role="menu" style="display:none">
+    <li><a href="" ng-click="suggestViewModel.viewInBrowse()">View in Browse</a></li>
+    <li id="row-not-selected"><a href="" ng-click="suggestViewModel.toggleSelect()">Select</a></li>
+    <li id="row-selected"><a href="" ng-click="suggestViewModel.toggleSelect()">Deselect</a></li>
+</ul>
+
+<div ng-if="suggestViewModel.collectingResults">
+    <h3><i class="fa fa-spinner fa-spin"></i> Collecting Suggestions
+    </h3>
+</div>
+<div ng-if="!suggestViewModel.collectingResults && suggestViewModel.suggestions.ElementSuggestions.length == 0">
+    <h3>We were unable to find any suggestions <i class="fa fa-frown-o"></i></h3>
+</div>
+<div ng-show="!suggestViewModel.collectingResults && suggestViewModel.suggestions.ElementSuggestions.length > 0">
+
+    <div ng-show="suggestViewModel.suggestions.MappingSuggestions.length">
+        <div class="underline-header">Suggested Mappings</div>
+        <table id="mappingSuggestionsTable" class="table small">
+            <thead>
+            <tr>
+                <th class="small bold" colspan="3">
+                    Click anywhere to to select. Click again to deselect.
+                </th>
+            </tr>
+            <tr>
+                <th class="small bold" colspan="3">
+                    Note: Selecting a Suggested Mapping will override any existing Business Logic/Omission Reasons.
+                </th>
+            </tr>
+            <tr>
+                <th style="width: 37%"><div style="width: 100%">Matching Target Elements</div></th>
+                <th style="width: 26%"><div style="width: 100%">Suggest Reason</div></th>
+                <th style="width: 37%"><div style="width: 100%">Business Logic</div></th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div class="underline-header">Suggested Elements</div>
+    <table id="elementSuggestionsTable" class="table table-striped small">
+        <thead>
+        <tr>
+            <th style="display: none"></th>
+            <th style="display: none"></th>
+            <th style="display: none"></th>
+            <th class="small bold" colspan="2">
+                Click anywhere in the row to select an element. Click again to deselect.
+            </th>
+            <th class="text-center">
+            </th>
+        </tr>
+        <tr>
+            <th style="display: none"></th>
+            <th style="display: none"></th>
+            <th style="display: none"></th>
+            <th colspan="2">
+                <div style="display: inline-block" ng-if="!suggestViewModel.showSelected">
+                    Element Groups
+                    <button data-toggle="collapse" data-target="#suggestElementGroups" ng-init="showElementElementGroupFilter = false"
+                            ng-click="showElementElementGroupFilter = !showElementElementGroupFilter">
+                        <i class="fa fa-filter" ng-class="{'filtered' : !suggestViewModel.allElementGroups}"></i>
+                    </button>
+                    <div id="suggestElementGroups" class="collapse dropdiv">
+                        <label>
+                            <input type="checkbox" ng-model="suggestViewModel.allElementGroups"
+                                   ng-change="suggestViewModel.clearElementGroups();"
+                                   value=""/>
+                            All Element Groups
+                        </label>
+                        <div ng-repeat="elementGroup in elementGroups | filter: '!Unknown'">
+                            <label>
+                                <input ng-model="suggestViewModel.selectedElementGroups[elementGroup.SystemItemId]" ng-change="suggestViewModel.redraw()"
+                                       type="checkbox" value="{{elementGroup.SystemItemId}}"/>
+                                {{elementGroup.ItemName}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: inline-block" ng-if="suggestViewModel.isExtended && !suggestViewModel.showSelected">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Items
+                    <button data-toggle="collapse" data-target="#suggestfilterExtension" ng-init="showExtensionsFilter = false"
+                            ng-click="showExtensionsFilters = !showExtensionsFilter"
+                            ng-disabled="suggestViewModel.loading">
+                        <i class="fa fa-filter" ng-class="{'filtered' : !suggestViewModel.allItems}"></i>
+                    </button>
+                    <div id="suggestfilterExtension" class="collapse dropdiv">
+                        <label>
+                            <input type="checkbox" ng-model="suggestViewModel.allItems"
+                                   ng-change="suggestViewModel.clearItems()"
+                                   value=""/>
+                            All
+                        </label>
+                        <div>
+                            <label>
+                                <input ng-model="suggestViewModel.selectedItems['base']" ng-change="suggestViewModel.redraw()"
+                                       type="checkbox"/>
+                                Base
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <input ng-model="suggestViewModel.selectedItems['extended']" ng-change="suggestViewModel.redraw()"
+                                       type="checkbox"/>
+                                Extended
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th class="text-center">
+                <button class="btn btn-sm btn-base" ng-click="suggestViewModel.toggleSelectedView()">
+                    <span ng-show="!suggestViewModel.showSelected">View Selected</span>
+                    <span ng-show="suggestViewModel.showSelected">View All</span>
+                </button>
+            </th>
+        </tr>
+        <tr>
+            <th style="display: none"></th>
+            <th style="display: none"></th>
+            <th style="display: none"></th>
+            <th>Matching Target Elements</th>
+            <th>Suggest Reason</th>
+            <th>Suggest Rank</th>
+        </tr>
+        </thead>
+    </table>
+</div>

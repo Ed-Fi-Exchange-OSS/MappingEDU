@@ -1,0 +1,64 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()">&times;</button>
+    <h4 class="modal-title">Run Mapping Helper</h4>
+</div>
+<div class="modal-body">
+    <div ng-show="state == 1">
+        <h2 style="color: black; margin-top: 0px">Suggest and Create Mappings Automatically?</h2>
+        <p style="color: black">MappingEDU can scan other mapping projects and automatically create mappings for your project based on what it finds.</p>
+
+        <p style="color: black; font-weight: bold">Worth noting:</p>
+        <ul style="margin-top: -8px; margin-left: -10px;">
+            <li>This process does not overwrite, alter, or add to existing mappings, so it can be run on a project even if you’ve already started mapping.</li>
+            <li>You can, of course, edit or remove the automatically created mappings any time.</li>
+            <li>This process sets the status of any automatic mappings to complete.</li>
+        </ul>
+        <p style="color: black; font-weight: bold">This process scans the following:</p>
+        <ul style="margin-top: -8px; margin-left: -10px;">
+            <li>Projects where the current version of the source Standard has been mapped to the same version of the target Standard.</li>
+            <li>Source and Target Standards contain the same full element name (i.e., Domain.Entity.ElementName to Domain.Entity.ElementName).</li>
+        </ul>
+    </div>
+    <div ng-show="state == 2">
+        Collecting Results... <a class="is-loading"><span class="btn-spinner"></span></a>
+    </div>
+    <div ng-show="state == 3">
+        <table class="table table-hover" id="autoMapperTable">
+            <thead>
+            <tr>
+                <th class="hidden">Source Path</th>
+                <th class="hidden">Reason Path</th>
+                <th class="hidden">Target Path</th>
+                <th style="width: 400px">{{mappingProject.SourceDataStandard.SystemName}} ({{mappingProject.SourceDataStandard.SystemVersion}}) Element/Enumeration</th>
+                <th style="width: 150px">Mapping Reason / Common Mapping</th>
+                <th style="width: 550px">{{mappingProject.TargetDataStandard.SystemName}} ({{mappingProject.TargetDataStandard.SystemVersion}}) Mapping</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-cancel" ng-click="close()"><i class="fa"></i> Cancel</button>
+    <div class="pull-right" ng-if="state == 1 && !mappingProject.MappingProjectId">
+        <button type="button" class="btn btn-add" ng-click="create(false)"><i class="fa"></i> Create Empty Project</button>
+        <button type="button" class="btn btn-add" ng-click="getAutoMapResults()"><i class="fa"></i> Create Project with Mapping Helper</button>
+    </div>
+    <div class="pull-right" ng-if="state == 3 && !mappingProject.MappingProjectId">
+        <button type="button" class="btn btn-add" ng-click="create(false)" promise-btn><i class="fa"></i> Create Project without Results</button>
+        <button type="button" class="btn btn-add" ng-click="create(true)" promise-btn ng-disabled="autoMapperResults.length < 1"><i class="fa"></i>  Project with Results</button>
+    </div>
+    <div class="pull-right" ng-if="state == 1 && mappingProject.MappingProjectId">
+        <button type="button" class="btn btn-map" ng-click="getAutoMapResults()"><i class="fa"></i> Run Mapping Helper</button>
+    </div>
+    <div class="pull-right" ng-if="state == 3 && mappingProject.MappingProjectId">
+        <button type="button" class="btn btn-add" ng-click="addResults()" promise-btn><i class="fa"></i> Add Results to Project</button>
+    </div>
+</div>

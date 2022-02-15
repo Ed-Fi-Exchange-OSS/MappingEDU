@@ -1,0 +1,36 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<ma-loading view-model="elementDetailActionsViewModel"></ma-loading>
+<div ng-show="!elementDetailActionsViewModel.deleted">
+    <div ma-handle-errors error-data="elementDetailActionsViewModel.errorData">
+    </div>
+    <br/>
+
+    <div class="underline-header">
+        <span ng-show="elementDetailActionsViewModel.dataStandardId">Delete</span>
+        <span ng-show="elementDetailActionsViewModel.mappingProjectId">Remove</span>
+    </div>
+
+    <div id="delete" class="collapse in">
+        <span uib-tooltip="{{(elementDetailActionsViewModel.mapping.SystemItemMapId || !elementDetailActionsViewModel.mappingProjectId) ? '' : 'There is no mapping to remove'}}" style="display: inline-block"
+              tooltip-placement="right">
+            <button class="btn btn-delete btn-lg" ma-confirm-action="elementDetailActionsViewModel.delete()" modal="true" 
+                    message="{{elementDetailActionsViewModel.mappingProjectId ? 'This will remove Mapping Status, Notes, Business Logic, and Enumeration Item Mappings (if applicable).  Continue?' : ''}}" 
+                    ng-disabled="!elementDetailActionsViewModel.mapping.SystemItemMapId && elementDetailActionsViewModel.mappingProjectId">
+                <i class="fa"></i>
+                <span ng-show="elementDetailActionsViewModel.dataStandardId">Delete</span>
+                <span ng-show="elementDetailActionsViewModel.mappingProjectId">Remove Mapping</span>
+            </button>
+        </span>
+    </div>
+</div>
+<div ng-show="elementDetailActionsViewModel.deleted">
+    <p>
+        <h2 class="text-danger">{{elementDetailActionsViewModel.element.ItemName}} has been deleted.</h2>
+    </p>
+</div>

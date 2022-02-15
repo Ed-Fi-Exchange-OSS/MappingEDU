@@ -1,0 +1,32 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+<div class="modal-header">
+    <h4 class="modal-title">Log</h4>
+</div>
+<div class="modal-body">
+    <div>
+        <label>Date: </label>
+        <span>{{log.Date | date : 'MMM dd, yyyy hh:mm a'}}</span>
+    </div>
+    <div ng-if="log.User">
+        <label>User: </label>
+        <span>{{log.User}}</span>
+    </div>
+    <div>
+        <label>Level: </label>
+        <span>{{log.Level}}</span>
+    </div>
+    <div>
+        <label style="width: 100%; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px;">Message</label>
+        <div style="word-wrap: break-word; padding: 0px 15px">{{log.Message}}</div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-cancel" ng-click="close()"><i class="fa"></i> Close</button>
+</div>

@@ -1,0 +1,175 @@
+<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div ng-show="dataStandardActionsViewModel.dataStandard.IsActive">
+    <br />
+    <div class="underline-header">Data Standard Actions</div>
+    <p>
+        This tab provides access to actions that affect this entire Data Standard.
+    </p>
+    <br />
+
+    <div class="row">
+
+        <!-- Export -->
+        <div class="col-md-6">
+            <div class="underline-header" style="font-size: 1.4em">Export</div>
+            <p>
+                Click to export this Data Standard. Note that the exported file can be edited
+                and re-imported -- which makes it easy to edit Standards you’ve already started.
+            </p>
+            <div class="pull-right">
+                <button type="button" class="btn btn-download" ng-click="dataStandardActionsViewModel.export()" promise-btn>
+                    <i class="fa"></i>
+                    Export Data Standard
+                </button>
+            </div>
+        </div>
+
+
+        <!-- CLONE -->
+        <div class="col-md-6" ma-standard-access standard-id="dataStandardActionsViewModel.dataStandard.DataStandardId" access="View">
+            <div class="underline-header" style="font-size: 1.4em">Clone</div>
+            <p>
+                Click to clone this Data Standard. Cloning essentially creates a duplicate
+                of this Standard with the same structure and definitions.
+            </p>
+            <br class="hidden-md" />
+            <div class="pull-right">
+                <button type="button" class="btn btn-clone" ng-click="dataStandardActionsViewModel.clone()">
+                    <i class="fa"></i>
+                    Clone Data Standard
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <br />
+    <div class="row">
+
+        <!-- UPLOAD -->
+        <div class="col-md-6" ma-standard-access standard-id="dataStandardActionsViewModel.dataStandard.DataStandardId" access="Edit">
+            <div class="underline-header" style="font-size: 1.4em">Upload Standard</div>
+            <p>
+                Click to upload definitions for this Data Standard. Click
+
+                <a id="downloadFileLink" analytics-on="click" analytics-event="Download" analytics-properties="{level: 'Warn'}"
+                   href="Templates/SystemImport_Master.xltx" type="vnd.ms-excel" target="_blank" style="font-weight: bold">
+                    Download Template File
+                </a>
+
+                to download the required template. Note that you can upload new or edited definitions
+                even if definitions already exist. The system will add new elements and merge any
+                changes automatically.
+
+            </p>
+            <div class="pull-right">
+                <a class="btn btn-download" id="downloadFileLink" analytics-on="click" analytics-event="Download" analytics-properties="{level: 'Warn'}"
+                   href="Templates/SystemImport_Master.xltx" type="vnd.ms-excel" target="_blank">
+                    <i class="fa"></i> Download Template File
+                </a>
+                <button type="button" class="btn btn-upload" ng-click="dataStandardActionsViewModel.upload()">
+                    <i class="fa"></i>
+                    Upload Definition
+                </button>
+            </div>
+        </div>
+
+        <!-- DELETE -->
+        <div class="col-md-6" ma-standard-access standard-id="dataStandardActionsViewModel.dataStandard.DataStandardId" access="Owner">
+            <div class="underline-header" style="font-size: 1.4em">Delete</div>
+            <p>
+                Click to permanently delete this Data Standard.
+            </p>
+            <div ma-handle-errors error-data="mappingProjectActionsViewModel.errorData">
+            </div>
+            <br class="visible-md visible-lg" />
+            <br class="visible-md visible-lg" />
+            <br class="visible-md visible-lg" />
+            <br class="visible-md" />
+            <div class="pull-right">
+                <button type="button"
+                        class="btn btn-delete"
+                        ma-confirm-action="dataStandardActionsViewModel.delete(dataStandardActionsViewModel.dataStandard)"
+                        modal="true">
+                    <i class="fa"></i>
+                    Delete Data Standard
+                </button>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div ma-standard-access standard-id="dataStandardActionsViewModel.dataStandard.DataStandardId" access="Edit">
+        <div class="underline-header">Ed-Fi Data Standard Actions</div>
+        <p>
+            The following actions are for Ed-Fi based Data Standards.
+        </p>
+        <br />
+        <div class="row">
+            <!-- EXTENSION -->
+
+            <div class="col-md-6">
+                <div class="underline-header" style="font-size: 1.4em">Upload Extension</div>
+                <p>
+                    Click to upload extensions for Ed-Fi v2.0. This standard must already contain the
+                    parts of Core you want to extend. Note that you can upload new or edited extension
+                    even if definitions already exist. The system will add new elements and merge any
+                    changes automatically.
+                </p>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-upload" ng-click="dataStandardActionsViewModel.uploadExtension()">
+                        <i class="fa"></i>
+                        Upload Extension
+                    </button>
+                </div>
+            </div>
+
+            <!-- INTERCHANGE ULOAD -->
+            <div class="col-md-6">
+                <div class="underline-header" style="font-size: 1.4em">Upload Interchange</div>
+                <p>
+                    Click to upload Ed-Fi interchange xsd.  The system will add
+                    new elements and merge any changes automatically.
+                </p>
+                <br class="hidden-sm" />
+                <br class="hidden-sm" />
+                <br class="visible-md" />
+
+                <div class="pull-right">
+                    <button type="button" class="btn btn-upload" ng-click="dataStandardActionsViewModel.uploadInterchange()">
+                        <i class="fa"></i>
+                        Upload Interchange
+                    </button>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <!-- JSON -->
+
+            <div class="col-md-6">
+                <div class="underline-header" style="font-size: 1.4em">Upload Ed-Fi ODS API Endpoints</div>
+                <p>
+                    Click to upload Ed-Fi ODS API Endpoints using the API url. The system will add
+                    new elements and merge any changes automatically.
+                </p>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-upload" ng-click="dataStandardActionsViewModel.uploadJson(dataStandardActionsViewModel.dataStandard.DataStandardId)">
+                        <i class="fa"></i>
+                        Upload API
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-show="!dataStandardActionsViewModel.dataStandard.IsActive">
+    <p>
+        <h2 class="text-danger">Standard {{dataStandardActionsViewModel.dataStandard.SystemName}} has been deleted.</h2>
+    </p>
+    <a ui-sref="home">Go to Home Page</a>
+</div>

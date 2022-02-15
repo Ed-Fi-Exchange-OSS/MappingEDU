@@ -1,0 +1,86 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<ma-loading view-model="mappingProjectDashboardViewModel"></ma-loading>
+<div class="row">
+    <div class="col-md-12">
+        <h2>Work Queue</h2>
+        <table class="table-condensed">
+            <tbody>
+                <tr ng-repeat="workItem in mappingProjectDashboardViewModel.dashboard.WorkQueue">
+                    <td>
+                        <a ui-sref="{{workItem.nameSref}}">{{workItem.GroupName}} ({{workItem.Count}})</a>
+                    </td>
+                    <td>
+                        <a ui-sref="{{workItem.listSref}}" class="btn btn-xs btn-happy btn-list" role="button">
+                            <i class="fa"></i>List
+                        </a>
+                    </td>
+                    <td>
+                        <a ui-sref="{{workItem.resumeMapSref}}" class="btn btn-xs btn-resume btn-happy" role="button">
+                            <i class="fa"></i>Resume Mapping
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <h3>Incomplete Mappings: By Element Group</h3>
+        <table class="table-condensed">
+            <tbody>
+                <tr ng-repeat="incomplete in mappingProjectDashboardViewModel.dashboard.ElementGroups">
+                    <td>
+                        <a ui-sref="{{incomplete.nameSref}}">{{incomplete.GroupName}} ({{incomplete.Count}})</a>
+                    </td>
+                    <td>
+                        <a ui-sref="{{incomplete.listSref}}" class="btn btn-xs btn-happy btn-list" role="button">
+                            <i class="fa"></i>List
+                        </a>
+                    </td>
+                    <td>
+                        <a ui-sref="{{incomplete.resumeMapSref}}" class="btn btn-xs btn-resume btn-happy" role="button">
+                            <i class="fa"></i>Resume Mapping
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-1">
+        <br />
+        <div class="vertical-divider"
+             ng-repeat="i in mappingProjectDashboardViewModel.verticalRange">
+            <br />
+        </div>
+    </div>
+    <div class="col-md-5">
+        <h3>All Mappings: By Status</h3>
+        <table class="table-condensed">
+            <tbody>
+                <tr ng-repeat="mapping in mappingProjectDashboardViewModel.dashboard.Statuses">
+                    <td>
+                        <a ui-sref="{{mapping.nameSref}}">{{mapping.GroupName}} ({{mapping.Count}})</a>
+                    </td>
+                    <td>
+                        <a ui-sref="{{mapping.listSref}}" class="btn btn-xs btn-happy btn-list" role="button">
+                            <i class="fa"></i>List
+                        </a>
+                    </td>
+                    <td>
+                        <a ui-sref="{{mapping.resumeMapSref}}" class="btn btn-xs btn-resume btn-happy" role="button">
+                            <i class="fa"></i>Resume Mapping
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

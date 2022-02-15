@@ -1,0 +1,58 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+<br />
+<div class="underline-header" uib-dropdown>
+
+    <span uib-dropdown-toggle class="btn-header">
+        <span ng-if="manageStandardsViewModel.filter=='Orphaned'">Orphaned Standards</span>
+        <span ng-if="manageStandardsViewModel.filter=='Public'">Public Standards</span>
+        <span ng-if="manageStandardsViewModel.filter=='All'">All Standards</span>
+        <span class="caret"></span>
+    </span>
+
+    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+        <li role="menuitem" ng-class="{'active': manageStandardsViewModel.filter=='Orphaned'}"><a href="" ng-click="manageStandardsViewModel.filterBy('Orphaned')">Orphaned Standards</a></li>
+        <li role="menuitem" ng-class="{'active': manageStandardsViewModel.filter=='Public'}"><a href="" ng-click="manageStandardsViewModel.filterBy('Public')">Public Standards</a></li>
+        <li class="divider"></li>
+        <li role="menuitem" ng-class="{'active': manageStandardsViewModel.filter=='All'}"><a href="" ng-click="manageStandardsViewModel.filterBy('All')">All Standards</a></li>
+    </ul>
+
+    <div class="pull-right">
+        <a class="btn btn-edit" ui-sref="app.data-standard.create">
+            <i class=" fa"></i>Create Standard
+        </a>
+    </div>
+</div>
+
+<ma-loading view-model="manageStandardsViewModel"></ma-loading>
+
+<table class="table table-hover" datatable="ng">
+    <thead>
+        <tr>
+            <th>Data Standard</th>
+            <th>Version</th>
+            <th style="width: 50px">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="standard in manageStandardsViewModel.standards">
+            <td>
+                <a href="{{manageStandardsViewModel.standardHref(standard)}}">{{standard.SystemName}}</a>
+                <span ng-if="standard.IsPublic"><i class="fa fa-globe"></i><span class="hidden">public</span></span>
+            </td>
+            <td>Version {{standard.SystemVersion}}</td>
+            <td class="text-center">
+                <button type="button" class="btn btn-delete"
+                        ma-confirm-action="manageStandardsViewModel.delete(standard, $index)">
+                    <i class="fa"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

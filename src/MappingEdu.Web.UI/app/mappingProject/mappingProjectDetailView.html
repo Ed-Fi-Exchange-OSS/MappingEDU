@@ -1,0 +1,38 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row">
+    <div class="col-md-12">
+        <span class="page-title">{{mappingProjectDetailViewModel.pageTitle}}</span>
+    </div>
+</div>
+<ma-mapping-project-header view-model="mappingProjectDetailViewModel" editable="true"></ma-mapping-project-header>
+<ma-mapping-project-status mapping-project="mappingProjectDetailViewModel.mappingProject"></ma-mapping-project-status>
+<ma-loading view-model="mappingProjectDetailViewModel"></ma-loading>
+<div class="row" ng-show="mappingProjectDetailViewModel.mappingProject.IsActive">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs" ng-if="mappingProjectDetailViewModel.showTabs()">
+            <li ng-class="{active:mappingProjectDetailViewModel.onPage(tab.link)}" 
+                ng-repeat="tab in mappingProjectDetailViewModel.tabs" tab="tab">
+                <a ui-sref="{{tab.link}}">{{tab.label}}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div ui-view></div>
+<div id="editProjectModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="page-title">Edit Mapping Project</span>
+            </div>
+            <div class="modal-body">
+                <ma-edit-mapping-project mapping-project="mappingProjectDetailViewModel.mappingProject" modal="true"></ma-edit-mapping-project>
+            </div>
+        </div>
+    </div>
+</div>

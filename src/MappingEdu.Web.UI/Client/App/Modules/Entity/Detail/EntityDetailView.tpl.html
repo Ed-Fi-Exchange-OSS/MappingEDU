@@ -1,0 +1,70 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row">
+    <div class="col-md-12">
+        <span class="page-title">{{entityDetailViewModel.pageTitle}}</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <ma-mapping-project-header mapping-project="entityDetailViewModel.mappingProject" ng-if="entityDetailViewModel.mappingProjectId != entityDetailViewModel.emptyGuid" summary="true"></ma-mapping-project-header>
+        <div ng-if="entityDetailViewModel.dataStandardId != entityDetailViewModel.emptyGuid" class="header-summary">
+            <span ma-data-standard-fullname standard="entityDetailViewModel.dataStandard"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-11">
+        <h1>{{entityDetailViewModel.entity.ItemName}}</h1>
+    </div>
+    <div class="col-md-1" ma-standard-access standard-id="entityDetailViewModel.dataStandardId" access="Edit" ng-if="entityDetailViewModel.dataStandardId != entityDetailViewModel.emptyGuid">
+        <a class="btn btn-edit" ng-click="entityDetailViewModel.edit(entity)" data-toggle="modal" data-target="#entityModal"
+           data-backdrop="static" data-keyboard="false">
+            <i class="fa"></i> Edit Entity
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <label>Path: </label>
+        <ma-element-path ng-if="entityDetailViewModel.mappingProjectId && entityDetailViewModel.entity"
+                         segments="entityDetailViewModel.entity.PathSegments"
+                         context-id="entityDetailViewModel.mappingProjectId" context="mappingProject" depth="20">
+        </ma-element-path>
+        <ma-element-path ng-if="entityDetailViewModel.dataStandardId && entityDetailViewModel.entity"
+                         segments="entityDetailViewModel.entity.PathSegments"
+                         context-id="entityDetailViewModel.dataStandardId" context="dataStandard" depth="20">
+        </ma-element-path>
+        <i class="fa fa-caret-right separator"></i>
+        <div style="display: inline-block">
+            <span ng-class="{'path-segment-c': entityDetailViewModel.entity.IsExtended, 'path-segment': !entityDetailViewModel.entity.IsExtended}">
+                <span ng-if="entityDetailViewModel.entity.ExtensionShortName">({{entityDetailViewModel.entity.ExtensionShortName}})</span>
+                <i ng-if="!entityDetailViewModel.entity.ExtensionShortName && entityDetailViewModel.entity.IsExtended" class="fa fa-arrows-alt"></i> {{entityDetailViewModel.entity.ItemName}}
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <label>Definition:</label> <span class="bodyText">{{entityDetailViewModel.entity.Definition}}</span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs" ng-if="entityDetailViewModel.showTabs()">
+            <li ng-class="{active:entityDetailViewModel.onPage(tab.link)}"
+                ng-repeat="tab in entityDetailViewModel.tabs">
+                <a ui-sref="{{ tab.link }}">{{ tab.label }}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div ui-view></div>

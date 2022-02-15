@@ -1,0 +1,64 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<br />
+<div class="underline-header" uib-dropdown>
+
+    <span uib-dropdown-toggle class="btn-header">
+        <span ng-if="manageProjectsViewModel.filter=='Orphaned'">Orphaned Projects</span>
+        <span ng-if="manageProjectsViewModel.filter=='Public'">Public Projects</span>
+        <span ng-if="manageProjectsViewModel.filter=='All'">All Projects</span>
+        <span class="caret"></span>
+    </span>
+
+    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+        <li role="menuitem" ng-class="{'active': manageProjectsViewModel.filter=='Orphaned'}"><a href="" ng-click="manageProjectsViewModel.filterBy('Orphaned')">Orphaned Projects</a></li>
+        <li role="menuitem" ng-class="{'active': manageProjectsViewModel.filter=='Public'}"><a href="" ng-click="manageProjectsViewModel.filterBy('Public')">Public Projects</a></li>
+        <li class="divider"></li>
+        <li role="menuitem" ng-class="{'active': manageProjectsViewModel.filter=='All'}"><a href="" ng-click="manageProjectsViewModel.filterBy('All')">All Projects</a></li>
+    </ul>
+
+    <div class="pull-right">
+        <a class="btn btn-edit" ui-sref="app.mapping-project.create">
+            <i class="fa"></i>Create Project
+        </a>
+    </div>
+
+</div>
+
+<ma-loading view-model="manageProjectsViewModel"></ma-loading>
+
+<table class="table table-hover" datatable="ng">
+    <thead>
+        <tr>
+            <th style="width: 50%">Mapping Project</th>
+            <th style="width: 10%">Status</th>
+            <th style="width: 20%">Source</th>
+            <th style="width: 20%">Target</th>
+            <th style="width: 50px">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="project in manageProjectsViewModel.projects">
+            <td>
+                <a href="{{manageProjectsViewModel.projectHref(project)}}">{{project.ProjectName}}</a>
+                <span ng-if="project.IsPublic"><i class="fa fa-globe"></i><span class="hidden">public</span></span>
+                <br/>
+                <span ng-bind="project.Description"></span>
+            </td>
+            <td ng-bind="project.ProjectStatusTypeName"></td>
+            <td><a href="{{manageProjectsViewModel.standardHref(project.SourceDataStandard)}}">{{project.SourceDataStandard.SystemName}} ({{project.SourceDataStandard.SystemVersion}})</a></td>
+            <td><a href="{{manageProjectsViewModel.standardHref(project.TargetDataStandard)}}">{{project.TargetDataStandard.SystemName}} ({{project.TargetDataStandard.SystemVersion}})</a></td>
+            <td class="text-center">
+                <button type="button" class="btn btn-delete"
+                        ma-confirm-action="manageProjectsViewModel.delete(project, $index)">
+                    <i class="fa"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,54 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row">
+    <div class="col-md-12">
+        <br/>
+        <div class="underline-header">
+            Custom Details
+            <span class="pull-right" ma-standard-access standard-id="dataStandardCustomDetailsViewModel.dataStandard.DataStandardId" access="Edit">
+                <button type="button" class="btn btn-add" ng-click="dataStandardCustomDetailsViewModel.create()">
+                    <i class="fa"></i>Add Custom Detail
+                </button>
+            </span>
+        </div>
+        <div>
+            <p>
+                Custom Details are an optional, extended information for elements entered into MappingEDU. These allow for
+                adding custom detail information to each element. Examples would include Id, Category, Global Id etc...
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <tbody>
+            <tr ng-repeat="customDetail in dataStandardCustomDetailsViewModel.customDetails">
+                <!-- DETAILS -->
+                <td>
+                    {{customDetail.DisplayName}}<br/>
+                    <small ng-if="customDetail.IsBoolean">Boolean</small><small ng-if="customDetail.IsBoolean && customDetail.IsCoreDetail">,</small> <small ng-if="customDetail.IsCoreDetail">Core Detail</small>
+                </td>
+
+                <!-- EDIT MODAL -->
+                <td ma-standard-access standard-id="dataStandardDetailViewModel.dataStandard.DataStandardId" access="Edit" style="width: 50px">
+                    <button type="button" class="btn btn-edit" ng-click="dataStandardCustomDetailsViewModel.edit(customDetail)">
+                        <i class="fa"></i>Edit
+                    </button>
+                </td>
+                <td ma-standard-access standard-id="dataStandardDetailViewModel.dataStandard.DataStandardId" access="Edit" style="width: 50px">
+                    <button type="button" class="btn btn-delete" ma-confirm-action="dataStandardCustomDetailsViewModel.delete(customDetail, $index)">
+                        <i class="fa"></i>Delete
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

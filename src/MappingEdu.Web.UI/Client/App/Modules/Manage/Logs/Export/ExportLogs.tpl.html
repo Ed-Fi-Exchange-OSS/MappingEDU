@@ -1,0 +1,126 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+<div class="modal-header">
+    <h4 class="modal-title">Export Logs</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12">
+            Use the filters below to specify the critera for the log export. The following filters
+            are defaulted from the table.
+        </div>
+    </div>
+    <br/>
+    <form name="form" novalidate="">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <label>Export Dates</label>
+            </div>
+            <div style="margin-left: 8.33333333%; width: 40.37878787%; display: inline-block; padding-right: 15px; padding-left: 15px;">
+                <div class="form-inline">
+                    <div class="input-group">
+                        <input type="text"
+                               class="form-control"
+                               uib-datepicker-popup="MMM dd, yyyy"
+                               ng-model="model.StartDate"
+                               is-open="startOpen"
+                               max-date="(model.EndDate) ? model.EndDate : today"
+                               close-text="Close"
+                               ng-change="getExportCount()"
+                               required/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="startOpen = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center" style="width: 1.57575757%; display: inline-block">
+                -
+            </div>
+            <div style="width: 40.37878787%; display: inline-block; padding-right: 15px; padding-left: 15px;">
+                <div class="form-inline">
+                    <div class="input-group">
+                        <input type="text"
+                               class="form-control"
+                               uib-datepicker-popup="MMM dd, yyyy"
+                               ng-model="model.EndDate"
+                               min-date="model.StartDate"
+                               max-date="today"
+                               is-open="endOpen"
+                               close-text="Close"
+                               ng-change="getExportCount()"
+                               required/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="endOpen = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <label class="control-label">Contains (Search)</label>
+                <input class="form-control" ng-model="model.search.value" ng-change="getExportCount()"/>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <label class="control-label">Levels</label>
+                <ui-select ng-model="model.Levels"
+                           theme="bootstrap"
+                           required
+                           ng-change="getExportCount()"
+                           multiple>
+                    <ui-select-match placeholder="Select Levels">{{$item}}</ui-select-match>
+                    <ui-select-choices repeat="level in levels | filter: $select.search">
+                        <div ng-bind-html="level | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <label class="control-label">Order By</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-5 col-xs-offset-1">
+                <ui-select ng-model="model.order[0].column"
+                           theme="bootstrap"
+                           required>
+                    <ui-select-match placeholder="Order By">{{$select.selected.display}}</ui-select-match>
+                    <ui-select-choices repeat="column.column as column in columns | filter: $select.search">
+                        <div ng-bind-html="column.display | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="col-xs-5">
+                <ui-select ng-model="model.order[0].dir"
+                           theme="bootstrap"
+                           required>
+                    <ui-select-match placeholder="Order By">{{$select.selected.display}}</ui-select-match>
+                    <ui-select-choices repeat="direction.direction as direction in directions | filter: $select.search">
+                        <div ng-bind-html="direction.display | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </form>
+</div>
+<br/>
+<div class="modal-footer">
+    <div class="pull-left">
+        Total Number of Logs: {{loading ? '' : logCount}} <span ng-show="loading"><i class="fa fa-spin fa-circle-o-notch "></i></span>
+    </div>
+    <button type="button" class="btn btn-download" ng-click="export()" promise-btn><i class="fa"></i> Export</button>
+    <button type="button" class="btn btn-cancel" ng-click="close()"><i class="fa"></i> Close</button>
+</div>

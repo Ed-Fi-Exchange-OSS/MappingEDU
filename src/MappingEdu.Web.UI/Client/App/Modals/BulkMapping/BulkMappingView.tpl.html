@@ -1,0 +1,220 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="ctrl.close()">&times;</button>
+    <h4 class="modal-title">
+        <span ng-show="ctrl.state == 'select'">Bulk Update {{ctrl.systemItem.ItemName}} for </span>
+        <span ng-show="ctrl.state == 'mapped'">Bulk Update {{ctrl.systemItem.ItemName}} Mapping Workflow Statuses for </span>
+        <span ng-show="ctrl.state == 'unmapped'">Bulk Update Mapping Method and Workflow Status of Unmapped Elements for</span>
+        {{ctrl.project.ProjectName}}<br /><span>{{ ctrl.itemTypeId == 1  ? 'Element Group:' : 'Entity:' }}</span> {{ctrl.systemItem.ItemName}}
+    </h4>
+</div>
+<div class="modal-body">
+    <form name="bulkForm"
+          novalidate>
+        <div ng-if="ctrl.state == 'select'">
+            <table class="table-borderless">
+                <tbody>
+                    <tr>
+                        <td style="width: 20px;">
+                            <input type="radio" value="mapped" ng-model="ctrl.option" />
+                        </td>
+                        <td ng-click="ctrl.option = 'mapped'">
+                            <b>Change Existing Workflow Statuses</b><br />
+                            <small style="margin-top: -20px">Change the workflow status of mappings with an assigned mapping method.</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 20px;">
+                            <input type="radio" value="unmapped" ng-model="ctrl.option" />
+                        </td>
+                        <td ng-click="ctrl.option = 'unmapped'">
+                            <b>Update Mapping Method for Unmapped Elements</b><br />
+                            <small style="margin-top: -20px">Add a mapping method and assign status to any mappings without a mapping method.</small>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-if="ctrl.state == 'mapped'">
+            <div class="row">
+                <div class="col-md-9 form-group">
+                    <h5>Identify Mappings to Update</h5>
+                    <div class="row">
+                        <div class="col-md-11">
+                            <div style="width: 32%; display: inline-block; vertical-align: top; padding-top: 2px">
+                                <ui-select ng-model="ctrl.mapped.ItemType"
+                                           theme="bootstrap"
+                                           on-select="ctrl.getUpdateCount()"
+                                           required>
+                                    <ui-select-match>
+                                        {{$select.selected.DisplayText}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="type in ctrl.itemTypes | filter: $select.search">
+                                        <div ng-bind-html="type.DisplayText | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <div style="width: 32%; display: inline-block; vertical-align: top; padding-top: 2px">
+                                <ui-select ng-model="ctrl.mapped.Methods"
+                                           theme="bootstrap"
+                                           on-select="ctrl.getUpdateCount()"
+                                           on-remove="ctrl.getUpdateCount()"
+                                           required
+                                           multiple>
+                                    <ui-select-match placeholder="Select Mapping Methods...">
+                                        {{$item.DisplayText}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="type in ctrl.mappingMethods | filter: $select.search">
+                                        <div ng-bind-html="type.DisplayText | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <div style="width: 32%; display: inline-block; vertical-align: top; padding-top: 2px">
+                                <ui-select ng-model="ctrl.mapped.Statuses"
+                                           theme="bootstrap"
+                                           on-select="ctrl.getUpdateCount()"
+                                           on-remove="ctrl.getUpdateCount()"
+                                           required
+                                           multiple>
+                                    <ui-select-match placeholder="Select Workflow Statuses...">
+                                        {{$item.DisplayText}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="type in ctrl.workflowStatuses | filter: $select.search">
+                                        <div ng-bind-html="type.DisplayText | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <i class="fa fa-arrow-right" style="padding-top: 7px"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 form-group">
+                    <h5>Updated Workflow Status</h5>
+                    <div class="inline-block">
+                        <ui-select ng-model="ctrl.mapped.ChangeStatus"
+                                   theme="bootstrap"
+                                   required>
+                            <ui-select-match placeholder="Select an Update Status...">
+                                {{$select.selected.DisplayText}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="type in ctrl.workflowStatuses | filter: $select.search">
+                                <div ng-bind-html="type.DisplayText | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="pull-right">
+                        <b ng-if="!ctrl.loading">{{ctrl.mappedEffected}}</b>
+                        <span ng-if="ctrl.loading"><i class="fa fa-spin fa-circle-o-notch "></i></span> 
+                        {{ctrl.mapped.ItemType.DisplayText}} {{ctrl.mappedEffected == 1 ? 'mapping' : 'mappings'}} will be updated
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div ng-if="ctrl.state == 'unmapped'">
+            <div class="row">
+                <div class="col-md-5">
+                    <h5 style="font-size: 16px;"><b>Mappings to Update</b></h5>
+                    <div class="row">
+                        <div class="col-xs-7">
+                            <small><label>Item Type</label></small>
+                            <ui-select ng-model="ctrl.unmapped.ItemType"
+                                       theme="bootstrap"
+                                       on-select="ctrl.getAddCount()"
+                                       required>
+                                <ui-select-match>
+                                    {{$select.selected.DisplayText}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="type in ctrl.itemTypes | filter: $select.search">
+                                    <div ng-bind-html="type.DisplayText | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="col-xs-5">
+                            <small><label>Mapping Method</label></small><br/>
+                            <small style="position: absolute; padding-top: 8px">
+                                Unmapped <i style="padding-left: 56px;" class="fa fa-arrow-right"></i>
+                            </small>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <h5 style="font-size: 16px;"><b>Update To</b></h5>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <small><label>Update Mapping Method</label></small>
+                            <ui-select ng-model="ctrl.unmapped.Method"
+                                       theme="bootstrap"
+                                       required>
+                                <ui-select-match placeholder="Select a Mapping Method...">
+                                    {{$select.selected.DisplayText}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="type in ctrl.mappingMethodsUnmapped | filter: $select.search">
+                                    <div ng-bind-html="type.DisplayText | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <small><label>Update Status</label></small>
+                            <ui-select ng-model="ctrl.unmapped.Status"
+                                       theme="bootstrap"
+                                       required>
+                                <ui-select-match placeholder="Select a Status...">
+                                    {{$select.selected.DisplayText}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="type in ctrl.workflowStatuses | filter: $select.search">
+                                    <div ng-bind-html="type.DisplayText | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h5 ng-if="!ctrl.unmapped.Method.Id || ctrl.unmapped.Method.Id < 3">Detail</h5>
+                    <h5 ng-if="ctrl.unmapped.Method.Id == 3">Extension Detail</h5>
+                    <h5 ng-if="ctrl.unmapped.Method.Id == 4">Omission Reason</h5>
+                </div>
+                <div class="col-md-12">
+                    <textarea class="form-control" ng-model="ctrl.unmapped.Detail"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <br />
+                    <span class="pull-right">
+                        <b ng-if="!ctrl.loading">{{ctrl.unmappedEffected}}</b>
+                        <span ng-if="ctrl.loading"><i class="fa fa-spin fa-circle-o-notch "></i></span> {{ctrl.unmapped.ItemType.DisplayText}} {{ctrl.unmappedEffected == 1 ? 'mapping' : 'mappings'}} will be updated
+                    </span>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+<div class="modal-footer">
+    <div class="pull-right">
+        <button type="button" class="btn btn-cancel" ng-click="ctrl.close()"><i class="fa"></i> Close</button>
+        <button type="button" class="btn btn-next" ng-disabled="!ctrl.option" ng-if="ctrl.state === 'select'" ng-click="ctrl.next()">Next <i class="fa"></i> </button>
+        <button type="button" class="btn btn-prev" ng-if="ctrl.state !== 'select'" ng-click="ctrl.prev()"><i class="fa"></i> Prev</button>
+
+        <button type="button" class="btn btn-bulk-update" promise-btn ng-if="ctrl.state === 'mapped'" ng-click="ctrl.update()"
+                ng-disabled="!ctrl.mapped.ChangeStatus.Id || ctrl.mapped.Statuses.length === 0 || ctrl.mapped.Methods.length === 0"><i class="fa"></i> Update</button>
+
+        <button type="button" class="btn btn-bulk-update" promise-btn ng-if="ctrl.state === 'unmapped'" ng-click="ctrl.update()"
+                ng-disabled="!ctrl.unmapped.Status.Id || !ctrl.unmapped.Method.Id"><i class="fa"></i> Update</button>
+    </div>
+</div>

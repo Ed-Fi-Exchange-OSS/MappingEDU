@@ -1,0 +1,25 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row col-md-12">
+    <div>
+        <h2>Overview</h2>
+        <p>The user is currently only asked for a Data Standard Name and Version. Should we ask them for a description that could go here?</p>
+    </div>
+    <div>
+        <h3>Previous Data Standard Version</h3>
+        <p ma-data-standard-fullname standard="dataStandardDetailViewModel.dataStandard.PreviousDataStandard"></p>
+    </div>
+    <div>
+        <h3>Created On</h3>
+        <p>{{ dataStandardDetailViewModel.dataStandard.CreateDate | date: 'EEEE, MMMM d, yyyy h:mm:ss a' }}</p>
+    </div>
+    <div ng-if="dataStandardDetailViewModel.dataStandard.CreateDate != dataStandardDetailViewModel.dataStandard.UpdateDate">
+        <h3>Updated On</h3>
+        <p>{{ dataStandardDetailViewModel.dataStandard.UpdateDate | date: 'EEEE, MMMM d, yyyy h:mm:ss a' }}</p>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<form name="uploadElementGroupForm" novalidate>
+
+    <div class="modal-header">
+        ODS API Upload
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            
+            <div class="col-md-12">
+                <div>Use the API Url to import the Ed-Fi ODS API Endpoints.</div>
+            </div>
+            <div class="col-md-12" style="margin-left: 10px">
+                <div style="font-weight: bold">For example:</div>
+                <div style="margin-left: 5px">v2.0: <span style="margin-left: 10px">https://api.ed-fi.org/api</span></div>
+                <div style="margin-left: 5px">v3.0: <span style="margin-left: 10px">https://api.ed-fi.org/v3.0.0/api</span></div>
+            </div>
+            <div class="col-md-12" style="margin-top: 10px">
+                <label class="control-label">API Url</label>
+                <input type="text"
+                       name="url"
+                       class="form-control"
+                       ng-model="model.Url"
+                       required/>
+            </div>
+            <div class="col-md-12">
+                <input id="import-default" type="radio" ng-model="model.ImportAll" ng-value="false" style="margin-top: -1.3px; vertical-align: middle"/>
+                <label for="import-default"><small>Standard API Import <span style="font-weight: normal">(Resources, Descriptors, Types)</span></small></label>
+            </div>
+            <div class="col-md-12">
+                <input id="import-all" type="radio" ng-model="model.ImportAll" ng-value="true" style="margin-top: -1.3px; vertical-align: middle" />
+                <label for="import-all"><small style="vertical-align: middle">Import All <span style="font-weight: normal">(Resources, Descriptors, Types, Other, Profiles, Composites, etc..)</span></small></label>
+            </div>
+            <br/>
+            <div class="col-md-12">
+                <div id="termsOfUse" ng-bind-html="termsOfUse" style="position: relative; max-height: 200px; overflow-y: hidden; position: relative;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button"
+                class="btn btn-cancel"
+                ng-click="close()">
+            <i class="fa"></i>
+            Close
+        </button>
+        <div class="pull-right">
+            <button type="submit"
+                    ng-click="upload()"
+                    promise-btn
+                    id="submitFile"
+                    ng-disabled="!model.Url"
+                    class="btn btn-upload">
+                <i class="fa"></i>Upload API
+            </button>
+        </div>
+    </div>
+</form>

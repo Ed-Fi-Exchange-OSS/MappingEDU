@@ -1,0 +1,65 @@
+<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <span class="page-title">{{dataStandardDetailViewModel.pageTitle}}</span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-7">
+        <h1>
+            <span class="title-hover" ng-click="dataStandardDetailViewModel.goToDataStandard()">{{dataStandardDetailViewModel.dataStandard ? "" : "None" }}{{dataStandardDetailViewModel.dataStandard ? dataStandardDetailViewModel.dataStandard.SystemName : ""}} {{dataStandardDetailViewModel.dataStandard ? dataStandardDetailViewModel.dataStandard.SystemVersion : "" }}</span>
+        </h1>
+    </div>
+    <div class="col-md-5 text-right" ng-show="dataStandardDetailViewModel.dataStandard.IsActive">
+        <a class="btn btn-edit" data-toggle="modal" data-target="#editDataStandardModal" data-backdrop="static"
+           data-keyboard="false" ma-standard-access standard-id="dataStandardDetailViewModel.dataStandard.DataStandardId" access="Edit">
+            <i class="fa"></i>Edit Data Standard
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <ma-favorite model="dataStandardDetailViewModel.dataStandard"></ma-favorite>
+        <b>Access:</b>
+        <span ng-bind="dataStandardDetailViewModel.getAccess(dataStandardDetailViewModel.dataStandard)"></span>
+    </div>
+</div>
+
+<ma-loading view-model="dataStandardDetailViewModel"></ma-loading>
+
+<div class="row" ng-show="dataStandardDetailViewModel.dataStandard.IsActive" >
+    <div class="col-md-12">
+        <ul class="nav nav-tabs" ng-if="dataStandardDetailViewModel.tabs && dataStandardDetailViewModel.showTabs()">
+            <li ng-class="{active:dataStandardDetailViewModel.onPage(tab.link)}"
+                ng-repeat="tab in dataStandardDetailViewModel.tabs"
+                ng-if="!tab.hidden">
+                <a ui-sref="{{ tab.link }}">{{ tab.label }}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div ui-view></div>
+
+<div id="editDataStandardModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="page-title">Edit Data Standard</span>
+            </div>
+            <div class="modal-body">
+                <ma-edit-data-standard standard="dataStandardDetailViewModel.dataStandard" modal="true"></ma-edit-data-standard>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,181 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<ma-container-fluid></ma-container-fluid>
+<div ma-handle-errors error-data="entityDetailInfoViewModel.errorData"></div>
+
+<!-- ELEMENTS -->
+
+<br/>
+<div class="underline-header">Elements</div>
+<div class="row">
+    <div class="col-md-12">
+        <table id="elementsTable" class="table table-hover" datatable="ng" dt-instance="entityDetailInfoViewModel.instanceCallback">
+            <thead>
+            <tr>
+                <th style="width: 50%">Element</th>
+                <th style="width: 25%">Data Type</th>
+                <th style="width: 25%" ng-if="entityDetailInfoViewModel.mappingProjectId">Mapping Status</th>
+                <th style="width: 5%" ng-if="entityDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="entityDetailInfoViewModel.dataStandardId" access="Edit">Edit</th>
+                <th style="width: 5%" ng-if="entityDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="entityDetailInfoViewModel.dataStandardId" access="Edit">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="element in entityDetailInfoViewModel.entity.ChildSystemItems">
+                <td>
+                    <a ng-href="{{ element.Href }}" ng-style="{'color': (element.IsExtended) ? 'rgb(97, 188, 171)' : ''} ">
+                        <span ng-show="element.ExtensionShortName">({{element.ExtensionShortName}})</span>
+                        <i class="fa fa-extended" ng-show="element.IsExtended && !element.ExtensionShortName"></i>
+                        {{ element.ItemName }}
+                    </a><br/>
+                    {{ element.Definition }}
+                </td>
+                <td>{{ element.DataTypeSource }}
+                    <span ng-if="element.ItemTypeId < 4">Entity</span>
+                    <span ng-if="element.FieldLength">({{ element.FieldLength }})</span>
+                </td>
+                <td ng-if="entityDetailInfoViewModel.mappingProjectId">
+                    <div ng-if="element.Summary.Unmapped">{{element.ItemTypeId < 4 ? element.Summary.Unmapped : ''}} Unmapped</div>
+                    <div ng-if="element.Summary.Incomplete">{{element.ItemTypeId < 4 ? element.Summary.Incomplete : ''}} Incomplete</div>
+                    <div ng-if="element.Summary.Completed">{{element.ItemTypeId < 4 ? element.Summary.Completed : ''}} Completed</div>
+                    <div ng-if="element.Summary.Reviewed">{{element.ItemTypeId < 4 ? element.Summary.Reviewed : ''}} Reviewed</div>
+                    <div ng-if="element.Summary.Approved">{{element.ItemTypeId < 4 ? element.Summary.Approved : ''}} Approved</div>
+                </td>
+                <td ng-if="entityDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="entityDetailInfoViewModel.dataStandardId" access="Edit">
+                    <a class="btn btn-edit" ng-click="entityDetailInfoViewModel.edit(element)">
+                        <i class="fa"></i>
+                    </a>
+                </td>
+                <td ng-if="entityDetailInfoViewModel.dataStandardId" ma-standard-access standard-id="entityDetailInfoViewModel.dataStandardId" access="Edit">
+                    <a class="btn btn-delete" ma-confirm-action="entityDetailInfoViewModel.delete(element, $index)">
+                        <i class="fa"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="pull-right" ma-standard-access standard-id="entityDetailInfoViewModel.dataStandardId" access="Edit">
+            <a class="btn btn-edit" ng-click="entityDetailInfoViewModel.add(4)"
+               ng-if="entityDetailInfoViewModel.dataStandardId">
+                <i class="fa"></i>Add Element
+            </a>
+        </div>
+        <div class="pull-right" ma-standard-access standard-id="entityDetailInfoViewModel.dataStandardId" access="Edit">
+            <a class="btn btn-edit" ng-click="entityDetailInfoViewModel.add(3)"
+               ng-if="entityDetailInfoViewModel.dataStandardId">
+                <i class="fa"></i>Add Entity
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- PREVIOUS VERSION -->
+<div ng-if="entityDetailInfoViewModel.dataStandard.PreviousDataStandardId" ma-standard-access standard-id="entityDetailInfoViewModel.dataStandardId">
+
+    <div class="underline-header">Previous Versions</div>
+    <div class="row">
+        <div class="col-md-5" ng-repeat-start="previousVersion in entityDetailInfoViewModel.entity.PreviousVersions">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="">
+                        <div class="pull-right" ma-standard-access standard-id="entityDetailInfoViewModel.dataStandardId" access="Edit">
+                            <a role="button" class="btn btn-edit" ng-click="entityDetailInfoViewModel.versionModal(previousVersion, true)">
+                                <i class="fa"></i>
+                            </a>
+                            <a role="button" class="btn btn-delete" ma-confirm-action="entityDetailInfoViewModel.deletePreviousVersion(previousVersion, $index)">
+                                <i class="fa"></i>
+                            </a>
+                        </div>
+                        <span class="h4">{{ previousVersion.ItemChangeType.Name }}</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <label>Previous Version</label>
+                    <p>
+                        <span class="standard-a" ma-data-standard-fullname standard="entityDetailInfoViewModel.dataStandard.PreviousDataStandard"></span>
+                        <i class="fa fa-caret-right"></i>
+                        <span ng-repeat="item in previousVersion.OldSystemItemPathSegments">
+                            <span class="standard-a" ng-bind="item.ItemName"></span>
+                            <i class="fa fa-caret-right" ng-if="!$last"></i>
+                        </span>
+                    </p>
+                    <label>Description</label>
+                    <p>{{ previousVersion.Description }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix" ng-if="$index%2==1"></div>
+        <div ng-repeat-end=""></div>
+    </div>
+    <div class="row" ma-standard-access standard-id="entityDetailInfoViewModel.dataStandardId" access="Edit">
+        <div class="col-md-12">
+            <a class="btn btn-add" ng-click="entityDetailInfoViewModel.versionModal(null, true)">
+                <i class="fa"></i>Add
+            </a>
+        </div>
+    </div>
+    <br/>
+</div>
+
+<!-- NEXT VERSIONS -->
+
+<div ng-if="entityDetailInfoViewModel.dataStandard.NextDataStandardId">
+    <div class="underline-header">Next Versions</div>
+    <div class="row">
+        <div class="col-md-5" ng-repeat-start="nextVersion in entityDetailInfoViewModel.entity.NextVersions">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="">
+                        <div class="pull-right" ma-standard-access standard-id="entityDetailInfoViewModel.dataStandardId" access="Edit">
+                            <a role="button" class="btn btn-edit" ng-click="entityDetailInfoViewModel.versionModal(nextVersion, false)">
+                                <i class="fa"></i>
+                            </a>
+                            <a role="button" class="btn btn-delete" ma-confirm-action="entityDetailInfoViewModel.deleteNextVersion(nextVersion, $index)">
+                                <i class="fa"></i>
+                            </a>
+                        </div>
+                        <span class="h4">{{ nextVersion.ItemChangeType.Name }}</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <label>Next Version</label>
+                    <p>
+                        <span class="standard-a"  ma-data-standard-fullname standard="entityDetailInfoViewModel.dataStandard.NextDataStandard"></span>
+                        <i class="fa fa-caret-right"></i>
+                        <span ng-repeat="item in nextVersion.NewSystemItemPathSegments">
+                            <span class="standard-a" ng-bind="item.ItemName"></span>
+                            <i class="fa fa-caret-right" ng-if="!$last"></i>
+                        </span>
+                    </p>
+                    <label>Description</label>
+                    <p>{{ nextVersion.Description }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix" ng-if="$index%2==1"></div>
+        <div ng-repeat-end=""></div>
+    </div>
+    <div class="row" ma-standard-access standard-id="entityDetailInfoViewModel.dataStandardId" access="Edit">
+        <div class="col-md-12">
+            <a class="btn btn-add" ng-click="entityDetailInfoViewModel.versionModal(null, false)">
+                <i class="fa"></i>Add
+            </a>
+        </div>
+    </div>
+    <br />
+</div>
+
+<div ng-if="entityDetailInfoViewModel.dataStandardId" ma-role="user,admin">
+    <div class="underline-header">Notes</div>
+    <div class="row">
+        <div class="col-md-7">
+            <ma-system-item-notes notes="entityDetailInfoViewModel.entity.Notes"
+                                  system-item-id="entityDetailInfoViewModel.entity.SystemItemId"
+                                  standard-id="entityDetailInfoViewModel.dataStandardId"></ma-system-item-notes>
+        </div>
+    </div>
+</div>

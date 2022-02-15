@@ -1,0 +1,24 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<br/>
+<div class="section-header">
+    <div class="title" data-toggle="collapse" data-target="#delete"
+         ng-click="entityDetailActionsViewModel.toggleDeleteCaret()">
+        <div class="toggle-icon fa fa-2x"
+             ng-class="{'fa-caret-down': entityDetailActionsViewModel.showDelete,
+                    'fa-caret-right': !entityDetailActionsViewModel.showDelete}">
+        </div>
+        <div class="toggle-text">Delete</div>
+    </div>
+    <hr />
+</div>
+<div id="delete" class="collapse in">
+    <button class="btn btn-delete btn-lg" ma-confirm-action="entityDetailActionsViewModel.delete()" modal="true">
+        <i class="fa"></i>Delete
+    </button>
+</div>

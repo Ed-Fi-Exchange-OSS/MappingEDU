@@ -1,0 +1,356 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<ma-loading view-model="mappingProjectReviewQueueViewModel"></ma-loading>
+<ma-container-fluid></ma-container-fluid>
+
+<style>
+    .mapping-header {
+        margin-bottom: 0px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right">
+            <small style="font-size: 12px; margin-right: 27px; font-weight: bold;">Filter Actions</small>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="pull-right">
+            <span>Filters: </span>
+            <select class="form-control input-sm" style="width: 300px; display: inline-block" ng-model="mappingProjectReviewQueueViewModel.currentFilterId"
+                    ng-options="filter.MappingProjectQueueFilterId as (filter.Name) for filter in mappingProjectReviewQueueViewModel.filters"
+                    ng-change="mappingProjectReviewQueueViewModel.onFilterChange()">
+                <option ng-value="0">Clear All Filters</option>
+            </select>
+            <button uib-tooltip="Add Filter" class="btn btn-add" ng-click="mappingProjectReviewQueueViewModel.addFilter()"><i class="fa"></i></button>
+            <button uib-tooltip="Update Filter" class="btn btn-save" ng-click="mappingProjectReviewQueueViewModel.updateFilter()" ng-disabled="!mappingProjectReviewQueueViewModel.currentFilterId"><i class="fa"></i></button>
+            <button uib-tooltip="Refresh Current Filter" tooltip-placement="left" class="btn btn-blue" ng-click="mappingProjectReviewQueueViewModel.onFilterChange()" ng-disabled="!mappingProjectReviewQueueViewModel.currentFilterId"><i class="fa fa-refresh"></i></button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover" id="reviewQueueTable">
+            <thead>
+                <tr>
+                    <th style="width: 40%">
+                        <div class="pull-left">
+                            <label>Element Groups</label>
+                            <button data-toggle="collapse" data-target="#filterElementGroups" ng-init="showElementGroupFilter = false"
+                                    ng-click="showElementGroupFilter = !showElementGroupFilter"
+                                    ng-disabled="mappingProjectReviewQueueViewModel.loading">
+                                <i class="fa fa-filter" ng-class="{'filtered' : !allElementGroups}"></i>
+                            </button>
+                            <div id="filterElementGroups" class="collapse dropdiv">
+                                <label>
+                                    <input type="checkbox" ng-model="allElementGroups"
+                                           ng-change="mappingProjectReviewQueueViewModel.clearElementGroups();mappingProjectReviewQueueViewModel.applyFilter()"
+                                           value="" />
+                                    All Element Groups
+                                </label>
+                                <div ng-repeat="elementGroup in mappingProjectReviewQueueViewModel.elementGroups | filter: '!Unknown'">
+                                    <label>
+                                        <input ng-model="elementGroups[elementGroup.Id]" ng-change="mappingProjectReviewQueueViewModel.applyFilter()"
+                                               type="checkbox" value="{{elementGroup.Id}}" />
+                                        {{elementGroup.DisplayText}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pull-right" ng-show="mappingProjectReviewQueueViewModel.isExtended">
+                            <button data-toggle="collapse" data-target="#filterExtension" ng-init="showExtensionsFilter = false"
+                                    ng-click="showExtensionsFilters = !showExtensionsFilter"
+                                    ng-disabled="mappingProjectReviewQueueViewModel.loading"
+                                    uib-tooltip="Filter Extensions">
+                                <i class="fa fa-extended" ng-class="{'filtered' : extended || base}"></i>
+                            </button>
+                            <div id="filterExtension" class="collapse dropdiv">
+                                <label>
+                                    <input type="checkbox" ng-model="allItems"
+                                           ng-change="mappingProjectReviewQueueViewModel.clearItems();mappingProjectReviewQueueViewModel.applyFilter()"
+                                           value="" />
+                                    All
+                                </label>
+                                <div>
+                                    <label>
+                                        <input ng-model="base" ng-change="mappingProjectReviewQueueViewModel.applyFilter()"
+                                               type="checkbox" />
+                                        Not Extended
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input ng-model="extended" ng-change="mappingProjectReviewQueueViewModel.applyFilter()"
+                                               type="checkbox" />
+                                        Extended
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </th>
+                    <th>
+                        <div style="width: 116px">
+                            <label>Item Types</label>
+                            <button data-toggle="collapse" data-target="#filterItemTypes" ng-init="showItemTypeFilter = false"
+                                    ng-click="showItemTypeFilter = !showItemTypeFilter"
+                                    ng-disabled="mappingProjectReviewQueueViewModel.loading">
+
+                                <i class="fa fa-filter" ng-class="{'filtered' : !allItemTypes}"></i>
+                            </button>
+                            <div id="filterItemTypes" class="collapse dropdiv">
+                                <label>
+                                    <input type="checkbox" ng-model="allItemTypes"
+                                           ng-change="mappingProjectReviewQueueViewModel.clearItemTypes();mappingProjectReviewQueueViewModel.applyFilter()"
+                                           value="" />
+                                    All Item Types
+                                </label>
+                                <div>
+                                    <label>
+                                        <input ng-model="itemTypes['element']" ng-change="mappingProjectReviewQueueViewModel.applyFilter()"
+                                               type="checkbox" value="4" />
+                                        Element
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input ng-model="itemTypes['enumeration']" ng-change="mappingProjectReviewQueueViewModel.applyFilter()"
+                                               type="checkbox" value="5" />
+                                        Enumeration
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </th>
+                    <th style="width:40%">
+                        <label id="appliedMethodFilter">Mapping Types</label>
+                        <button data-toggle="collapse" data-target="#filterMethods" ng-init="showMethodFilter = false"
+                                ng-click="showMethodFilter = !showMethodFilter"
+                                ng-disabled="mappingProjectReviewQueueViewModel.loading">
+                            <i class="fa fa-filter" ng-class="{'filtered' : !allMethods}"></i>
+                        </button>
+                        <div id="filterMethods" class="collapse dropdiv">
+                            <label>
+                                <input type="checkbox" ng-model="allMethods"
+                                       ng-change="mappingProjectReviewQueueViewModel.clearMethods();mappingProjectReviewQueueViewModel.applyFilter()"
+                                       value=""/>
+                                All Methods
+                            </label>
+                            <div ng-repeat="enum in mappingProjectReviewQueueViewModel.mappingMethodEnum | filter: '!Unknown'">
+                                <label>
+                                    <input ng-model="methods[enum.Id]" ng-change="mappingProjectReviewQueueViewModel.applyFilter()"
+                                           type="checkbox" value="{{enum.Id}}"/>
+                                    {{enum.DisplayText}}
+                                </label>
+                            </div>
+                        </div>
+                    </th>
+                    <th ma-role="user, admin">
+                        <label id="appliedStatusFilter">Status</label>
+                        <button data-toggle="collapse" data-target="#filterStatuses" ng-init="showStatusFilter = false"
+                                ng-click="showStatusFilter = !showStatusFilter"
+                                ng-disabled="mappingProjectReviewQueueViewModel.loading">
+
+                            <i class="fa fa-filter" ng-class="{'filtered': !allStatuses || flagged || unflagged}"></i>
+                        </button>
+                        <div id="filterStatuses" class="collapse dropdiv">
+                            <label>
+                                <input type="checkbox" ng-model="allStatuses"
+                                       ng-change="mappingProjectReviewQueueViewModel.clearStatuses();mappingProjectReviewQueueViewModel.applyFilter()"
+                                       value=""/>
+                                All Statuses
+                            </label>
+                            <div ng-repeat="enum in mappingProjectReviewQueueViewModel.workflowEnum | filter: '!Unknown'">
+                                <label>
+                                    <input ng-model="statuses[enum.Id]" ng-change="mappingProjectReviewQueueViewModel.applyFilter()"
+                                           type="checkbox" value="{{enum.Id}}"/>
+                                    {{enum.DisplayText}}
+                                </label>
+                            </div>
+                            <div style="border-bottom: solid lightgray 1px; width: 100%; margin-bottom: 5px"></div>
+                            <div>
+                                <label>
+                                    <input ng-model="flagged" ng-change="mappingProjectReviewQueueViewModel.applyFilter()"
+                                           type="checkbox"/>
+                                    Flagged
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <input ng-model="unflagged" ng-change="mappingProjectReviewQueueViewModel.applyFilter()"
+                                           type="checkbox"/>
+                                    Unflagged
+                                </label>
+                            </div>
+                        </div>
+                    </th>
+                    <th>
+                        <button data-toggle="collapse" data-target="#createByFilter" ng-init="showCreateBys = false"
+                                ng-click="showCreateBys = !showCreateBys"
+                                ng-disabled="mappingProjectReviewQueueViewModel.loading"
+                                uib-tooltip="Filter Users who have Created Mappings">
+
+                            <i class="fa fa-users" ng-class="{'filtered': !allCreateBys}"></i>
+                        </button>
+                        <div id="createByFilter" class="collapse dropdiv">
+                            <label>
+                                <input type="checkbox" ng-model="allCreateBys"
+                                       ng-change="mappingProjectReviewQueueViewModel.clearCreateBys();mappingProjectReviewQueueViewModel.applyFilter()"
+                                       value="" />
+                                All Users
+                            </label>
+                            <div ng-repeat="createBy in mappingProjectReviewQueueViewModel.createBys | filter: '!Unknown'">
+                                <label>
+                                    <input ng-model="createBys[createBy.Id]" ng-change="mappingProjectReviewQueueViewModel.applyFilter()"
+                                           type="checkbox" value="{{createBy.Id}}" />
+                                    {{createBy.FirstName}} {{createBy.LastName}}
+                                </label>
+                            </div>
+                        </div>
+                    </th>
+                    <th>
+                    </th>
+                    <th>
+                        <button data-toggle="collapse" data-target="#updateByFilter" ng-init="showUpdateBys = false"
+                                ng-click="showUpdateBys = !showUpdateBys"
+                                ng-disabled="mappingProjectReviewQueueViewModel.loading"
+                                uib-tooltip="Filter Users who have Updated Mappings">
+
+                            <i class="fa fa-users" ng-class="{'filtered': !allUpdateBys}"></i>
+                        </button>
+                        <div id="updateByFilter" class="collapse dropdiv">
+                            <label>
+                                <input type="checkbox" ng-model="allUpdateBys"
+                                       ng-change="mappingProjectReviewQueueViewModel.clearUpdateBys();mappingProjectReviewQueueViewModel.applyFilter()"
+                                       value="" />
+                                All Users
+                            </label>
+                            <div ng-repeat="updateBy in mappingProjectReviewQueueViewModel.updateBys | filter: '!Unknown'">
+                                <label>
+                                    <input ng-model="updateBys[updateBy.Id]" ng-change="mappingProjectReviewQueueViewModel.applyFilter()"
+                                           type="checkbox" value="{{updateBy.Id}}" />
+                                    {{updateBy.FirstName}} {{updateBy.LastName}}
+                                </label>
+                            </div>
+                        </div>
+                    </th>
+                    <th>
+                    </th>
+                    <th>
+                        <button data-toggle="collapse" data-target="#automapped" ng-init="showAutoMapFilter = false"
+                                ng-click="showAutoMapFilter = !showAutoMapFilter"
+                                ng-disabled="mappingProjectReviewQueueViewModel.loading"
+                                uib-tooltip="Filter Automapped"
+                                tooltip-placement="left">
+
+                            <i class="fa fa-magic" ng-class="{'filtered': autoMapped || userMapped}"></i>
+                        </button>
+                        <div id="automapped" class="collapse dropdiv">
+                            <label>
+                                <input type="checkbox" ng-model="allItemsAutoMapped"
+                                       ng-change="mappingProjectReviewQueueViewModel.clearAutoMapped();mappingProjectReviewQueueViewModel.applyFilter()"
+                                       value="" />
+                                All
+                            </label>
+                            <div>
+                                <label>
+                                    <input ng-model="autoMapped" ng-change="mappingProjectReviewQueueViewModel.applyFilter()"
+                                           type="checkbox" />
+                                    Auto Mapped
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <input ng-model="userMapped" ng-change="mappingProjectReviewQueueViewModel.applyFilter()"
+                                           type="checkbox" />
+                                    User Mapped
+                                </label>
+                            </div>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="pull-right" ng-if="!mappingProjectReviewQueueViewModel.readOnly">
+                            <button data-toggle="collapse" data-target="#columns" ng-init="showColumns = false"
+                                    ng-click="showColumns = !showColumns"
+                                    ng-disabled="mappingProjectReviewQueueViewModel.loading"
+                                    uib-tooltip="View More Columns"
+                                    tooltip-placement="left">
+
+                                <i class="fa fa-columns" ng-class="{'filtered': columns.CreateBy || columns.CreateDate || columns.UpdateBy || columns.UpdateDate || columns.AutoMapper}"></i>
+                            </button>
+                            <div id="columns" class="collapse dropdiv" style="width: 150px; margin-left: -120px">
+                                <div>
+                                    <label><input type="checkbox" ng-model="columns.CreateBy" ng-change="mappingProjectReviewQueueViewModel.toggleColumn(4, columns.CreateBy)"/> Created By </label>
+                                </div>
+                                <div>
+                                    <label><input type="checkbox" ng-model="columns.CreateDate" ng-change="mappingProjectReviewQueueViewModel.toggleColumn(5, columns.CreateDate)"/> Creation Date </label>
+                                </div>
+                                <div>
+                                    <label><input type="checkbox" ng-model="columns.UpdateBy" ng-change="mappingProjectReviewQueueViewModel.toggleColumn(6, columns.UpdateBy)"/> Updated By </label>
+                                </div>
+                                <div>
+                                    <label><input type="checkbox" ng-model="columns.UpdateDate" ng-change="mappingProjectReviewQueueViewModel.toggleColumn(7, columns.UpdateDate)"/> Update Date </label>
+                                </div>
+                                <div>
+                                    <label><input type="checkbox" ng-model="columns.AutoMapper" ng-change="mappingProjectReviewQueueViewModel.toggleColumn(8, columns.AutoMapper)" /> Mapped By </label>
+                                </div>
+                            </div>
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th style="width: 40%">{{mappingProjectDetailViewModel.mappingProject.SourceDataStandard.SystemName}} {{mappingProjectDetailViewModel.mappingProject.SourceDataStandard.SystemVersion}} Element <span class="sort-icon"></span></th>
+                    <th style="width: 120px">Item Type</th>
+                    <th style="width: 40%">{{mappingProjectDetailViewModel.mappingProject.TargetDataStandard.SystemName}} {{mappingProjectDetailViewModel.mappingProject.TargetDataStandard.SystemVersion}} Mapping</th>
+                    <th style="width: 10%" ma-role="user,admin"><div style="width: 119px">Status <i class="fa fa-info-circle" popover-title="Legend" uib-popover-template="'workflowIcons.html'" popover-trigger="'mouseenter'"></i></div></th>
+                    <th style="width: 35px"><div style="width: 85px">Created By</div></th>
+                    <th style="width: 35px"><div style="width: 105px">Creation Date</div></th>
+                    <th style="width: 35px"><div style="width: 90px">Updated By</div></th>
+                    <th style="width: 35px"><div style="width: 94px">Update Date</div></th>
+                    <th style="width: 35px"><div style="width: 86px">Mapped By</div></th>
+                    <th style="width: 35px" ma-project-access project-id="mappingProjectDetailViewModel.mappingProject.MappingProjectId">Edit</th>
+                </tr>
+            </thead>
+        </table>        
+    </div>
+</div>
+<div ma-close-dropdown></div>
+
+<!-- Popover Template -->
+<script type="text/ng-template" id="workflowIcons.html">
+    <div style="width: 120px">
+        <div class="row" style="padding-bottom: 10px">
+            <div class="col-md-12" style="display: inline">
+                <div class="complete-jellybean" style="display: inline-block">
+                    <a><i class="fa fa-check" style="margin-top: 5px"></i></a>
+                </div><span class="info-completed">&nbsp;&nbsp;&nbsp;Completed</span>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 10px">
+            <div class="col-md-12" style="display: inline">
+                <div class="review-jellybean" style="display: inline-block">
+                    <a><i class="fa fa-search" style="margin-top: 5px"></i></a>
+                </div><span class="info-reviewed">&nbsp;&nbsp;&nbsp;Reviewed</span>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 10px">
+            <div class="col-md-12" style="display: inline">
+                <div class="approve-jellybean" style="display: inline-block">
+                    <a><i class="fa fa-thumbs-up" style="margin-top: 5px"></i></a>
+                </div><span class="info-approved">&nbsp;&nbsp;&nbsp;Approved</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="display: inline">
+                <div class="info-flagged-jellybean" style="display: inline-block">
+                    <a><i class="fa fa-flag" style="margin-top: 5px"></i></a>
+                </div><span class="info-flagged">&nbsp;&nbsp;&nbsp;Flagged</span>
+            </div>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,193 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<h1>Welcome to MappingEDU</h1>
+<hr/>
+
+<!-- ACTIVE MAPPING PROJECTS -->
+
+<div class="row" ma-role="user,admin">
+    <ma-loading view-model="homeViewModel"></ma-loading>
+    
+    <div class="col-md-6">
+        <div class="panel panel-default" style="border: none; box-shadow: none">
+            <div class="panel-heading" style="background: white; border: none">
+                <h2>Your Active Mapping Projects</h2>
+            </div>
+            <ul ng-show="homeViewModel.activeProjects.length > 0" class="list-group" style="border: none;">
+                <li class="list-group-item" ng-repeat="mappingProject in homeViewModel.activeProjects | limitTo: homeViewModel.listVisibleLength" style="border: none;">
+                    <ma-favorite model="mappingProject" style="vertical-align: super"></ma-favorite>&nbsp;&nbsp;
+                    <a ui-sref="{{homeViewModel.resumeSref(mappingProject)}}">
+                        <span style="max-width: 275px; overflow-x: hidden; display: inline-block; text-overflow: ellipsis; white-space: nowrap">{{mappingProject.ProjectName}}</span>
+                    </a>
+                    <a class="badge home-notification" style="margin-top: 6px" ng-if="mappingProject.Notifications" ui-sref="{{homeViewModel.notificationsSref(mappingProject)}}">{{mappingProject.Notifications}}</a>
+                    <span class="pull-right" ma-role="user,admin">
+                        <a ui-sref="{{homeViewModel.resumeSref(mappingProject)}}"
+                           class="btn btn-happy btn-resume btn-xs"
+                           role="button"
+                           uib-tooltip="{{(mappingProject.UserUpdateDate == homeViewModel.emptyDate) ? 'You have made no changes to this Mapping Project' : 'Your Last Update: ' + (mappingProject.UserUpdateDate | date)}}">
+                            <i class="fa"></i>Resume <span class="hidden-md">Mapping</span>
+                        </a>
+                    </span>
+                </li>
+            </ul>
+            <ul class="list-group" ng-if="homeViewModel.activeProjects.length > homeViewModel.listVisibleLength" uib-collapse="!homeViewModel.allActiveMappingProjectsVisible" style="border: none;">
+                <li class="list-group-item" ng-repeat="mappingProject in homeViewModel.activeProjects" ng-show="$index > homeViewModel.listVisibleLength - 1" style="border: none;">
+                    <ma-favorite model="mappingProject" style="vertical-align: super"></ma-favorite>&nbsp;&nbsp;
+                    <a href="" ui-sref="{{homeViewModel.resumeSref(mappingProject)}}">
+                        <span style="max-width: 275px; overflow-x: hidden; display: inline-block; text-overflow: ellipsis; white-space: nowrap">{{mappingProject.ProjectName}}
+                        </span>
+                    </a>
+                    <a class="badge home-notification" style="margin-top: 6px" ng-if="mappingProject.Notifications" ui-sref="{{homeViewModel.notificationsSref(mappingProject)}}">{{mappingProject.Notifications}}</a>
+                    <span class="pull-right" ma-role="user,admin">
+                        <a ui-sref="{{homeViewModel.resumeSref(mappingProject)}}"
+                           class="btn btn-happy btn-resume btn-xs"
+                           role="button"
+                           uib-tooltip="{{(mappingProject.UserUpdateDate == homeViewModel.emptyDate) ? 'You have made no changes to this Mapping Project' : 'Your Last Update: ' + (mappingProject.UserUpdateDate | date)}}">
+                            <i class="fa"></i>Resume <span class="hidden-md">Mapping</span>
+                        </a>
+                    </span>
+                </li>
+            </ul>
+            <div class="panel-footer" style="background: white; border: none">
+                <div class="text-right" ng-if="homeViewModel.mappingProjects.length > homeViewModel.listVisibleLength">
+                    <a class="btn btn-link" role="button" ng-click="homeViewModel.allActiveMappingProjectsVisible = !homeViewModel.allActiveMappingProjectsVisible">
+                        Show {{ !homeViewModel.allActiveMappingProjectsVisible ? 'More' : 'Fewer'}} Active Mapping Projects
+                    </a>
+                </div>
+                <div ng-show="homeViewModel.mappingProjects.length === 0" class="alert alert-info text-center">You have no mapping projects. Click the "Create Project" button below to create a new mapping project.</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<hr ma-role="user,admin"/>
+
+<div class="row">
+
+    <!-- MAPPING PROJECTS -->
+
+    <div class="col-md-6">
+        <div class="panel panel-default" style="border: none; box-shadow: none">
+            <div class="panel-heading" style="background: white; border: none">
+
+                <div class="h3 home-section-header underline-header" style="font-weight: bold; font-size: 1.25em">
+                    Mapping Projects
+                    <div class="pull-right" style="margin-top: 4.5px">
+                        <a ui-sref="app.mapping-project.create" class="btn btn-edit" role="button" ma-role="user,admin"><i class="fa"></i>Create<span class="hidden-md"> Project</span></a>
+                        <a style="font-weight: bold" ui-sref="app.mapping-project.list" class="btn btn-home-list" role="button"><i class="fa"></i> <span class="hidden-md">Project </span> List</a>
+                    </div>
+                </div>
+                <p>
+                    Mapping Projects allow you to select one Data Standard to map to another Data Standard.
+                    Projects organize your work, and allow you to search for, assign, and review mappings 
+                    between data elements.
+                </p>
+            </div>
+
+            <ul ng-show="homeViewModel.mappingProjects.length > 0" class="list-group" style="border: none;">
+                <li class="list-group-item" ng-repeat="mappingProject in homeViewModel.mappingProjects | limitTo: homeViewModel.listVisibleLength" style="border: none;">
+                    <ma-favorite model="mappingProject" style="vertical-align: super"></ma-favorite>
+                    <span class="col-md-9 col-lg-10" style="float: none;">
+                        <a href="" ui-sref="{{homeViewModel.resumeSref(mappingProject)}}">
+                            <span style="overflow-x: hidden; display: inline-block; text-overflow: ellipsis; white-space: nowrap; max-width: 71%">{{mappingProject.ProjectName}}</span>
+                        </a>
+                        <span style="vertical-align: super;">({{mappingProject.ProjectStatusTypeName}})</span>
+                        <a style="margin-top: 7px" class="badge home-notification" ng-if="mappingProject.Notifications" ui-sref="{{homeViewModel.notificationsSref(mappingProject)}}">{{mappingProject.Notifications}}</a>
+                    </span>
+                    <span class="pull-right" ma-role="user,admin">
+                        <i ng-if="mappingProject.UserUpdateDate != homeViewModel.emptyDate" class="fa fa-calendar" uib-tooltip="Your Last Update: {{mappingProject.UserUpdateDate | date}}"></i>
+                        <i ng-if="mappingProject.UserUpdateDate == homeViewModel.emptyDate" class="fa fa-calendar-o" uib-tooltip="You've made no changes to this Mapping Project"></i>
+                    </span>
+                </li>
+            </ul>
+            <ul class="list-group" ng-if="homeViewModel.mappingProjects.length > homeViewModel.listVisibleLength" uib-collapse="!homeViewModel.allMappingProjectsVisible" style="border: none;">
+                <li class="list-group-item" ng-repeat="mappingProject in homeViewModel.mappingProjects" ng-show="$index > homeViewModel.listVisibleLength - 1" style="border: none;">
+                    <ma-favorite model="mappingProject" style="vertical-align: super"></ma-favorite>
+                    <span class="col-md-9 col-lg-10" style="float: none;">
+                        <a href="" ui-sref="{{homeViewModel.resumeSref(mappingProject)}}">
+                            <span style="overflow-x: hidden; display: inline-block; text-overflow: ellipsis; white-space: nowrap; max-width: 71%">{{mappingProject.ProjectName}}</span>
+                        </a>
+                        <span style="vertical-align: super;">({{mappingProject.ProjectStatusTypeName}})</span>
+                        <a style="margin-top: 7px" class="badge home-notification" ng-if="mappingProject.Notifications" ui-sref="{{homeViewModel.notificationsSref(mappingProject)}}">{{mappingProject.Notifications}}</a>
+                    </span>
+                    <span class="pull-right" ma-role="user,admin">
+                        <i ng-if="mappingProject.UserUpdateDate != homeViewModel.emptyDate" class="fa fa-calendar" uib-tooltip="Your Last Update: {{mappingProject.UserUpdateDate | date}}"></i>
+                        <i ng-if="mappingProject.UserUpdateDate == homeViewModel.emptyDate" class="fa fa-calendar-o" uib-tooltip="You've made no changes to this Mapping Project"></i>
+                    </span>
+                </li>
+            </ul>
+            <div class="panel-footer" style="background: white; border: none">
+                <div class="text-right" ng-if="homeViewModel.mappingProjects.length > homeViewModel.listVisibleLength">
+                    <a class="btn btn-link" role="button" ng-click="homeViewModel.allMappingProjectsVisible = !homeViewModel.allMappingProjectsVisible">
+                        Show {{ !homeViewModel.allMappingProjectsVisible ? 'More' : 'Fewer'}} Mapping Projects
+                    </a>
+                </div>
+                <div ng-show="homeViewModel.mappingProjects.length === 0" class="alert alert-info text-center" ma-role="user,admin">You have no mapping projects. Click the "Create Project" button above to create a new mapping project.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STANDARDS -->
+
+    <div class="col-md-6">
+        <div class="panel panel-default" style="border: none; box-shadow: none">
+            <div class="panel-heading" style="background: white; border: none">
+                <div class="h3 home-section-header underline-header" style="font-weight: bold; font-size: 1.25em">Data Standards
+                    <div class="pull-right" style="margin-top: 4.5px">
+                        <a ui-sref="app.data-standard.create" class="btn btn-edit" role="button" ma-role="user,admin"><i class="fa"></i>Create<span class="hidden-md"> Standard</span></a>
+                        <a style="font-weight: bold" ui-sref="app.data-standard.list" class="btn btn-home-list" role="button"><i class="fa"></i> <span class="hidden-md">Standard </span>List</a>
+                    </div>
+                </div>
+                <p>
+                    Data Standards are data definitions used in Mapping Projects. You can upload a Standard
+                    via a template provided on this site or create a data definitions for a Standard online.
+                    Click "Create Standard" to get started.
+                </p>                        
+            </div>
+            <ul ng-show="homeViewModel.dataStandards.length > 0" class="list-group" style="border: none;">
+                <li class="list-group-item" ng-repeat="dataStandard in homeViewModel.dataStandards | limitTo : homeViewModel.listVisibleLength" style="border: none;">
+                    <ma-favorite model="dataStandard"></ma-favorite>
+                    <a href="{{homeViewModel.standardHref(dataStandard)}}">{{dataStandard.SystemName}}</a>
+                    <span>(Version {{ dataStandard.SystemVersion}})</span>
+                    <span class="pull-right" ng-style="{'margin-top': dataStandard.ContainsExtensions ? '' : '5px'}" ma-role="user,admin">
+                        <button class="btn btn-blue" ui-sref="app.data-standard.edit.extensions.report({dataStandardId: '{{dataStandard.DataStandardId}}'})" ng-if="dataStandard.ContainsExtensions">Extensions</button>
+                        <i ng-if="dataStandard.UserUpdateDate != homeViewModel.emptyDate" class="fa fa-calendar" uib-tooltip="Your Last Update: {{dataStandard.UserUpdateDate | date}}"></i>
+                        <i ng-if="dataStandard.UserUpdateDate == homeViewModel.emptyDate" class="fa fa-calendar-o" uib-tooltip="You've made no changes to this Data Standard"></i>
+                    </span>
+                    <span ma-role="guest" class="pull-right" style="margin-top: -5px">
+                        <button class="btn btn-blue" ui-sref="app.data-standard.edit.extensions.report({dataStandardId: '{{dataStandard.DataStandardId}}'})" ng-if="dataStandard.ContainsExtensions">Extensions</button>
+                    </span>
+                </li>
+            </ul>
+            <ul class="list-group" ng-if="homeViewModel.dataStandards.length > homeViewModel.listVisibleLength" uib-collapse="!homeViewModel.allDataStandardsVisible" style="border: none;">
+                <li class="list-group-item" ng-repeat="dataStandard in homeViewModel.dataStandards" ng-if="$index > homeViewModel.listVisibleLength - 1" style="border: none;">
+                    <ma-favorite model="dataStandard"></ma-favorite>
+                    <a href="{{homeViewModel.standardHref(dataStandard)}}">{{dataStandard.SystemName}}</a>
+                    <span>(Version {{ dataStandard.SystemVersion}})</span>
+                    <span class="pull-right" ng-style="{'margin-top': dataStandard.ContainsExtensions ? '' : '5px'}" ma-role="user,admin">
+                        <button class="btn btn-blue" ui-sref="app.data-standard.edit.extensions.report({dataStandardId: '{{dataStandard.DataStandardId}}'})" ng-if="dataStandard.ContainsExtensions">Extensions</button>
+                        <i ng-if="dataStandard.UserUpdateDate != homeViewModel.emptyDate" class="fa fa-calendar" uib-tooltip="Your Last Update: {{dataStandard.UserUpdateDate | date}}"></i>
+                        <i ng-if="dataStandard.UserUpdateDate == homeViewModel.emptyDate" class="fa fa-calendar-o" uib-tooltip="You've made no changes to this Data Standard"></i>
+                    </span>
+                    <span ma-role="guest" style="margin-top: -5px">
+                        <button class="btn btn-blue" ui-sref="app.data-standard.edit.extensions.report({dataStandardId: '{{dataStandard.DataStandardId}}'})" ng-if="dataStandard.ContainsExtensions">Extensions</button>
+                    </span>
+                </li>
+            </ul>
+            <div class="panel-footer" style="background: white; border: none">
+                <div class="text-right" ng-if="homeViewModel.dataStandards.length > homeViewModel.listVisibleLength">
+                    <a class="btn btn-link" role="button" ng-click="homeViewModel.allDataStandardsVisible = !homeViewModel.allDataStandardsVisible">
+                        Show {{ !homeViewModel.allDataStandardsVisible ? 'More' : 'Fewer'}} Data Standards
+                    </a>
+                </div>
+                <div ng-show="homeViewModel.dataStandards.length === 0" class="alert alert-info text-center" ma-role="user,admin">You have no data standards. Click the "Add / Upload Standard" button above to add or upload a data standard.</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row col-md-12">
+    <div>
+        <br />
+        <div class="underline-header">Overview</div>
+    </div>
+
+    <table class="table table-borderless">
+        <tbody>
+            <tr>
+                <th style="width: 165px">Previous Version:</th>
+                <td ma-data-standard-fullname standard="dataStandardDetailViewModel.dataStandard.PreviousDataStandard"></td>
+            </tr>
+            <tr ng-if="dataStandardDetailViewModel.dataStandard.ClonedFromDataStandardId">
+                <th>Cloned From:</th>
+                <td ma-data-standard-fullname standard="dataStandardDetailViewModel.dataStandard.ClonedFromDataStandard"></td>
+            </tr>
+            <tr ng-if="dataStandardDetailViewModel.dataStandard.Clones.length > 0">
+                <th>Clones:</th>
+                <td>
+                    <ul>
+                        <li ng-repeat="clone in dataStandardDetailViewModel.dataStandard.Clones" ma-data-standard-fullname standard="clone"></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Standard Creator:</th>
+                <td>{{creator}}</td>
+            </tr>
+            <tr>
+                <th>Standard Owner<span ng-if="owners.length != 1">s</span>:</th>
+                <td>
+                    <div ng-repeat="owner in owners">{{owner}}</div>
+                </td>
+            </tr>
+            <tr ma-role="user,admin">
+                <th>Created On:</th>
+                <td>{{ dataStandardDetailViewModel.dataStandard.CreateDate | date: 'EEEE, MMMM d, yyyy h:mm:ss a' }}</td>
+            </tr>
+            <tr ma-role="user,admin" ng-if="dataStandardDetailViewModel.dataStandard.CreateDate != dataStandardDetailViewModel.dataStandard.UpdateDate">
+                <th>Updated On:</th>
+                <td>{{ dataStandardDetailViewModel.dataStandard.UpdateDate | date: 'EEEE, MMMM d, yyyy h:mm:ss a' }}</td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+

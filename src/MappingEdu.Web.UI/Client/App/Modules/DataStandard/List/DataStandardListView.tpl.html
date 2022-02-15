@@ -1,0 +1,48 @@
+<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row" style="margin-top: -10px">
+    <div class="col-md-10">
+        <h1>Data Standard List</h1>
+    </div>
+    <div class="col-md-2" ma-role="user,admin">
+        <a style="margin-top: 20px" class="btn btn-edit pull-right" ui-sref="app.data-standard.create">
+            <i class="fa"></i>Create Standard
+        </a>
+    </div>
+</div>
+<table class="table table-hover" datatable="ng" dt-options="dataStandardListViewModel.dtOptions">
+    <thead>
+    <tr>
+        <th style="width: 1%" ma-role="user,admin"></th>
+        <th style="width: 30%">Data Standard</th>
+        <th style="width: 30%">Version</th>
+        <th style="width: 20%" ma-role="user,admin">Access Level</th>
+        <th style="width: 20%" ma-role="user,admin">Last Modified By You</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="standard in dataStandardListViewModel.standards">
+            <td class="text-center" ma-role="user,admin">
+                <span class="hidden">{{standard.Flagged}}</span>
+                <ma-favorite model="standard"></ma-favorite>
+            </td>
+            <td>
+                <a href="" ng-click="dataStandardListViewModel.editStandard(standard)">{{standard.SystemName}}</a>
+                <i ng-if="standard.IsPublic" class="fa fa-globe"></i>
+            </td>
+            <td>Version {{standard.SystemVersion}}</td>
+            <td ma-role="user,admin">
+                <span ng-bind="dataStandardListViewModel.getAccess(standard)"></span>
+            </td>
+            <td ma-role="user,admin">
+                <span class="hidden">{{standard.UserUpdateDate}}</span>
+                <span ng-show="standard.UserUpdateDate != '0001-01-01T00:00:00'">{{standard.UserUpdateDate | date : 'MMM d, y h:mm a'}}</span>
+            </td>
+        </tr>
+    </tbody>
+</table>

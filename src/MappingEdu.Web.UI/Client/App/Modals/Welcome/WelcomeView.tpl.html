@@ -1,0 +1,34 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+
+<div class="modal-header">
+    <h4 class="modal-title">Welcome</h4>
+</div>
+<div class="modal-body">
+    <div class="alert alert-success alert-dismissible">
+        Welcome to MappingEDU! Since this is your first time logging in. Please enter your name for your profile;
+    </div>
+    <form name="profileForm"
+          novalidate>
+        <div class="row">
+            <div class="col-md-6 form-group" ng-class="{'has-error': profileForm.firstName.$invalid && profileForm.firstName.$dirty, 'has-success': profileForm.firstName.$valid}">
+                <label class="control-label" for="firstName">First Name</label>
+                <input class="form-control" name="firstName" ng-model="firstName" required/>
+            </div>
+            <div class="col-md-6 form-group" ng-class="{'has-error': profileForm.lastName.$invalid && profileForm.lastName.$dirty, 'has-success': profileForm.lastName.$valid}">
+                <label class="control-label" for="lastName">Last Name</label>
+                <input class="form-control" name="lastName" ng-model="lastName" required />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="pull-right">
+        <button type="submit" class="btn btn-save" ng-disabled="profileForm.$invalid" ng-click="update()" promise-btn><i class="fa"></i>Save</button>
+    </div>
+</div>

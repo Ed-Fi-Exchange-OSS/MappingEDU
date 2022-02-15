@@ -1,0 +1,108 @@
+<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<!-- start: app.layout.navbar -->
+
+<div class="navbar navbar-custom navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- LOGO -->
+
+        <div class="navbar-header vertical-line">
+            <a class="navbar-brand" href="">
+                <img class="brand-image vertical-line vertical-line3" src="client/Content/Images/edfi-logo-scaled.png" alt="Brand" style="height: 50px; width: auto; margin-top: -15px; margin-left: -15px" />
+            </a>
+            <a ui-sref="app.home" class="navbar-brand">
+                <span class="nav-title" style="letter-spacing: 1px; margin-right: 0px; margin-left: 0px;">MappingEDU</span>
+            </a>
+
+        </div>
+
+        <!-- MENU ITEMS -->
+
+        <div class="collapse navbar-collapse">
+
+            <ul class="nav navbar-nav pull-left custom-nav-ul">
+                <li ui-sref-active="active">
+                    <a role="button" ui-sref="{{home.sref}}">{{home.text}}</a>
+                </li>
+                <li class="dropdown" ng-class="{'active': $root.activeTab == 'project'}" uib-dropdown>
+                    <a href="#" uib-dropdown-toggle>Mapping Projects <span class="caret"></span></a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        
+                        <li class="dropdown-header" ng-show="$root.activeProject"><b>{{$root.activeProject.ProjectName}}</b></li>
+                        <li ng-show="$root.activeProject" ng-class="{'active': $root.currentState == 'app.mapping-project.detail.info'}">
+                            <a href="{{projectInfoHref($root.activeProject.MappingProjectId)}}" ma-role="user,admin"><i class="fa fa-info-circle"></i>&nbsp;&nbsp;&nbsp;&nbsp;Info</a>
+                        </li>
+                        <li ng-show="$root.activeProject" ng-class="{'active': $root.currentState == 'app.mapping-project.detail.dashboard'}">
+                            <a href="{{dashboardHref($root.activeProject.MappingProjectId)}}" ma-role="user,admin"><i class="fa fa-dashboard"></i>&nbsp;&nbsp;&nbsp;Dashboard</a>
+                        </li>
+                        <li ng-show="$root.activeProject" ng-class="{'active': $root.currentState == 'app.mapping-project.detail.mapping-summary'}">
+                            <a href="{{summaryHref($root.activeProject.MappingProjectId)}}" ma-role="user,admin"><i class="fa fa-table"></i>&nbsp;&nbsp;&nbsp;Mapping Summary</a>
+                        </li>
+                        <li ng-show="$root.activeProject" ng-class="{'active': $root.currentState == 'app.mapping-project.detail.review-queue'}">
+                            <a href="{{reviewQueueHref($root.activeProject.MappingProjectId)}}"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;&nbsp;Mapping Project Queue</a>
+                        </li>
+                        <li class="divider" ng-show="$root.activeProject" ma-role="user,admin"></li>
+                        <li class="dropdown-header" ma-role="user,admin"><strong>Favorited Projects</strong></li>
+
+                        <li ma-role="user,admin" ng-repeat="project in $root.projects" ng-show="project.Flagged && project.MappingProjectId != $root.activeProject.MappingProjectId">
+                            <a href="{{dashboardHref(project.MappingProjectId)}}"><i class="fa fa-star"></i>&nbsp;&nbsp;&nbsp;{{project.ProjectName}}</a>
+                        </li>
+                        <li class="divider"></li>
+
+                        <li ng-class="{'active': $root.currentState == 'app.mapping-project.list'}"><a href="{{projectListHref()}}"><i class="fa fa-list"></i>&nbsp;&nbsp;&nbsp;View All Projects</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown" ng-class="{'active': $root.activeTab == 'standard'}" uib-dropdown>
+                    <a href="#" uib-dropdown-toggle>Data Standards <span class="caret"></span></a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        
+                        <li class="dropdown-header" ng-show="$root.activeStandard"><b>{{$root.activeStandard.SystemName}} ({{$root.activeStandard.SystemVersion}})</b></li>
+                        <li ng-show="$root.activeStandard" ng-class="{'active': $root.currentState == 'app.data-standard.edit.info'}">
+                            <a href="{{standardInfoHref($root.activeStandard.DataStandardId)}}"><i class="fa fa-info-circle"></i>&nbsp;&nbsp;&nbsp;&nbsp;Info</a>
+                        </li>
+                        <li ng-show="$root.activeStandard" ng-class="{'active': $root.currentState == 'app.data-standard.edit.elements'}">
+                            <a href="{{elementListHref($root.activeStandard.DataStandardId)}}"><i class=" fa fa-list-alt"></i>&nbsp;&nbsp;&nbsp;Element List</a>
+                        </li>
+                        <li ng-show="$root.activeStandard" ng-class="{'active': $root.currentState == 'app.data-standard.edit.browse'}">
+                            <a href="{{browseHref($root.activeStandard.DataStandardId)}}"><i class="fa fa-mouse-pointer"></i>&nbsp;&nbsp;&nbsp;&nbsp;Browse</a>
+                        </li>
+                        <li class="divider" ng-show="$root.activeStandard"></li>
+
+                        <li class="dropdown-header" ma-role="user,admin"><strong>Favorited Standards</strong></li>
+
+                        <li ma-role="user,admin" ng-repeat="standard in $root.standards" ng-show="standard.Flagged && standard.DataStandardId != $root.activeStandard.DataStandardId">
+                            <a href="{{standardInfoHref(standard.DataStandardId)}}" style="display: inline"><i class="fa fa-star"></i>&nbsp;&nbsp;&nbsp;{{standard.SystemName}} ({{standard.SystemVersion}})</a>
+                        </li>
+                        <li class="divider"></li>
+
+                        <li ng-class="{'active': $root.currentState == 'app.data-standard.list'}"><a href="{{standardListHref()}}"><i class="fa fa-list"></i>&nbsp;&nbsp;&nbsp;View All Standards</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav pull-right custom-nav-ul vertical-line2">
+                <li class="dropdown" ng-if="isGuest" ui-sref-active="active">
+                    <a ui-sref="app.login">Sign In</a>
+                </li>
+                <li class="dropdown" uib-dropdown ng-if="!isGuest">
+                    <a href="#" uib-dropdown-toggle>{{$root.username}} <span class="caret"></span></a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li><a href="{{manageHref()}}" ng-show="isAdmin"><i class="dropdown-icon fa fa-gear"></i>&nbsp;&nbsp;Admin Settings</a></li>
+                        <li class="divider" ng-show="isAdmin"></li>
+                        <li><a href="{{termsOfUseUrl}}" target="_blank"><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;Terms of Use</a></li>
+                        <li><a href="{{helpUrl}}" target="_blank"><i class="fa fa-book"></i>&nbsp;&nbsp;Documentation & Help</a></li>
+                        <li ma-role="admin"><a href="{{docsUri}}" target="_blank"><i class="dropdown-icon fa fa-compass"></i>&nbsp;&nbsp;API</a></li>
+                        <li><a href="" ng-click="signout()"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>

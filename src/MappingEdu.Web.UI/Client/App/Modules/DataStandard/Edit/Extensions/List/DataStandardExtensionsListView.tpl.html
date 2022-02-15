@@ -1,0 +1,105 @@
+﻿<!--
+SPDX-License-Identifier: Apache-2.0
+Licensed to the Ed-Fi Alliance under one or more agreements.
+The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+See the LICENSE and NOTICES files in the project root for more information.
+-->
+
+<div class="row">
+    <br/>
+    <div class="col-md-12" style="display: inline; padding-bottom: 10px">
+
+        <div class="underline-header">Extensions
+            <span class="pull-right">
+                <button class="btn btn-extension" promise-btn
+                        ng-click="dataStandardExtensionsViewModel.link()">
+                    <i class="fa"></i>
+                    Link Extension
+                </button>
+                <a class="btn btn-blue" ui-sref="app.data-standard.edit.extensions.report">
+                    <i class="fa fa-line-chart"></i>
+                    View Online Report
+                </a>
+                <button class="btn btn-download" ng-click="dataStandardExtensionsViewModel.downloadReport()" promise-btn>
+                    <i class="fa"></i>
+                    Download Report
+                </button>
+                <button class="btn btn-share"
+                        ng-if="dataStandardExtensionsViewModel.me.IsAdministrator && !dataStandardExtensionsViewModel.dataStandard.AreExtensionsPublic"
+                        data-toggle="modal" data-target="#makeExtensionPublicModal" data-backdrop="static" data-keyboard="false">
+                    <i class="fa"></i>
+                    Share Extensions 
+                </button>
+                <button class="btn btn-delete"
+                        ng-click="dataStandardExtensionsViewModel.togglePublicExtensions()"
+                        ng-if="dataStandardExtensionsViewModel.me.IsAdministrator && dataStandardExtensionsViewModel.dataStandard.AreExtensionsPublic">
+                    <i class="fa"></i>
+                    Unshare Extensions
+                </button>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover" datatable="ng" dt-options="dataStandardExtensionsViewModel.dtOptions" dt-column-defs="dataStandardExtensionsViewModel.columnDefs">
+            <thead>
+            <tr>
+                <th>Extension Standard</th>
+                <th class="text-center">Extension Short Name</th>
+                <th class="text-center" style="width: 50px; padding-right: 0px">Edit/Update</th>
+                <th class="text-center" style="width: 50px; padding-right: 0px">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="extension in dataStandardExtensionsViewModel.extensions">
+                <td><a ui-sref="app.data-standard.edit({ dataStandardId: '{{extension.ExtensionMappedSystemId}}' })">{{extension.ExtensionMappedSystemName}} ({{extension.ExtensionMappedSystemVersion}})</a></td>
+                <td class="text-center">{{extension.ShortName}}</td>
+                <td class="text-center">
+                    <button class="btn btn-edit" ng-click="dataStandardExtensionsViewModel.edit(extension, $index)" ng-disabled="extension.updating">
+                        <i class="fa"></i>
+                    </button>
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-delete" ng-click="dataStandardExtensionsViewModel.delete(extension, $index)" ng-disabled="extension.updating">
+                        <i class="fa"></i>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="makeExtensionPublicModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <span class="page-title">Share Data Standard Extensions</span>
+            </div>
+            <div class="modal-body">
+                <p>Sharing Data Standard extensiosn will provide:</p>
+                <ul>
+                    <li>Users with any Data Standard access to view the extension Data Standard entities, elements, and enumerations.</li>
+                    <li>Users with any Data Standard acces to view the Extension Report.</li>
+                    <li>If Standard is public, sharing extension will also provide non-standaard and guest users with access to the report.</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-cancel" data-dismiss="modal">
+                        <i class="fa"></i>
+                        Cancel
+                    </button>
+                    <button class="btn btn-share"
+                            ng-click="dataStandardExtensionsViewModel.togglePublicExtensions()"
+                            data-dismiss="modal">
+                        <i class="fa"></i>
+                        Share Extensions
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
