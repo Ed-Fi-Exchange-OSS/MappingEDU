@@ -56,11 +56,6 @@ Access to a SMTP server is required to handle account creation and password rese
       * The `MappingEdu.Service.Email.*` entries should be configured for SMTP access.
       * Also review the [log4net configuration](https://logging.apache.org/log4net/release/manual/configuration.html);
         for example, you may wish to change the location of the rolling log file.
-4. If using integrated security for the database connection, you need to add the application pool user
-   to the MappingEDU database with read and write permissions.
-   * When IIS and SQL Server are the same machine, the user will be `IIS APPPOOL\MappingEDU` (or substitute another
-     name if you use an App Pool other than "MappingEDU").
-   * When SQL Server is on another machine, the user will be
 
 ## Database Installation
 
