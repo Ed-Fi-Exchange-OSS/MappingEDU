@@ -1,18 +1,18 @@
 <package>
     <metadata>
-        <id>MappingEdu.Web.UI</id>
+        <id>MappingEDU</id>
         <version>1.0.0.0</version>
         <authors>Ed-Fi Alliance</authors>
         <owners>Ed-Fi Alliance</owners>
-        <licenseUrl>https://github.com/Ed-Fi-Alliance/MappingEDU</licenseUrl>
-        <projectUrl>https://github.com/Ed-Fi-Alliance/MappingEDU</projectUrl>
+        <licenseUrl>https://github.com/Ed-Fi-Exchange-OSS/MappingEDU</licenseUrl>
+        <projectUrl>https://github.com/Ed-Fi-Exchange-OSS/MappingEDU</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>The MappingEDU Application Deployment Package</description>
         <releaseNotes></releaseNotes>
     </metadata>
     <files>
-        <file src="bin\**\*.*" target="bin" />
-        <file src="Client\**\*.*" target="Client"/>
+        <file src="bin\**\*.*" target="bin" exclude="*.nupkg" />
+        <file src="Client\**\*.*" target="client" exclude="*.ts" />
         <file src="Favicon.ico" target="Favicon.ico" />
         <file src="Views\**\*.*" target="Views"/>
         <file src="Templates\**\*.*" target="Templates"/>
