@@ -4,19 +4,22 @@
         <version>1.0.0.0</version>
         <authors>Ed-Fi Alliance</authors>
         <owners>Ed-Fi Alliance</owners>
-        <licenseUrl>https://github.com/Ed-Fi-Exchange-OSS/MappingEDU</licenseUrl>
+        <license type="file">LICENSE.txt</license>
         <projectUrl>https://github.com/Ed-Fi-Exchange-OSS/MappingEDU</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>The MappingEDU Application Deployment Package</description>
         <releaseNotes></releaseNotes>
     </metadata>
     <files>
-        <file src="bin\**\*.*" target="bin" exclude="*.nupkg" />
+        <file src="bin\**\*.*" target="bin" exclude="*.nupkg" exclude="**/roslyn/*"/>
         <file src="Client\**\*.*" target="client" exclude="*.ts" />
         <file src="Favicon.ico" target="Favicon.ico" />
         <file src="Views\**\*.*" target="Views"/>
         <file src="Templates\**\*.*" target="Templates"/>
         <file src="Web.config" target="Web.config" />
         <file src="..\packages\EntityFramework.6.2.0\tools\migrate.exe" target="bin" />
+        <file src="favicon.ico" />
+        <file src=".../../LICENSE.txt" />
+        <file src=".../../NOTICES.md" />
     </files>
 </package>
