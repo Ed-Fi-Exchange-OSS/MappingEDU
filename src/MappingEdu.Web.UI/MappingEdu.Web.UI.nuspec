@@ -4,7 +4,7 @@
         <version>1.0.0.0</version>
         <authors>Ed-Fi Alliance</authors>
         <owners>Ed-Fi Alliance</owners>
-        <license type="file">LICENSE.txt</license>
+        <license type="file">LICENSE</license>
         <projectUrl>https://github.com/Ed-Fi-Exchange-OSS/MappingEDU</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>The MappingEDU Application Deployment Package</description>
