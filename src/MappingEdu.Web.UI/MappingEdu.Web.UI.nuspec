@@ -19,7 +19,7 @@
         <file src="Web.config" target="Web.config" />
         <file src="..\packages\EntityFramework.6.2.0\tools\migrate.exe" target="bin" />
         <file src="favicon.ico" />
-        <file src="../../LICENSE.txt" />
+        <file src="../../LICENSE" />
         <file src="../../NOTICES.md" />
     </files>
 </package>
