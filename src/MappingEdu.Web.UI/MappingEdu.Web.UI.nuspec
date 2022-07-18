@@ -11,7 +11,7 @@
         <releaseNotes></releaseNotes>
     </metadata>
     <files>
-        <file src="bin\**\*.*" target="bin" exclude="*.nupkg" exclude="**/roslyn/*"/>
+        <file src="bin\**\*.*" target="bin" exclude="*.nupkg;**/roslyn/*"/>
         <file src="Client\**\*.*" target="client" exclude="*.ts" />
         <file src="Favicon.ico" target="Favicon.ico" />
         <file src="Views\**\*.*" target="Views"/>
