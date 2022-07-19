@@ -3,7 +3,6 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.swabra
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.MSBuildStep
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.NUnitStep
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.msBuild
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetInstaller
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nunit
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.ScheduleTrigger
@@ -39,6 +38,7 @@ version = "2021.1"
 project {
 
     vcsRoot(MappingEDU)
+    vcsRoot(MappingEDUOss)
 
     buildType(MappingEDU02DeployIntegrationSite2)
     buildType(MappingEDUOpenSourceCompileAndTest)
@@ -51,11 +51,13 @@ project {
 }
 
 object MappingEDU02DeployIntegrationSite2 : BuildType({
-    name = "MappingEDU 02 Deploy Integration Site"
+    name = "MappingEDU OSS Deploy Integration Site"
 
     params {
-        param("MappingEduPackageName", "MappingEdu.Web.UI")
         param("MappingEduPackageVersion", "${MappingEDUOpenSourceCompileAndTest.depParamRefs["PackageVersion"]}")
+        param("nuget.packages", "dist")
+        param("MappingEduPackageName", "MappingEdu.Web.UI")
+        param("OctopusProjectName", "MappingEDU-OSS")
     }
 
     vcs {
@@ -69,7 +71,7 @@ object MappingEDU02DeployIntegrationSite2 : BuildType({
             param("octopus_waitfordeployments", "true")
             param("octopus_version", "2.0+")
             param("octopus_host", "%OctopusServer%")
-            param("octopus_project_name", "MappingEDU-OSS")
+            param("octopus_project_name", "%OctopusProjectName%")
             param("octopus_deployto", "Integration")
             param("secure:octopus_apikey", "%OctopusAPIKey%")
             param("octopus_releasenumber", "%MappingEduPackageVersion%")
@@ -104,8 +106,8 @@ object MappingEDU02DeployIntegrationSite2 : BuildType({
 
     dependencies {
         artifacts(MappingEDUOpenSourceCompileAndTest) {
-            buildRule = lastSuccessful()
-            artifactRules = "+:dist/*.zip!**/*=>dist"
+            buildRule = lastSuccessful("+:%teamcity.build.branch%")
+            artifactRules = "*.nupkg => %nuget.packages%"
         }
     }
 })
@@ -114,17 +116,19 @@ object MappingEDUOpenSourceCompileAndTest : BuildType({
     name = "MappingEDU Open Source Compile and Test"
     description = "Compiles and packages the application"
 
-    artifactRules = "build/artifacts/**/*.zip => dist"
+    artifactRules = "*.nupkg"
+    publishArtifacts = PublishMode.SUCCESSFUL
 
     params {
-        param("MinorPackageVersion", "1")
+        param("MinorPackageVersion", "2")
         param("testConnectionString", "Server=localhost;Database=MappingEdu_LocalTest;Trusted_Connection=True;MultipleActiveResultSets=true;")
         param("MajorPackageVersion", "1")
+        param("msbuildPath", """C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\bin""")
         param("PackageVersion", "Populated by build step.")
     }
 
     vcs {
-        root(MappingEDU)
+        root(MappingEDUOss)
 
         checkoutMode = CheckoutMode.ON_SERVER
     }
@@ -133,21 +137,29 @@ object MappingEDUOpenSourceCompileAndTest : BuildType({
         step {
             type = "EdFiBuilds_MappingEDUOpenSource_CalculatePackageVersionDuplicate1"
         }
-        nuGetInstaller {
-            toolPath = "%teamcity.tool.NuGet.CommandLine.DEFAULT%"
-            projects = "src/MappingEdu.sln"
-            sources = """
-                https://www.nuget.org/api/v2/
-                http://www.myget.org/F/d10f0142ad50421a8938b3a9e49977b4/
-            """.trimIndent()
-            param("nugetCustomPath", "%teamcity.tool.NuGet.CommandLine.DEFAULT%")
-            param("nugetPathSelector", "%teamcity.tool.NuGet.CommandLine.DEFAULT%")
-        }
         powerShell {
-            name = "Build and Package Application"
+            name = "Nuget Restore"
+            formatStderrAsError = true
             workingDir = "src/"
             scriptMode = script {
-                content = "msbuild MappingEdu.sln -c release"
+                content = """
+                    nuget restore
+                    
+                    if(${'$'}lastexitcode -ne 0) {
+                    	throw "Nuget Restore failed"
+                    }
+                """.trimIndent()
+            }
+        }
+        powerShell {
+            name = "Build  Application"
+            formatStderrAsError = true
+            workingDir = "src/"
+            scriptMode = script {
+                content = """
+                    ${'$'}env:PATH="${'$'}env:PATH;%msbuildPath%"
+                    msbuild -p:Configuration=Release -t:Build
+                """.trimIndent()
             }
         }
         msBuild {
@@ -168,6 +180,20 @@ object MappingEDUOpenSourceCompileAndTest : BuildType({
                 src\MappingEdu.Tests.DataAccess\bin\Release\MappingEdu.Tests.DataAccess.dll
             """.trimIndent()
         }
+        powerShell {
+            name = "Package Application"
+            formatStderrAsError = true
+            workingDir = "src/MappingEdu.Web.UI"
+            scriptMode = script {
+                content = """
+                    nuget pack MappingEdu.Web.UI.nuspec -OutputDirectory ../../ -Version %PackageVersion% -P Configuration=Release  -Properties NoWarn=NU5100
+                    
+                    if(${'$'}lastexitcode -ne 0) {
+                    	throw "NuGet pack failed"
+                    }
+                """.trimIndent()
+            }
+        }
     }
 
     triggers {
@@ -183,6 +209,22 @@ object MappingEDUOpenSourceCompileAndTest : BuildType({
 })
 
 object MappingEDU : GitVcsRoot({
+    name = "MappingEDU"
+    url = "https://github.com/Ed-Fi-Alliance/MappingEDU.git"
+    branch = "main"
+    branchSpec = """
+        refs/heads/(*)
+        refs/(pull/*)/merge
+    """.trimIndent()
+    userNameStyle = GitVcsRoot.UserNameStyle.NAME
+    serverSideAutoCRLF = true
+    authMethod = password {
+        userName = "EdFiBuildAgent"
+        password = "zxxd7502a9db2ed52447d5208ad7b0fac68e7ad2247126718b7"
+    }
+})
+
+object MappingEDUOss : GitVcsRoot({
     name = "MappingEDU-OSS"
     url = "https://github.com/Ed-Fi-Exchange-OSS/MappingEDU"
     branch = "main"
