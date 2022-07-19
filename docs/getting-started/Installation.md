@@ -17,7 +17,7 @@ A Windows 2019 Server environment with the following preinstalled:
 A Windows workstation environment with the following preinstalled:
 
 * SQL Server 2016+
-* Visual Studio 2019+
+* Visual Studio 2019+ with the web development workload
 * .NET Framework 4.8
 
 Access to a SMTP server is required to handle account creation and password reset emails.
