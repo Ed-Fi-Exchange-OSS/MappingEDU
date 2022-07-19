@@ -12,13 +12,14 @@
     </metadata>
     <files>
         <file src="bin\**\*.*" target="bin" exclude="*.nupkg;**/roslyn/*"/>
-        <file src="Client\**\*.*" target="client" exclude="*.ts" />
+        <file src="Client/*.js" target="client" />
+        <file src="Client/Content/**/*.*" target="client/Content"
+            exclude="Client/Content/styles/bootstrap.min.css;Client/Content/styles/font-awesome.min.css;Client/Content/styles/bootstrap-theme.min.cs" />
         <file src="Favicon.ico" target="Favicon.ico" />
         <file src="Views\**\*.*" target="Views"/>
         <file src="Templates\**\*.*" target="Templates"/>
         <file src="Web.config" target="Web.config" />
         <file src="..\packages\EntityFramework.6.2.0\tools\migrate.exe" target="bin" />
-        <file src="favicon.ico" />
         <file src="../../LICENSE" />
         <file src="../../NOTICES.md" />
     </files>
