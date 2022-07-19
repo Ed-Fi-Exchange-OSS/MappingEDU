@@ -12,9 +12,7 @@
     </metadata>
     <files>
         <file src="bin\**\*.*" target="bin" exclude="*.nupkg;**/roslyn/*"/>
-        <file src="Client/*.js" target="client" />
-        <file src="Client/Content/**/*.*" target="client/Content"
-            exclude="Client/Content/styles/bootstrap.min.css;Client/Content/styles/font-awesome.min.css;Client/Content/styles/bootstrap-theme.min.cs" />
+        <file src="Client/**" exclude="Client/Content/styles/bootstrap.min.css;Client/Content/styles/font-awesome.min.css;Client/Content/styles/bootstrap-theme.min.cs;**/*.ts" />
         <file src="Favicon.ico" target="Favicon.ico" />
         <file src="Views\**\*.*" target="Views"/>
         <file src="Templates\**\*.*" target="Templates"/>
