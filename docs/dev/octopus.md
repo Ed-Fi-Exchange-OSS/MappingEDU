@@ -53,3 +53,26 @@ write-host "Using working dir: "$(get-location)
           ```
 
       * Environments: all applicable Lifecycle environments
+3. Variables (fill in values as appropriate)
+   *  `DatabaseName`
+   *  `DatabaseServer`
+   *  `DBAdmin` = `#{MappingEdu}`
+   *  `MappingEdu` = `data source=#{DatabaseServer};initial catalog=#{DatabaseName};persist security info=True;user id=#{MappingEduUser};password=#{MappingEduPwd};multipleactiveresultsets=True;`
+   *  `MappingEdu_HostName` (for example, `mappingedu.ed-fi.org`)
+   *  `MappingEdu.DataAccess.Cache.AbsoluteMinutes` = `10`
+   *  `MappingEdu.DataAccess.Cache.Enabled` = `False`
+   *  `MappingEdu.DataAccess.Cache.SlidingExpiration` = `0`
+   *  `MappingEdu.Service.Email.DisableSSLCertificateCheck` = `True` or `False`
+   *  `MappingEdu.Service.Email.EnableSSL` = `True` or `False`
+   *  `MappingEdu.Service.Email.From`
+   *  `MappingEdu.Service.Email.Password`
+   *  `MappingEdu.Service.Email.Port`
+   *  `MappingEdu.Service.Email.ServerAddress`
+   *  `MappingEdu.Service.Email.Username`
+   *  `MappingEdu.Telemetry.Instrumentation.Enabled` = `True` or `False`
+   *  `MappingEdu.Version` = `#{Octopus.Release.Number}`
+   *  `MappingEduPwd`
+   *  `MappingEduUser`
+   *  `MigrateDatabase` = `True`
+   *  `SslCertThumbPrint` = the string thumbprint from the certificate that is available to IIS
+   *  `SslEnabled` = `True` or `False`
