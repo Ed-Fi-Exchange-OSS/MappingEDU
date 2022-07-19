@@ -4,7 +4,9 @@ These are quick notes on the Ed-Fi Octopus Deploy project. The Alliance is using
 an older version without good support for import/export, so these instructions
 are the best we can provide.
 
-1. Create a new Project called `MappingEdu-OSS`
+1. Create a new Project called `MappingEdu-OSS` using defaults except:
+   * Release versioning: Generate version numbers using a template:
+     `#{Octopus.Version.LastMajor}.#{Octopus.Version.LastMinor}.#{Octopus.Version.NextPatch}`
 2. Setup the following Process:
    1. Multi-step deployment named "Deploy Web Application"
    2. Add child step: "Deploy Web Application":
