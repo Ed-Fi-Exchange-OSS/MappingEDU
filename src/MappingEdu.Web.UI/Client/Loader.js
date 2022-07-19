@@ -54,6 +54,6 @@ $LAB
     .script(client_root + '/vendor/textAngular.js').wait()
     .script(client_root + '/vendor/toastr.js').wait()
     .script(client_root + '/vendor/angular-vs-repeater.min.js').wait()
-    .script(client_root + '/Client.js?v=' + version).wait(function () {
+    .script(client_root + '/client.js?v=' + version).wait(function () {
         angular.bootstrap(document, ['app']);
     });
