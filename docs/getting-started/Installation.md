@@ -17,7 +17,7 @@ A Windows 2019 Server environment with the following preinstalled:
 A Windows workstation environment with the following preinstalled:
 
 * SQL Server 2016+
-* Visual Studio 2019+
+* Visual Studio 2019+ with the web development workload
 * .NET Framework 4.8
 
 Access to a SMTP server is required to handle account creation and password reset emails.
@@ -60,7 +60,7 @@ Access to a SMTP server is required to handle account creation and password rese
 ## Database Installation
 
 Creating the initial MappingEdu database requires access to a SQL Server instance. You can run
-the database installation from Visual Studio using the [Entity Framework command line
+the database installation from Visual Studio or using the [Entity Framework command line
 tool](https://docs.microsoft.com/en-us/ef/ef6/modeling/code-first/migrations/migrate-exe),
 `migrate.exe`.
 
@@ -75,10 +75,16 @@ tool](https://docs.microsoft.com/en-us/ef/ef6/modeling/code-first/migrations/mig
 ### Command Line
 
 On the developer workstation, `migrate.exe` is in `packages\EntityFramework.6.2.0\tools`. You will want to
-copy it to the bin directory so that it is side-by-side with the DataAccess assembly. In the NuGet
+copy it to the Web.UI bin directory so that it is side-by-side with the DataAccess assembly. In the NuGet
 package described above, it is bundled into the `bin` directory. For detailed help, run `migrate.exe /?`.
-Here is a sample command. Note that you _must not_ have a `.\` or `./` at the beginning of the assembly
-name - doing so will cause an error.
+Here is a sample command.
+
+❗ You _must not_ have a `.\` or `./` at the beginning of the assembly name in
+the command below; doing so will cause an error.
+
+❗❗ This is a finicky old tool whose error messages are not always helpful. With
+the exact same source code, it may work on one computer and fail on another.
+Deploying from Visual Studio is a more consistent experience.
 
 ```powershell
 ./migrate MappingEdu.Core.DataAccess.dll `

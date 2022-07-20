@@ -1,0 +1,40 @@
+<meta-runner name="Calculate Package Version (duplicate) (1)">
+  <description>Calculates the package version using VCS information</description>
+  <settings>
+    <parameters>
+      <param name="MajorVersion" value="%MajorPackageVersion%" />
+      <param name="MinorVersion" value="%MinorPackageVersion%" />
+      <param name="PackageVersion" value="%PackageVersion%" />
+    </parameters>
+    <build-runners>
+      <runner name="Calculate Package Version" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_bitness" value="x64" />
+          <param name="jetbrains_powershell_edition" value="Desktop" />
+          <param name="jetbrains_powershell_errorToError" value="true" />
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_minVersion" value="3.0" />
+          <param name="jetbrains_powershell_script_code"><![CDATA[$buildNumber = "%build.number%"
+$branchName = "%teamcity.build.branch%" -replace '\W',''
+$isDefaultBranch = "%teamcity.build.branch.is_default%"
+#Positive values only.
+$major = "%MajorVersion%" -as [uint32]
+$minor = "%MinorVersion%" -as [uint32]
+if (!$major) {$major=0}
+if (!$minor) {$minor=0}
+if ($branchName -match "^default$" -or $isDefaultBranch -eq "true") {
+    $branchSuffix = ""
+}
+else {
+    $branchSuffix = "-$branchName"
+}
+$PackageVersion = "$major.$minor.$buildNumber$branchSuffix"
+write-host "##teamcity[setParameter name='PackageVersion' value='$PackageVersion']"]]></param>
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <requirements />
+  </settings>
+</meta-runner>

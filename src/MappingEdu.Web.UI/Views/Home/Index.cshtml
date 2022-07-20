@@ -49,11 +49,11 @@
 </div>
 <script type="text/javascript">
     window['api_root'] = '/api';
-    window['client_root'] = '/client';  
+    window['client_root'] = '/Client';
     window['app_root'] = '/';
     window['version'] = '@ConfigurationManager.AppSettings["MappingEdu.Version"]';
 </script>
-<script type="text/javascript" src="client/loader.js?v=@ConfigurationManager.AppSettings["MappingEdu.Version"]"></script>
+<script type="text/javascript" src='Client/loader.js?v=@ConfigurationManager.AppSettings["MappingEdu.Version"]'></script>
 <script>
     // transfers sessionStorage from one tab to another
     var sessionStorage_transfer = function (event) {
